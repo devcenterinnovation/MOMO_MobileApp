@@ -327,17 +327,17 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 1.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                  borderSide: BorderSide(
+                                      color: AppColors.mainColor, width: 1.0),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                  borderSide: BorderSide(
+                                      color: AppColors.mainColor, width: 1.0),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
@@ -351,9 +351,8 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                               ),
                               icon: const Icon(
                                 Icons.keyboard_arrow_down_rounded,
-                                color: AppColors.mainColor,
+                                color: AppColors.lightMainColor,
                               ),
-                              buttonHeight: 55.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(

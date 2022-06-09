@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
@@ -19,6 +18,16 @@ class PersonalInformation1 extends StatefulWidget {
 
 class _PersonalInformation1State extends State<PersonalInformation1> {
   int _selectedValue = 0;
+
+  TextEditingController dateinput = TextEditingController();
+  //text editing controller for text field
+
+  @override
+  void initState() {
+    dateinput.text = ""; //set the initial value of text field
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,13 +117,36 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
-                          const InputFormField(
+                          InputFormField(
                             label: '05/ 22/ 1998',
-                            suffixIcon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.mainColor,
-                              size: 20,
-                            ),
+                            readOnly: true,
+                            controller: dateinput,
+                            suffixIcon: Icon(Icons.calendar_today),
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(
+                                      1950), //DateTime.now() - not to allow to choose before today.
+                                  lastDate: DateTime(2101));
+
+                              if (pickedDate != null) {
+                                print(
+                                    pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                String formattedDate =
+                                    DateFormat('dd-MM-yyyy').format(pickedDate);
+                                print(
+                                    formattedDate); //formatted date output using intl package =>  2021-03-16
+                                //you can implement different kind of Date Format here according to your requirement
+
+                                setState(() {
+                                  dateinput.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              } else {
+                                print("Date is not selected");
+                              }
+                            },
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 12.0),

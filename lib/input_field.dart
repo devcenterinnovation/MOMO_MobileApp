@@ -22,6 +22,8 @@ class InputFormField extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.keyboardType,
     this.maxLines = 1,
+    this.readOnly = false,
+    this.onTap,
     this.inputFormatters,
   });
 
@@ -41,6 +43,8 @@ class InputFormField extends StatelessWidget {
   final textCapitalization;
   final keyboardType;
   final maxLines;
+  final readOnly;
+  final onTap;
   final inputFormatters;
 
   @override
@@ -61,6 +65,8 @@ class InputFormField extends StatelessWidget {
         validator: validator,
         onChanged: onChanged,
         onSaved: onSaved,
+        onTap: onTap,
+        readOnly: readOnly,
         obscureText: obscure,
         decoration: buildInputDecoration(
             hint: label,

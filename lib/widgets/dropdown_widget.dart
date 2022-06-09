@@ -1870,7 +1870,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
                     dropdownMaxHeight: dropdownMaxHeight,
                     enableFeedback: enableFeedback,
                     alignment: alignment,
-                    buttonHeight: buttonHeight,
+                    buttonHeight: buttonHeight ?? 50.h,
                     buttonWidth: buttonWidth,
                     buttonPadding: buttonPadding,
                     buttonDecoration: buttonDecoration,
