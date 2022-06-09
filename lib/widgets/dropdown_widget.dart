@@ -1760,7 +1760,7 @@ class DropdownButtonFormField2<T> extends FormField<T> {
     Widget? iconOnClick,
     Color? iconDisabledColor,
     Color? iconEnabledColor,
-    double iconSize = 24.0,
+    double iconSize = 20.0,
     bool isDense = true,
     bool isExpanded = false,
     double itemHeight = kMinInteractiveDimension,

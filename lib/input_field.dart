@@ -47,30 +47,27 @@ class InputFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-      child: Container(
-        height: 55.h,
-        child: TextFormField(
-          inputFormatters: inputFormatters,
-          buildCounter: (context,
-                  {required currentLength, required isFocused, maxLength}) =>
-              null,
-          maxLength: maxLength,
-          maxLines: maxLines,
-          enabled: enabled,
-          controller: controller,
-          keyboardType: keyboardType,
-          style: TextStyle(fontSize: 16.sp, color: BLACK.withOpacity(0.9)),
-          validator: validator,
-          onChanged: onChanged,
-          onSaved: onSaved,
-          obscureText: obscure,
-          decoration: buildInputDecoration(
-              hint: label,
-              prefixIcon: prefixIcon,
-              suffixIcon: suffixIcon,
-              hintSize: hintSize,
-              hintColor: hintColor),
-        ),
+      child: TextFormField(
+        inputFormatters: inputFormatters,
+        buildCounter: (context,
+                {required currentLength, required isFocused, maxLength}) =>
+            null,
+        maxLength: maxLength,
+        maxLines: maxLines,
+        enabled: enabled,
+        controller: controller,
+        keyboardType: keyboardType,
+        style: TextStyle(fontSize: 14.sp, color: BLACK.withOpacity(0.9)),
+        validator: validator,
+        onChanged: onChanged,
+        onSaved: onSaved,
+        obscureText: obscure,
+        decoration: buildInputDecoration(
+            hint: label,
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+            hintSize: hintSize,
+            hintColor: hintColor),
       ),
     );
   }

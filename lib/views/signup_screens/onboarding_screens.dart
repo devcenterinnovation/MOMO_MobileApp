@@ -224,7 +224,6 @@ class _CreatePasswordState extends State<CreatePassword> {
   }
 
   String _password = "";
-  String _confirmPassword = "";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -288,13 +287,9 @@ class _CreatePasswordState extends State<CreatePassword> {
                           label: '*****************',
                           keyboardType: TextInputType.number,
                           obscure: true,
-                          onChanged: (val) {
-                            setState(() => _confirmPassword = val);
-                          },
+                          onChanged: (val) {},
                           validator: (v) {
-                            if (v == _password) {
-                              Get.to(() => const WelcomeMemo());
-                            } else {
+                            if (v != _password) {
                               return "The passwords are not the same";
                             }
                           }),
@@ -302,7 +297,10 @@ class _CreatePasswordState extends State<CreatePassword> {
                       customButton(
                           title: 'Continue',
                           onPressed: () {
-                            _formKey.currentState!.validate();
+                            if (_formKey.currentState!.validate()) {
+                              Get.to(() => const WelcomeMemo());
+                              _formKey.currentState!.save();
+                            }
                           })
                     ],
                   ),

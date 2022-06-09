@@ -27,7 +27,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
     '6',
     '7',
     '8',
-    '9',
+    '9'
   ];
 
   final List<String> education = [
@@ -38,6 +38,10 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
     'Masters',
     'PhD'
   ];
+
+  final List<String> location = ['Lagos', 'Oyo', 'Ogun', 'Ondo', 'Osun', 'Edo'];
+
+  final List<String> maritalStatus = ['Single', 'Married', 'Divorced'];
 
   final _formKey = GlobalKey<FormState>();
 
@@ -71,7 +75,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                 backgroundColor: Colors.transparent,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 20.0, right: 20, top: 30),
+                padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 30.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -91,16 +95,18 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                         ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(27, 12, 27, 24),
+                        padding: EdgeInsets.fromLTRB(27.w, 12.h, 27.w, 24.h),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Highest Educational Level',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                             SizedBox(height: 4.h),
+
+                            // Educational Dropdown
                             DropdownButtonFormField2(
                               decoration: InputDecoration(
                                 isDense: true,
@@ -111,30 +117,31 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                       color: AppColors.mainColor),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                               ),
                               isExpanded: true,
                               scrollbarAlwaysShow: true,
-                              hint: const Text(
-                                'Select number of children',
-                                style: TextStyle(fontSize: 14),
+                              hint: Text(
+                                'Select highest level of education',
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: GREY.withOpacity(0.9)),
                               ),
                               icon: const Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.black45,
+                                Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.mainColor,
                               ),
-                              iconSize: 30,
-                              buttonHeight: 60,
+                              buttonHeight: 55.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -164,24 +171,15 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                               },
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 12.0),
-                              child: Text(
+                              padding: EdgeInsets.only(top: 12.h),
+                              child: const Text(
                                 'Marital Status',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            InputFormField(
-                              label: 'Single',
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 12.0),
-                              child: Text(
-                                'Number of children',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                            ),
+
+                            // Select marital status dropdown
                             DropdownButtonFormField2(
                               decoration: InputDecoration(
                                 isDense: true,
@@ -206,15 +204,84 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                               ),
                               isExpanded: true,
                               hint: const Text(
-                                'Select Your state',
+                                'Select your marital status',
                                 style: TextStyle(fontSize: 14),
                               ),
                               icon: const Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.black45,
+                                Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.mainColor,
                               ),
-                              iconSize: 30,
-                              buttonHeight: 60,
+                              buttonHeight: 55.h,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 20, right: 10),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              items: maritalStatus
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select your marital status';
+                                }
+                              },
+                              onChanged: (value) {
+//Do something when changing the item if you want.
+                              },
+                              onSaved: (value) {
+                                selectedValue = value.toString();
+                              },
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 12.0),
+                              child: Text(
+                                'Number of children',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+
+                            // Number of children dropdown
+                            DropdownButtonFormField2(
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.zero,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColors.mainColor),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      BorderSide(color: AppColors.mainColor),
+                                ),
+//Add more decoration as you want here
+//Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                              ),
+                              isExpanded: true,
+                              hint: const Text(
+                                'Select number of children',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.mainColor,
+                              ),
+                              buttonHeight: 55.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -233,7 +300,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                   .toList(),
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select highest educational level.';
+                                  return 'Please select number of children';
                                 }
                               },
                               onChanged: (value) {
@@ -243,7 +310,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 selectedValue = value.toString();
                               },
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(top: 12.0),
                               child: Text(
                                 'Current Address',
@@ -251,15 +318,71 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            InputFormField(
-                              label: 'Lagos Island',
-                              suffixIcon: Icon(
+
+                            // Current address dropdown
+                            DropdownButtonFormField2(
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.zero,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColors.mainColor),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      BorderSide(color: AppColors.mainColor),
+                                ),
+//Add more decoration as you want here
+//Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                              ),
+                              isExpanded: true,
+                              hint: Text(
+                                'Select Your state',
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: GREY.withOpacity(0.9)),
+                              ),
+                              icon: const Icon(
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
-                                size: 20,
                               ),
+                              buttonHeight: 55.h,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 20, right: 10),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              items: location
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select location.';
+                                }
+                              },
+                              onChanged: (value) {
+//Do something when changing the item if you want.
+                              },
+                              onSaved: (value) {
+                                selectedValue = value.toString();
+                              },
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(top: 12.0),
                               child: Text(
                                 'Current Address Details',
@@ -267,8 +390,8 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            InputFormField(label: '2 oteri'),
-                            Padding(
+                            const InputFormField(label: '2 oteri'),
+                            const Padding(
                               padding: EdgeInsets.only(top: 12.0),
                               child: Text(
                                 'Email',
@@ -276,7 +399,8 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            InputFormField(label: "inyangmatoni@gmail.com"),
+                            const InputFormField(
+                                label: "inyangmatoni@gmail.com"),
                           ],
                         ),
                       ),
@@ -297,6 +421,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                   ],
                 ),
               ),
+              SizedBox(height: 30.h)
             ],
           ),
         ),
