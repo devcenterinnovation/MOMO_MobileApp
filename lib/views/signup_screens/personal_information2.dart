@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
+import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/empolyment_information.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
@@ -389,7 +390,10 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(label: '2 oteri'),
+                            InputFormField(
+                              label: '2 oteri',
+                              validator: (v) => FieldValidator.validate(v),
+                            ),
                             const Padding(
                               padding: EdgeInsets.only(top: 12.0),
                               child: Text(
@@ -398,8 +402,10 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(
-                                label: "inyangmatoni@gmail.com"),
+                            InputFormField(
+                              label: "inyangmatoni@gmail.com",
+                              validator: (v) => EmailValidator.validateEmail(v),
+                            ),
                           ],
                         ),
                       ),
