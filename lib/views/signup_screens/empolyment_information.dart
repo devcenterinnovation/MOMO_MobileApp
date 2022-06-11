@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,24 +22,17 @@ class EmploymentInformation extends StatefulWidget {
 }
 
 class _EmploymentInformationState extends State<EmploymentInformation> {
-  void _pickFile() async {
-    final result = await FilePicker.platform.pickFiles(
-        allowMultiple: false,
-        type: FileType.custom,
-        allowedExtensions: ['pdf', 'png', 'jpg']);
+  FilePickerResult? result;
+  PlatformFile? file;
+
+  void pickFiles() async {
+    result = await FilePicker.platform.pickFiles();
     if (result == null) return;
-
-    // we get the file from result object
-    final file = result.files.first;
-
-    _openFile(file);
-
-    debugPrint(result.files.first.name);
-    print(result.files.first.size);
-    print(result.files.first.path);
+    file = result!.files.first;
+    setState(() {});
   }
 
-  void _openFile(PlatformFile file) {
+  void viewFile(PlatformFile file) {
     OpenFile.open(file.path);
   }
 
@@ -273,14 +268,27 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Icon(
-                                    Icons.text_snippet_rounded,
-                                    color: AppColors.grey4,
-                                    size: 40,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _pickFile();
+                                  SizedBox(
+                                      width: 200,
+                                      child: file == null
+                                          ? const Icon(
+                                              Icons.text_snippet_rounded,
+                                              color: AppColors.grey4,
+                                              size: 40,
+                                            )
+                                          : GestureDetector(
+                                              onTap: () {
+                                                viewFile(file!);
+                                              },
+                                              child: CustomText(
+                                                text: '${file?.name}',
+                                                overFlow: TextOverflow.ellipsis,
+                                                fontSize: 16.0,
+                                              ),
+                                            )),
+                                  InkWell(
+                                    onTap: () async {
+                                      pickFiles();
                                     },
                                     child: CustomText(
                                       text: 'Browse',
@@ -329,14 +337,27 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Icon(
-                                    Icons.text_snippet_rounded,
-                                    color: AppColors.grey4,
-                                    size: 40,
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      _pickFile();
+                                  Container(
+                                      width: 200,
+                                      child: file == null
+                                          ? const Icon(
+                                              Icons.text_snippet_rounded,
+                                              color: AppColors.grey4,
+                                              size: 40,
+                                            )
+                                          : GestureDetector(
+                                              onTap: () {
+                                                viewFile(file!);
+                                              },
+                                              child: CustomText(
+                                                text: '${file?.name}',
+                                                overFlow: TextOverflow.ellipsis,
+                                                fontSize: 16.0,
+                                              ),
+                                            )),
+                                  InkWell(
+                                    onTap: () async {
+                                      pickFiles();
                                     },
                                     child: CustomText(
                                       text: 'Browse',

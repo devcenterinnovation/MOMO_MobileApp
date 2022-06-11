@@ -46,9 +46,9 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-    <string>To take user profile image</string>
+    <string>TAllows permission to use camera to upload profile picture and credit card information</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>To choose user profile image</string>
+    <string>Allows permission to use camera to upload profile picture and credit card information</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Used to capture audio for image picker plugin</string>
 </dict>

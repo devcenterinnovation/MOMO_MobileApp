@@ -9,6 +9,7 @@ import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/personal_information2.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PersonalInformation1 extends StatefulWidget {
   const PersonalInformation1({Key? key}) : super(key: key);
@@ -22,6 +23,14 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
 
   TextEditingController dateinput = TextEditingController();
   //text editing controller for text field
+
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   void initState() {
@@ -228,11 +237,19 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                   decoration: BoxDecoration(
                                       color: AppColors.secondaryColor,
                                       borderRadius: BorderRadius.circular(8)),
-                                  child: const Padding(
-                                    padding: EdgeInsets.fromLTRB(15, 8, 15, 8),
-                                    child: Text(
-                                      'Dial *565*0#',
-                                      style: TextStyle(color: WHITE),
+                                  child: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(15, 8, 15, 8),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _makePhoneCall('tel:*565*0#');
+                                        });
+                                      },
+                                      child: const Text(
+                                        'Dial *565*0#',
+                                        style: TextStyle(color: WHITE),
+                                      ),
                                     ),
                                   ),
                                 )

@@ -24,10 +24,10 @@ class GetStarted extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: 50.w, right: 50.w),
               child: CustomText(
-                text: 'You’ve successfully submitted all your Bio data, '
+                text: 'You’ve successfully submitted all your\nBio data, '
                     'verification would take 24 working days. '
                     'Pending Verification, you’re not qualified to receive loan',
-                fontSize: 16,
+                fontSize: 14,
                 textAlign: TextAlign.center,
                 fontWeight: FontWeight.w400,
               ),
