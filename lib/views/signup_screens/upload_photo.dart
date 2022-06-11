@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
@@ -14,6 +16,21 @@ class UploadPicture extends StatefulWidget {
 }
 
 class _UploadPictureState extends State<UploadPicture> {
+  File? image;
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+
+      final imageTemporary = File(image.path);
+      setState(() => this.image = imageTemporary);
+    } on Exception catch (e) {
+      // ignore: avoid_print
+      print('Failed to pick image: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,31 +52,42 @@ class _UploadPictureState extends State<UploadPicture> {
         const SizedBox(height: 30),
         Stack(
           children: [
-            ClipOval(
-              child: Container(
-                height: 110,
-                width: 110,
-                color: AppColors.captions,
-                child: Center(
-                  child: CustomText(
-                    text: 'Take Photo',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
+            GestureDetector(
+              onTap: () => pickImage(ImageSource.gallery),
+              child: ClipOval(
+                child: Container(
+                  height: 110,
+                  width: 110,
+                  color: AppColors.captions,
+                  child: image == null
+                      ? Center(
+                          child: CustomText(
+                            text: 'Take Photo',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      : Image.file(
+                          image!,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),
             Positioned(
               right: 1,
               child: ClipOval(
-                child: Container(
-                  height: 24,
-                  width: 24,
-                  color: AppColors.mainColor,
-                  child: const Icon(
-                    Icons.photo_camera_outlined,
-                    color: WHITE,
-                    size: 14,
+                child: GestureDetector(
+                  onTap: () => pickImage(ImageSource.camera),
+                  child: Container(
+                    height: 30,
+                    width: 30,
+                    color: AppColors.mainColor,
+                    child: const Icon(
+                      Icons.photo_camera_outlined,
+                      color: WHITE,
+                      size: 14,
+                    ),
                   ),
                 ),
               ),
@@ -77,3 +105,7 @@ class _UploadPictureState extends State<UploadPicture> {
     ));
   }
 }
+
+/// Get from gallery
+
+/// Get from Camera
