@@ -34,7 +34,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.1
   flutter_screenutil: ^5.5.3+2
-  custom_navigator: ^0.3.0
   flutter_svg: ^1.0.3
   pin_code_fields: ^7.4.0
   flutter_switch: ^0.3.2
@@ -42,6 +41,7 @@ dependencies:
   open_file: ^3.2.1
   timelines: ^0.1.0
   intl: ^0.17.0
+  image_picker: ^0.8.5
   font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
