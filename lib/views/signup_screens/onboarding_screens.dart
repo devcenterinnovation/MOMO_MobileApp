@@ -173,8 +173,10 @@ class _LoginPageState extends State<LoginPage> {
                       customButton(
                         title: 'Log In',
                         onPressed: () {
-                          _formKey.currentState!.validate();
-                          Get.offAll(() => const HomeNavigationBar());
+                          if (_formKey.currentState!.validate()) {
+                            Get.to(() => const HomeNavigationBar());
+                            _formKey.currentState!.save();
+                          }
                         },
                         fontSize: 16.0.sp,
                       ),

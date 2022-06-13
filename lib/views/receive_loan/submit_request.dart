@@ -17,9 +17,12 @@ class SubmitRequest extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: WHITE,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back,
-          color: BLACK,
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: const Icon(
+            Icons.arrow_back,
+            color: BLACK,
+          ),
         ),
       ),
       body: Column(
