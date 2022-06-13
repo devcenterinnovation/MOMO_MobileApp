@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
@@ -6,7 +8,6 @@ import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
-import 'package:momo/views/wallets/refer_and_earn.dart';
 import 'package:momo/widget.dart';
 
 class UpcomingPayment extends StatefulWidget {
@@ -214,7 +215,112 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
               customButton(
                   title: 'Pay off Loan',
                   fontSize: 16.0,
-                  onPressed: () => Get.to(() => const ReferAndEarn()))
+                  onPressed: () {
+                    showModalBottomSheet(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(15.0),
+                              topRight: Radius.circular(15.0)),
+                        ),
+                        backgroundColor: Color(0xFF4B6D9B),
+                        context: context,
+                        builder: (context) {
+                          return Wrap(
+                            children: [
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 23.h, right: 30.w),
+                                  child: InkWell(
+                                    onTap: () => Get.back(),
+                                    child: Container(
+                                      height: 25.h,
+                                      width: 25.w,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: WHITE, width: 1.0)),
+                                      child: Icon(
+                                        Icons.close,
+                                        size: 20.h,
+                                        color: WHITE,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: CustomText(
+                                  text: 'Pay off loan with virtual account',
+                                  fontWeight: FontWeight.w700,
+                                  color: WHITE,
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 21.h),
+                                  child: SizedBox(
+                                    height: 67.h,
+                                    width: 67.w,
+                                    child: Image.asset(
+                                        'assets/images/image 13.png'),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 5.h, bottom: 90.h),
+                                  child: Column(
+                                    children: [
+                                      CustomText(
+                                        color: WHITE,
+                                        textAlign: TextAlign.center,
+                                        text:
+                                            'Pay off loan with virtual account',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14,
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          CustomText(
+                                            text: '0178273499',
+                                            fontSize: 18,
+                                            color: WHITE,
+                                          ),
+                                          SizedBox(width: 14.w),
+                                          InkWell(
+                                            onTap: () {
+                                              Clipboard.setData(
+                                                      const ClipboardData(
+                                                          text: '0178273499'))
+                                                  .then((_) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(const SnackBar(
+                                                        content: Text(
+                                                            "Account Copied!")));
+                                              });
+                                            },
+                                            child: Icon(
+                                              Icons.content_copy_outlined,
+                                              color: WHITE,
+                                              size: 20.sp,
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                  })
             ],
           ),
         ),

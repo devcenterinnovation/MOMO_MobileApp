@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
@@ -322,10 +323,22 @@ class _WalletsState extends State<Wallets> {
                                     color: AppColors.mainColor,
                                   ),
                                   SizedBox(width: 14.w),
-                                  const Icon(
-                                    Icons.content_copy_outlined,
-                                    color: AppColors.mainColor,
-                                    size: 20,
+                                  InkWell(
+                                    onTap: () {
+                                      Clipboard.setData(const ClipboardData(
+                                              text: '0178273499'))
+                                          .then((_) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                content:
+                                                    Text("Account Copied!")));
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.content_copy_outlined,
+                                      color: AppColors.mainColor,
+                                      size: 20.sp,
+                                    ),
                                   )
                                 ],
                               )
@@ -359,10 +372,89 @@ class _WalletsState extends State<Wallets> {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           top: 10.0, bottom: 14.0, left: 20.0),
-                      child: CustomText(
-                        text: 'Repayment Guide',
-                        fontSize: 16,
-                        color: AppColors.mainColor,
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15.0),
+                                    topRight: Radius.circular(15.0)),
+                              ),
+                              backgroundColor: Color(0xFF4B6D9B),
+                              context: context,
+                              builder: (context) {
+                                return Wrap(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 23.h, right: 30.w),
+                                        child: InkWell(
+                                          onTap: () => Get.back(),
+                                          child: Container(
+                                            height: 25.h,
+                                            width: 25.w,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    color: WHITE, width: 1.0)),
+                                            child: Icon(
+                                              Icons.close,
+                                              size: 20.h,
+                                              color: WHITE,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Center(
+                                      child: CustomText(
+                                        text: 'Repayment Guide',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                        color: WHITE,
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 21.h),
+                                        child: SizedBox(
+                                          height: 67.h,
+                                          width: 67.w,
+                                          child: Image.asset(
+                                              'assets/images/image 13.png'),
+                                        ),
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5.h,
+                                            left: 35.w,
+                                            right: 35.w,
+                                            bottom: 75.h),
+                                        child: CustomText(
+                                          color: WHITE,
+                                          textAlign: TextAlign.center,
+                                          text:
+                                              'Repaying your loan is made easy!\nSimply copy the momo virtual account number,'
+                                              'head on to  a designated payment portal to credit the virtual account',
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              });
+                        },
+                        child: CustomText(
+                          text: 'Repayment Guide',
+                          fontSize: 16,
+                          color: AppColors.mainColor,
+                        ),
                       ),
                     ),
                   ),

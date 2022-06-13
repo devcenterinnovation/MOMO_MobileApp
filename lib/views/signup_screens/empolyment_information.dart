@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -338,7 +336,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                      width: 200,
+                                      width: 200.w,
                                       child: file == null
                                           ? const Icon(
                                               Icons.text_snippet_rounded,

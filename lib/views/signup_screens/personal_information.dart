@@ -24,12 +24,12 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
   TextEditingController dateinput = TextEditingController();
   //text editing controller for text field
 
-  Future<void> _makePhoneCall(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 
   @override
@@ -243,7 +243,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                     child: GestureDetector(
                                       onTap: () {
                                         setState(() {
-                                          _makePhoneCall('tel:*565*0#');
+                                          _makePhoneCall("*565*0#");
                                         });
                                       },
                                       child: const Text(

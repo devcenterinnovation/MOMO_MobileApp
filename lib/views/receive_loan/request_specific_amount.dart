@@ -10,25 +10,39 @@ import 'package:momo/widget.dart';
 import 'package:momo/widgets/custom_clipper.dart';
 
 class RequestSpecificAmount extends StatefulWidget {
-  const RequestSpecificAmount({Key? key}) : super(key: key);
+  final double amount;
+  const RequestSpecificAmount({Key? key, required this.amount})
+      : super(key: key);
 
   @override
   State<RequestSpecificAmount> createState() => _RequestSpecificAmountState();
 }
 
 class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
-  double _currentValue = 0;
-  double _days = 0;
+  late int _currentValue;
+  void initState() {
+    _currentValue = widget.amount.toInt();
+    super.initState();
+  }
+
+  int _days = 7;
 
   @override
   Widget build(BuildContext context) {
+    double _service = (15 / 100) * _currentValue;
+    double _vat = (10 / 100) * _currentValue;
+    double _charges = (_service + _vat);
+    double _deposit = _currentValue - _charges;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: WHITE,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back,
-          color: BLACK,
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: const Icon(
+            Icons.arrow_back,
+            color: BLACK,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -53,30 +67,22 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
               ),
             ),
             Slider(
-                value: _currentValue,
+                value: _currentValue.toDouble(),
                 min: 0,
                 max: 50000,
                 label: "N" + _currentValue.toString(),
-                divisions: 10,
+                divisions: 5,
                 activeColor: AppColors.mainColor,
-                onChanged: (value) {
-                  setState(() {
-                    _currentValue = value;
-                  });
-                }),
+                onChanged: (value) {}),
             SizedBox(height: 30.h),
             Slider(
-                value: _days,
+                value: _days.toDouble(),
                 min: 0,
                 max: 14,
                 label: _days.toString() + " days",
                 divisions: 14,
                 activeColor: AppColors.mainColor,
-                onChanged: (value) {
-                  setState(() {
-                    _days = value;
-                  });
-                }),
+                onChanged: (value) {}),
             SizedBox(height: 24.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30.w),
@@ -106,7 +112,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         fontWeight: FontWeight.w400),
                                     SizedBox(height: 5.h),
                                     CustomText(
-                                      text: 'N3,000',
+                                      text: 'N${_currentValue.toInt()}',
                                       fontSize: 12,
                                       color: BLACK,
                                       fontWeight: FontWeight.w500,
@@ -128,7 +134,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         fontWeight: FontWeight.w400),
                                     SizedBox(height: 5.h),
                                     CustomText(
-                                      text: '7 days',
+                                      text: '${_days.toInt()} days',
                                       fontSize: 12,
                                       color: BLACK,
                                       fontWeight: FontWeight.w500,
@@ -156,7 +162,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         fontWeight: FontWeight.w400),
                                     SizedBox(height: 5.h),
                                     CustomText(
-                                      text: 'N60 (15%)',
+                                      text: 'N${_service.toInt()} (15%)',
                                       fontSize: 12,
                                       color: BLACK,
                                       fontWeight: FontWeight.w500,
@@ -178,7 +184,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         fontWeight: FontWeight.w400),
                                     SizedBox(height: 5.h),
                                     CustomText(
-                                      text: 'N120 (10%)',
+                                      text: 'N${_vat.toInt()} (10%)',
                                       fontSize: 12,
                                       color: BLACK,
                                       fontWeight: FontWeight.w500,
@@ -206,7 +212,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         fontWeight: FontWeight.w400),
                                     SizedBox(height: 5.h),
                                     CustomText(
-                                      text: 'N2,250',
+                                      text: 'N${_deposit.toInt()}',
                                       fontSize: 12,
                                       color: BLACK,
                                       fontWeight: FontWeight.w500,
@@ -228,7 +234,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         fontWeight: FontWeight.w400),
                                     SizedBox(height: 5.h),
                                     CustomText(
-                                      text: 'N3,000',
+                                      text: 'N${_currentValue.toInt()}',
                                       fontSize: 12,
                                       color: BLACK,
                                       fontWeight: FontWeight.w500,

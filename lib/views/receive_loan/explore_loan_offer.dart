@@ -11,6 +11,7 @@ class ExploreLoanOffers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double loan = 0;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.mainColor,
@@ -23,9 +24,12 @@ class ExploreLoanOffers extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: WHITE,
         elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back,
-          color: BLACK,
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: const Icon(
+            Icons.arrow_back,
+            color: BLACK,
+          ),
         ),
       ),
       body: Column(
@@ -75,7 +79,10 @@ class ExploreLoanOffers extends StatelessWidget {
           ),
           SizedBox(height: 26.h),
           GestureDetector(
-            onTap: () => Get.to(() => const RequestSpecificAmount()),
+            onTap: () {
+              loan = 7000;
+              Get.to(() => RequestSpecificAmount(amount: loan));
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 34.w),
               child: Container(
@@ -113,7 +120,10 @@ class ExploreLoanOffers extends StatelessWidget {
           ),
           SizedBox(height: 20.h),
           GestureDetector(
-            onTap: () => Get.to(() => const RequestSpecificAmount()),
+            onTap: () {
+              loan = 4500;
+              Get.to(() => RequestSpecificAmount(amount: loan));
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 34.w),
               child: Container(
@@ -151,7 +161,10 @@ class ExploreLoanOffers extends StatelessWidget {
           ),
           SizedBox(height: 20.h),
           GestureDetector(
-            onTap: () => Get.to(() => const RequestSpecificAmount()),
+            onTap: () {
+              loan = 3000;
+              Get.to(() => RequestSpecificAmount(amount: loan));
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 34.w),
               child: Container(
@@ -189,7 +202,7 @@ class ExploreLoanOffers extends StatelessWidget {
           ),
           SizedBox(height: 20.h),
           GestureDetector(
-            onTap: () => Get.to(() => const RequestSpecificAmount()),
+            onTap: () {},
             child: Padding(
               padding: EdgeInsets.only(left: 34.w),
               child: CustomText(
