@@ -31,11 +31,23 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
     'For Buying a House'
   ];
 
+  final List<String> days = [
+    '7 days',
+    '8 days',
+    '9 days',
+    '10 days',
+    '11 days',
+    '12 days',
+    '13 days',
+    '14 days'
+  ];
+
   final _formKey = GlobalKey<FormState>();
 
-  String? selectedValue;
+  String? selectedValue = '7 days';
 
   late int _currentValue;
+
   void initState() {
     _currentValue = widget.amount.toInt();
     super.initState();
@@ -365,17 +377,76 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                           child: InputFormField(
                             hintColor: BLACK,
                             hintSize: 14.0,
+                            enabled: false,
                             label: 'N${_currentValue.toInt()}',
                           ),
                         ),
                         SizedBox(
                           width: 10.w,
                         ),
-                        const Expanded(
-                            child: InputFormField(
-                          label: '7 days',
-                          suffixIcon: Icon(Icons.keyboard_arrow_down_rounded),
-                        ))
+                        Expanded(
+                          child: DropdownButtonFormField2(
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.zero,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: AppColors.mainColor, width: 0.8),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: AppColors.mainColor, width: 0.8),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                    color: AppColors.mainColor, width: 0.8),
+                              ),
+//Add more decoration as you want here
+//Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                            ),
+                            isExpanded: true,
+                            scrollbarAlwaysShow: true,
+                            hint: Text(
+                              '7  days',
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: GREY.withOpacity(0.9)),
+                            ),
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: AppColors.mainColor,
+                            ),
+                            buttonHeight: 60.h,
+                            buttonPadding:
+                                const EdgeInsets.only(left: 20, right: 10),
+                            dropdownDecoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            items: days
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                            validator: (value) {
+                              if (value == null) {
+                                return 'Please select days.';
+                              }
+                            },
+                            onChanged: (value) {},
+                            onSaved: (value) {
+                              selectedValue = value.toString();
+                            },
+                          ),
+                        )
                       ],
                     ),
                     CustomText(
