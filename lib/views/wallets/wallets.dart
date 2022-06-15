@@ -7,6 +7,7 @@ import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/wallets/upcoming_payment.dart';
 import 'package:momo/widgets/custom_clipper.dart';
+import 'package:timelines/timelines.dart';
 
 class Wallets extends StatefulWidget {
   const Wallets({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _WalletsState extends State<Wallets> {
                         child: Container(
                             width: double.maxFinite,
                             decoration: BoxDecoration(
-                              color: AppColors.secondaryColor,
+                              color: AppColors.mainColor,
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.2),
@@ -83,7 +84,7 @@ class _WalletsState extends State<Wallets> {
                                   Container(
                                     width: double.maxFinite,
                                     decoration: BoxDecoration(
-                                        color: AppColors.lightMainColor,
+                                        color: WHITE,
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     child: Padding(
@@ -106,15 +107,15 @@ class _WalletsState extends State<Wallets> {
                                                       CustomText(
                                                           text: 'Loan Applied',
                                                           fontSize: 12,
-                                                          color: AppColors
-                                                              .Tertiary,
+                                                          color:
+                                                              AppColors.laon3,
                                                           fontWeight:
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
                                                         text: 'N3000',
                                                         fontSize: 20,
-                                                        color: WHITE,
+                                                        color: BLACK,
                                                         fontWeight:
                                                             FontWeight.w700,
                                                       )
@@ -133,14 +134,15 @@ class _WalletsState extends State<Wallets> {
                                                       CustomText(
                                                           text: 'Loan Period',
                                                           fontSize: 12,
-                                                          color: WHITE,
+                                                          color:
+                                                              AppColors.laon3,
                                                           fontWeight:
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
                                                         text: '0 - 7 days',
                                                         fontSize: 16,
-                                                        color: WHITE,
+                                                        color: BLACK,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       )
@@ -166,15 +168,15 @@ class _WalletsState extends State<Wallets> {
                                                       CustomText(
                                                           text: 'Loan Received',
                                                           fontSize: 12,
-                                                          color: AppColors
-                                                              .Tertiary,
+                                                          color:
+                                                              AppColors.laon3,
                                                           fontWeight:
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
                                                         text: 'N2940',
                                                         fontSize: 16,
-                                                        color: WHITE,
+                                                        color: BLACK,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       )
@@ -194,14 +196,15 @@ class _WalletsState extends State<Wallets> {
                                                           text:
                                                               'Repayment Amount',
                                                           fontSize: 12,
-                                                          color: WHITE,
+                                                          color:
+                                                              AppColors.laon3,
                                                           fontWeight:
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
                                                         text: 'N3000',
                                                         fontSize: 16,
-                                                        color: WHITE,
+                                                        color: BLACK,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       )
@@ -231,7 +234,7 @@ class _WalletsState extends State<Wallets> {
                             borderRadius: BorderRadius.circular(10),
                             gradient: const LinearGradient(
                               begin: Alignment.topLeft,
-                              end: Alignment.topRight,
+                              end: Alignment.bottomRight,
                               colors: [
                                 AppColors.lightGrey,
                                 AppColors.mainColor
@@ -256,101 +259,146 @@ class _WalletsState extends State<Wallets> {
                     ),
                   ],
                 ),
-                SizedBox(height: 5.h),
+                SizedBox(height: 30.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.0.w),
-                  child: Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                        image: const DecorationImage(
-                            image: AssetImage('assets/images/Frame 62.png'),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 18.0.h, bottom: 18.0.h, left: 21.w),
-                      child: CustomText(
-                        text: 'Getting a Loan is made\neasy  with MOMO ',
-                        color: WHITE,
-                        fontSize: 16,
+                  padding: EdgeInsets.only(left: 30.0.w, bottom: 16.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        text: 'Repayment guide',
+                        color: BLACK,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
-                    ),
+                      CustomText(
+                        text: 'Steps to make repayment',
+                        color: AppColors.laon3,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(height: 16.h),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.0.w, bottom: 10.h),
-                  child: CustomText(
-                    text: 'Payment Method',
-                    color: AppColors.laon3,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.0.w),
-                  child: Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          top: 10.0.h, bottom: 14.0.h, left: 21.0.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text: 'Pay with virtual card',
-                                color: AppColors.mainColor,
-                                fontSize: 10,
-                              ),
-                              CustomText(
-                                text: 'Repayment Account Number',
-                                fontSize: 16,
-                                color: AppColors.mainColor,
-                              ),
-                              SizedBox(height: 8.h),
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: '0178273499',
-                                    fontSize: 16,
-                                    color: AppColors.mainColor,
-                                  ),
-                                  SizedBox(width: 14.w),
-                                  InkWell(
-                                    onTap: () {
-                                      Clipboard.setData(const ClipboardData(
-                                              text: '0178273499'))
-                                          .then((_) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content:
-                                                    Text("Account Copied!")));
-                                      });
-                                    },
-                                    child: Icon(
-                                      Icons.content_copy_outlined,
-                                      color: AppColors.mainColor,
-                                      size: 20.sp,
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                          Expanded(
-                              child: Image.asset('assets/images/image 13.png')),
-                          SizedBox(width: 5.w)
-                        ],
+                Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 100.h),
+                        child: SizedBox(
+                          height: 77.h,
+                          width: 130.w,
+                          child: Image.asset(
+                              'assets/images/momo-removebg-preview 1.png'),
+                        ),
                       ),
                     ),
-                  ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                        child: Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  const Color(0xFFEFF6FE),
+                                  const Color(0xFFECF5FF).withOpacity(0.5),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(33.w, 20.h, 0, 27.h),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    linearDot,
+                                    SizedBox(width: 10.w),
+                                    CustomText(
+                                      text:
+                                          'Copy the momo virtual account number',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 15.h),
+                                Row(
+                                  children: [
+                                    linearDot,
+                                    SizedBox(width: 10.w),
+                                    CustomText(
+                                      text:
+                                          'Head on to a  designated payment portal',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 20.h),
+                                Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Color(0xFFDADADA),
+                                            AppColors.mainColor,
+                                          ],
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w, vertical: 10.h),
+                                        child: CustomText(
+                                          text: 'Pay with Bank App',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                          color: WHITE,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 20.w),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Color(0xFFDADADA),
+                                            AppColors.mainColor,
+                                          ],
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w, vertical: 10.h),
+                                        child: CustomText(
+                                          text: 'Pay Via USSD',
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                          color: WHITE,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(height: 20.h),
                 Padding(

@@ -21,12 +21,21 @@ class EmploymentInformation extends StatefulWidget {
 
 class _EmploymentInformationState extends State<EmploymentInformation> {
   FilePickerResult? result;
-  PlatformFile? file;
+  FilePickerResult? result2;
+  PlatformFile? file1;
+  PlatformFile? file2;
 
   void pickFiles() async {
     result = await FilePicker.platform.pickFiles();
     if (result == null) return;
-    file = result!.files.first;
+    file1 = result!.files.first;
+    setState(() {});
+  }
+
+  void pickFiles2() async {
+    result2 = await FilePicker.platform.pickFiles();
+    if (result2 == null) return;
+    file2 = result2!.files.first;
     setState(() {});
   }
 
@@ -34,11 +43,25 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
     OpenFile.open(file.path);
   }
 
+  void viewFile2(PlatformFile file2) {
+    OpenFile.open(file2.path);
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   String? selectedValue;
 
-  final List<String> employment = ['Employed', 'Unemployed'];
+  final List<String> employment = ['Employed', 'Unemployed', 'Self-Employed'];
+
+  final List<String> duration = ['1 - 2', '2 - 3', '3 - 4', '4 - 5'];
+
+  final List<String> salary = [
+    '10 - 50',
+    '50 - 100',
+    '100 - 200',
+    '300 - 400',
+    '400 - 500'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,17 +127,17 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
@@ -152,6 +175,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 if (value == null) {
                                   return 'Please select employment status.';
                                 }
+                                return null;
                               },
                               onChanged: (value) {
 //Do something when changing the item if you want.
@@ -197,13 +221,68 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(
-                              label: '3 - 5 years',
-                              suffixIcon: Icon(
+                            DropdownButtonFormField2(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+//Add more decoration as you want here
+//Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                              ),
+                              isExpanded: true,
+                              scrollbarAlwaysShow: true,
+                              hint: Text(
+                                '1 - 2 years',
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: GREY.withOpacity(0.9)),
+                              ),
+                              icon: const Icon(
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
-                                size: 20,
                               ),
+                              buttonHeight: 55.h,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 20, right: 10),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              items: duration
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item + ' Years',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select duration.';
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+//Do something when changing the item if you want.
+                              },
+                              onSaved: (value) {
+                                selectedValue = value.toString();
+                              },
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 12.0),
@@ -213,13 +292,68 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(
-                              label: "100 - 200 thousand",
-                              suffixIcon: Icon(
+                            DropdownButtonFormField2(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.zero,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+//Add more decoration as you want here
+//Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                              ),
+                              isExpanded: true,
+                              scrollbarAlwaysShow: true,
+                              hint: Text(
+                                '100 - 200 thousand',
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: GREY.withOpacity(0.9)),
+                              ),
+                              icon: const Icon(
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
-                                size: 20,
                               ),
+                              buttonHeight: 55.h,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 20, right: 10),
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              items: salary
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item + ' Thousand',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select duration.';
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+//Do something when changing the item if you want.
+                              },
+                              onSaved: (value) {
+                                selectedValue = value.toString();
+                              },
                             ),
                           ],
                         ),
@@ -261,29 +395,33 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                  const EdgeInsets.fromLTRB(20, 10, 30, 10),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SizedBox(
-                                      width: 200,
-                                      child: file == null
-                                          ? const Icon(
-                                              Icons.text_snippet_rounded,
-                                              color: AppColors.grey4,
-                                              size: 40,
-                                            )
-                                          : GestureDetector(
-                                              onTap: () {
-                                                viewFile(file!);
-                                              },
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: file1 == null
+                                        ? const Icon(
+                                            Icons.text_snippet_rounded,
+                                            color: AppColors.grey4,
+                                            size: 40,
+                                          )
+                                        : GestureDetector(
+                                            onTap: () {
+                                              viewFile(file1!);
+                                            },
+                                            child: SizedBox(
+                                              width: 200.w,
                                               child: CustomText(
-                                                text: '${file?.name}',
+                                                text: '${file1?.name}',
                                                 overFlow: TextOverflow.ellipsis,
-                                                fontSize: 16.0,
+                                                fontSize: 14.0,
                                               ),
-                                            )),
+                                            ),
+                                          ),
+                                  ),
                                   InkWell(
                                     onTap: () async {
                                       pickFiles();
@@ -330,32 +468,33 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                             ),
                             child: Padding(
                               padding:
-                                  EdgeInsets.fromLTRB(30.w, 10.h, 30.w, 10.h),
+                                  EdgeInsets.fromLTRB(20.w, 10.h, 30.w, 10.h),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                      width: 200.w,
-                                      child: file == null
-                                          ? const Icon(
-                                              Icons.text_snippet_rounded,
-                                              color: AppColors.grey4,
-                                              size: 40,
-                                            )
-                                          : GestureDetector(
-                                              onTap: () {
-                                                viewFile(file!);
-                                              },
-                                              child: CustomText(
-                                                text: '${file?.name}',
-                                                overFlow: TextOverflow.ellipsis,
-                                                fontSize: 16.0,
-                                              ),
-                                            )),
+                                  file2 == null
+                                      ? const Icon(
+                                          Icons.text_snippet_rounded,
+                                          color: AppColors.grey4,
+                                          size: 40,
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            viewFile2(file2!);
+                                          },
+                                          child: SizedBox(
+                                            width: 200.w,
+                                            child: CustomText(
+                                              text: '${file2?.name}',
+                                              overFlow: TextOverflow.ellipsis,
+                                              fontSize: 14.0,
+                                            ),
+                                          ),
+                                        ),
                                   InkWell(
                                     onTap: () async {
-                                      pickFiles();
+                                      pickFiles2();
                                     },
                                     child: CustomText(
                                       text: 'Browse',

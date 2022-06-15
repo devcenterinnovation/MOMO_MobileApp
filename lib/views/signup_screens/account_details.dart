@@ -84,7 +84,10 @@ class _AddAccountDetailsState extends State<AddAccountDetails> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      const InputFormField(label: '5134 15277 9226 82992'),
+                      const InputFormField(
+                        label: '5134 15277 9226 82992',
+                        enabled: false,
+                      ),
                     ],
                   ),
                 ),

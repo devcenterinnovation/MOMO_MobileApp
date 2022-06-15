@@ -9,7 +9,6 @@ import 'package:momo/views/signup_screens/empolyment_information.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
-import 'package:country_state_city_picker/country_state_city_picker.dart';
 
 class PersonalInformation2 extends StatefulWidget {
   const PersonalInformation2({Key? key}) : super(key: key);
@@ -19,8 +18,6 @@ class PersonalInformation2 extends StatefulWidget {
 }
 
 class _PersonalInformation2State extends State<PersonalInformation2> {
-  late String countryValue;
-  late String stateValue;
   final List<String> children = [
     '0',
     '1',
@@ -40,7 +37,8 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
     'HND',
     'B.Sc',
     'Masters',
-    'PhD'
+    'PhD',
+    'Others'
   ];
 
   final List<String> location = ['Lagos', 'Oyo', 'Ogun', 'Ondo', 'Osun', 'Edo'];
@@ -321,19 +319,6 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
-                            ),
-                            SelectState(
-                              onCountryChanged: (value) {
-                                setState(() {
-                                  countryValue = value;
-                                });
-                              },
-                              onStateChanged: (value) {
-                                setState(() {
-                                  stateValue = value;
-                                });
-                              },
-                              onCityChanged: (String value) {},
                             ),
 
                             // Current address dropdown

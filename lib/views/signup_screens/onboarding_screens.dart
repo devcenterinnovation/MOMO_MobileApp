@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -287,7 +289,6 @@ class _CreatePasswordState extends State<CreatePassword> {
                       ),
                       InputFormField(
                           label: '*****************',
-                          keyboardType: TextInputType.number,
                           obscure: true,
                           onChanged: (val) {},
                           validator: (v) {
@@ -323,95 +324,128 @@ class WelcomeMemo extends StatefulWidget {
 
 class _WelcomeMemoState extends State<WelcomeMemo> {
   bool rememberMe = false;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WHITE,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 125.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Welcome to Momo',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.mainColor,
-                ),
-              ),
-              SizedBox(height: 36.h),
-              Text(
-                'A Terms and Conditions agreement (T&Cs) '
-                'is the agreement \nthat includes the terms, '
-                'the rules and the guidelines of acceptable behavior '
-                'and other useful sections to which users \nmust agree in '
-                'order to use or access your website and mobile app.'
-                '\n\nThis article will get you started with creating your own custom Terms and Conditions agreement. We\'ve also put together a Sample Terms and Conditions Template that you can use to help write your own.\n',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp),
-              ),
-              Text(
-                'Location',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.mainColor,
-                ),
-              ),
-              Text(
-                'This article will get you started with creating your own custom Terms and Conditions agreement.\n',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp),
-              ),
-              Text(
-                'Contact',
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.mainColor,
-                ),
-              ),
-              Text(
-                'This article will get you started with creating your own custom Terms and Conditions agreement.',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp),
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                children: [
-                  Checkbox(
-                    value: rememberMe,
-                    onChanged: (value) {
-                      setState(() {
-                        rememberMe = value!;
-                      });
-                    },
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 125.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome to Momo',
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.mainColor,
                   ),
-                  const Text(
-                    'I agree to the terms and conditions',
-                    style: TextStyle(color: AppColors.buyyyon),
-                  )
-                ],
-              ),
-              SizedBox(height: 33.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: customButton(
-                        title: 'Cancel',
-                        color: WHITE,
-                        borderColor: AppColors.mainColor,
-                        textColor: AppColors.mainColor),
+                ),
+                SizedBox(height: 36.h),
+                Text(
+                  'A Terms and Conditions agreement (T&Cs) '
+                  'is the agreement \nthat includes the terms, '
+                  'the rules and the guidelines of acceptable behavior '
+                  'and other useful sections to which users \nmust agree in '
+                  'order to use or access your website and mobile app.'
+                  '\n\nThis article will get you started with creating your own custom Terms and Conditions agreement. We\'ve also put together a Sample Terms and Conditions Template that you can use to help write your own.\n',
+                  style:
+                      TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp),
+                ),
+                Text(
+                  'Location',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.mainColor,
                   ),
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: customButton(
+                ),
+                Text(
+                  'This article will get you started with creating your own custom Terms and Conditions agreement.\n',
+                  style:
+                      TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp),
+                ),
+                Text(
+                  'Contact',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.mainColor,
+                  ),
+                ),
+                Text(
+                  'This article will get you started with creating your own custom Terms and Conditions agreement.',
+                  style:
+                      TextStyle(fontWeight: FontWeight.w400, fontSize: 12.sp),
+                ),
+                SizedBox(height: 20.h),
+                FormField<bool>(
+                  builder: (state) {
+                    return Column(
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: rememberMe,
+                              onChanged: (value) {
+                                setState(() {
+                                  rememberMe = value!;
+                                });
+                              },
+                            ),
+                            const Text(
+                              'I agree to the terms and conditions',
+                              style: TextStyle(color: AppColors.buyyyon),
+                            )
+                          ],
+                        ),
+                        Text(
+                          state.errorText ?? '',
+                          style: const TextStyle(
+                            color: RED,
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                  validator: (value) {
+                    if (!rememberMe) {
+                      return 'You need to accept terms and conditions';
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                SizedBox(height: 33.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: customButton(
+                          title: 'Cancel',
+                          color: WHITE,
+                          borderColor: AppColors.mainColor,
+                          textColor: AppColors.mainColor),
+                    ),
+                    SizedBox(width: 20.w),
+                    Expanded(
+                      child: customButton(
                         title: 'Agree',
-                        onPressed: () =>
-                            Get.to(() => const PersonalInformation1())),
-                  ),
-                ],
-              ),
-            ],
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            Get.to(() => const PersonalInformation1());
+                            _formKey.currentState!.save();
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

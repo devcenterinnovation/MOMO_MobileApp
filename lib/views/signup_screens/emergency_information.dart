@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
@@ -7,6 +8,7 @@ import 'package:momo/theme.dart';
 import 'package:momo/views/signup_screens/upload_photo.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
+import 'package:momo/widgets/dropdown_widget.dart';
 
 class EmergencyContact extends StatefulWidget {
   const EmergencyContact({Key? key}) : super(key: key);
@@ -16,6 +18,17 @@ class EmergencyContact extends StatefulWidget {
 }
 
 class _EmergencyContactState extends State<EmergencyContact> {
+  String? selectedValue;
+
+  final List<String> relation = [
+    'Mother',
+    'Father',
+    'Brother',
+    'Sister',
+    'Son',
+    'Daughter'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,13 +109,68 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              const InputFormField(
-                                label: 'Mother',
-                                suffixIcon: Icon(
+                              DropdownButtonFormField2(
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.zero,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.mainColor, width: 0.8),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: AppColors.mainColor, width: 0.8),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.mainColor, width: 0.8),
+                                  ),
+//Add more decoration as you want here
+//Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                                ),
+                                isExpanded: true,
+                                scrollbarAlwaysShow: true,
+                                hint: Text(
+                                  'Mother',
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: GREY.withOpacity(0.9)),
+                                ),
+                                icon: const Icon(
                                   Icons.keyboard_arrow_down_rounded,
                                   color: AppColors.mainColor,
-                                  size: 20,
                                 ),
+                                buttonHeight: 55.h,
+                                buttonPadding:
+                                    const EdgeInsets.only(left: 20, right: 10),
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                items: relation
+                                    .map((item) => DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(
+                                            item,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return 'Please select a relationship.';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+//Do something when changing the item if you want.
+                                },
+                                onSaved: (value) {
+                                  selectedValue = value.toString();
+                                },
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 12.0),

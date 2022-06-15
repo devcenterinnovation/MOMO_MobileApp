@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+
 const Color DARKGREY = Color(0xFF263238);
 const Color BACKGROUND = Color(0xFFF3F6FF);
 const Color PRIMARY = Color(0xFFE66544);
@@ -15,3 +17,18 @@ const Color RED = Color(0xFFF80808);
 const Color LIGHTRED = Color(0xFFFF808F);
 const Color ORANGE = Color(0xFFDA8020);
 const Color AMBER = Color(0xFFFFAE18);
+Container linearDot = Container(
+  height: 10,
+  width: 10,
+  decoration: const BoxDecoration(
+    shape: BoxShape.circle,
+    gradient: LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color(0xFFDADADA),
+        AppColors.mainColor,
+      ],
+    ),
+  ),
+);

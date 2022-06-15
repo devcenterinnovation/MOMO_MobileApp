@@ -99,9 +99,9 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                             InputFormField(
-                                label: 'Sandra',
-                                validator: (v) => FieldValidator.validate(v),
-                                keyboardType: TextInputType.number),
+                              label: 'Sandra',
+                              validator: (v) => FieldValidator.validate(v),
+                            ),
                             const Padding(
                               padding: EdgeInsets.only(top: 12.0),
                               child: Text(
@@ -174,32 +174,57 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: RadioListTile(
-                                    value: 1,
-                                    groupValue: _selectedValue,
-                                    contentPadding: EdgeInsets.zero,
-                                    activeColor: const Color(0xFF1E3B62),
-                                    title: const Text('Male'),
-                                    onChanged: (value) => setState(() {
-                                      _selectedValue = 1;
-                                    }),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: RadioListTile(
-                                      value: 2,
-                                      title: const Text('Female'),
-                                      groupValue: _selectedValue,
-                                      contentPadding: EdgeInsets.zero,
-                                      activeColor: const Color(0xFF1E3B62),
-                                      onChanged: (value) {
-                                        setState(() => _selectedValue = 2);
-                                      }),
-                                ),
-                              ],
+                            FormField(
+                              builder: (state) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: RadioListTile(
+                                            value: 1,
+                                            groupValue: _selectedValue,
+                                            contentPadding: EdgeInsets.zero,
+                                            activeColor:
+                                                const Color(0xFF1E3B62),
+                                            title: const Text('Male'),
+                                            onChanged: (value) => setState(() {
+                                              _selectedValue = 1;
+                                            }),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: RadioListTile(
+                                              value: 2,
+                                              title: const Text('Female'),
+                                              groupValue: _selectedValue,
+                                              contentPadding: EdgeInsets.zero,
+                                              activeColor:
+                                                  const Color(0xFF1E3B62),
+                                              onChanged: (value) {
+                                                setState(
+                                                    () => _selectedValue = 2);
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      state.errorText ?? '',
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: RED,
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                              validator: (value) {
+                                if (_selectedValue == 0) {
+                                  return 'You need to select a gender';
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 12.0),
@@ -221,8 +246,8 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                               ),
                             ),
                             InputFormField(
-                              validator: (v) => FieldValidator.validate(v),
-                            ),
+                                validator: (v) => FieldValidator.validate(v),
+                                keyboardType: TextInputType.number),
                             const SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

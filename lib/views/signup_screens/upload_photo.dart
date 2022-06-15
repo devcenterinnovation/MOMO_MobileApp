@@ -53,7 +53,7 @@ class _UploadPictureState extends State<UploadPicture> {
         Stack(
           children: [
             GestureDetector(
-              onTap: () => pickImage(ImageSource.gallery),
+              onTap: () => pickImage(ImageSource.camera),
               child: ClipOval(
                 child: Container(
                   height: 110,
