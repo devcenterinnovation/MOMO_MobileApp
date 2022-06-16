@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class Help extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const email = "Contactmomo@gmail.com";
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
       appBar: AppBar(
@@ -203,12 +205,24 @@ class Help extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     CustomText(
-                                      text: 'Contactmomo@gmail.com',
+                                      text: email,
                                       fontSize: 14,
                                     ),
                                     SizedBox(width: 20.0.w),
-                                    SvgPicture.asset(
-                                        'assets/images/Groupcopy.svg')
+                                    InkWell(
+                                      onTap: () {
+                                        Clipboard.setData(const ClipboardData(
+                                                text: email))
+                                            .then((_) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content:
+                                                      Text("Email Copied!")));
+                                        });
+                                      },
+                                      child: SvgPicture.asset(
+                                          'assets/images/Groupcopy.svg'),
+                                    )
                                   ],
                                 ),
                               ),
