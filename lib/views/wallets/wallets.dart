@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
@@ -7,7 +6,6 @@ import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/wallets/upcoming_payment.dart';
 import 'package:momo/widgets/custom_clipper.dart';
-import 'package:timelines/timelines.dart';
 
 class Wallets extends StatefulWidget {
   const Wallets({Key? key}) : super(key: key);
@@ -289,8 +287,7 @@ class _WalletsState extends State<Wallets> {
                         child: SizedBox(
                           height: 77.h,
                           width: 130.w,
-                          child: Image.asset(
-                              'assets/images/momo-removebg-preview 1.png'),
+                          child: Image.asset('assets/images/momo_cartoon.png'),
                         ),
                       ),
                     ),
