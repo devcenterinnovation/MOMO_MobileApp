@@ -381,7 +381,7 @@ class _WalletsState extends State<Wallets> {
                                       ),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 12.w, vertical: 10.h),
+                                            horizontal: 21.w, vertical: 10.h),
                                         child: CustomText(
                                           text: 'Pay Via USSD',
                                           fontSize: 10,
@@ -400,181 +400,50 @@ class _WalletsState extends State<Wallets> {
                     )
                   ],
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 25.h),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
                   child: Container(
-                    width: double.maxFinite,
                     decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 1,
-                            offset: const Offset(
-                                0, 4), // changes position of shadow
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
+                        color: AppColors.mainColor,
+                        borderRadius: BorderRadius.circular(8)),
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, bottom: 14.0, left: 20.0),
-                      child: InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15.0),
-                                    topRight: Radius.circular(15.0)),
-                              ),
-                              backgroundColor: Color(0xFF4B6D9B),
-                              context: context,
-                              builder: (context) {
-                                return Wrap(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topRight,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 23.h, right: 30.w),
-                                        child: InkWell(
-                                          onTap: () => Get.back(),
-                                          child: Container(
-                                            height: 25.h,
-                                            width: 25.w,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
-                                                    color: WHITE, width: 1.0)),
-                                            child: Icon(
-                                              Icons.close,
-                                              size: 20.h,
-                                              color: WHITE,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: CustomText(
-                                        text: 'Repayment Guide',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700,
-                                        color: WHITE,
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 21.h),
-                                        child: SizedBox(
-                                          height: 67.h,
-                                          width: 67.w,
-                                          child: Image.asset(
-                                              'assets/images/image 13.png'),
-                                        ),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            top: 5.h,
-                                            left: 35.w,
-                                            right: 35.w,
-                                            bottom: 75.h),
-                                        child: CustomText(
-                                          color: WHITE,
-                                          textAlign: TextAlign.center,
-                                          text:
-                                              'Repaying your loan is made easy!\nSimply copy the momo virtual account number,'
-                                              'head on to  a designated payment portal to credit the virtual account',
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                );
-                              });
-                        },
-                        child: CustomText(
-                          text: 'Repayment Guide',
-                          fontSize: 16,
-                          color: AppColors.mainColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 24.h),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 30.0.w, right: 30.0.w, bottom: 9.0.h),
+                      padding: EdgeInsets.fromLTRB(30.w, 17.h, 30.w, 23.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomText(
-                            text: 'History',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  linearDot,
+                                  const SizedBox(width: 10),
+                                  CustomText(
+                                      text: 'Credit Virtual account',
+                                      color: WHITE)
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 21.w),
+                                child: CustomText(
+                                  text: 'Loan is repaid successfully',
+                                  color: WHITE,
+                                  fontSize: 10,
+                                ),
+                              ),
+                            ],
                           ),
-                          CustomText(
-                            text: 'see all',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 10,
-                            color: AppColors.laon3,
+                          SizedBox(
+                            height: 47.h,
+                            width: 47.w,
+                            child: Image.asset('assets/images/image 13.png'),
                           )
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 40.0.w, right: 40.0.w, bottom: 30.h),
-                      child: Container(
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF5F5F5),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 33.0.w,
-                              right: 33.0.w,
-                              top: 15.0.h,
-                              bottom: 15.0.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomText(
-                                    text: 'Educational loan',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
-                                  ),
-                                  CustomText(
-                                    text: '3000,000',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                  ),
-                                ],
-                              ),
-                              CustomText(
-                                text: 'View details',
-                                color: AppColors.laon3,
-                                fontSize: 12,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                )
+                  ),
+                ),
               ],
             ),
           )

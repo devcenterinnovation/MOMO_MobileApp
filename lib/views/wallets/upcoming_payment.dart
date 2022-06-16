@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
-import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
-import 'package:momo/widget.dart';
 
 class UpcomingPayment extends StatefulWidget {
   const UpcomingPayment({Key? key}) : super(key: key);
@@ -24,13 +21,20 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: EdgeInsets.only(left: 30.0),
-          child: SvgPicture.asset('assets/images/ant-design_menu-outlined.svg'),
+          padding: EdgeInsets.only(left: 20.w),
+          child: InkWell(
+            onTap: () => Get.back(),
+            child: const Icon(
+              Icons.chevron_left,
+              color: BLACK,
+              size: 30,
+            ),
+          ),
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
-            child: Icon(
+            padding: EdgeInsets.only(right: 20.w),
+            child: const Icon(
               Icons.notifications_none_rounded,
               color: BLACK,
               size: 30,
@@ -42,20 +46,20 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          padding: EdgeInsets.symmetric(horizontal: 30.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 width: double.maxFinite,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
+                  image: const DecorationImage(
                       image: AssetImage('assets/images/Rectangle 101.png'),
                       fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(22, 27, 38, 24),
+                  padding: EdgeInsets.fromLTRB(22.w, 27, 38, 24),
                   child: CustomText(
                     text: 'The repayment amount can be changed, '
                         'the\nminimum is N1000. Loan repayment'
@@ -94,233 +98,308 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               CustomText(
-                  text: 'Upcoming Repayment',
+                  text: 'Repayment Amount',
                   fontSize: 16,
                   fontWeight: FontWeight.w600),
-              const SizedBox(height: 7),
-              Container(
-                width: double.maxFinite,
-                decoration: BoxDecoration(
-                    color: const Color(0xFFF8F3F3),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                    padding: const EdgeInsets.fromLTRB(35, 22, 25, 18),
+              SizedBox(height: 30.h),
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 23.w),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: const Color(0xFFDBB994),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30.0, vertical: 5),
-                                child: CustomText(
-                                  text: 'Approved',
-                                  fontSize: 10,
-                                  color: const Color(0xFF043933),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            CustomText(
-                              text: '10 Mar 2022 : 10:12 AM',
-                              fontSize: 10,
-                              color: AppColors.laon3,
-                            ),
-                            const SizedBox(height: 6),
-                            CustomText(
-                              text: 'N3000',
-                              fontWeight: FontWeight.w600,
-                              color: BLACK,
-                            ),
-                            CustomText(
-                              fontSize: 14,
-                              text: 'Education Loan',
-                              color: AppColors.laon3,
-                            )
-                          ],
+                        Expanded(
+                          child: CustomText(
+                            text: 'Repayment Amount',
+                            fontSize: 10,
+                          ),
                         ),
-                        CustomText(
-                          text: 'View details',
-                          textDecoration: TextDecoration.underline,
-                          underlineColor: AppColors.laon3,
-                          fontSize: 12,
-                          color: AppColors.laon3,
+                        Expanded(
+                          child: CustomText(
+                            text: 'N3,000',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         )
                       ],
-                    )),
-              ),
-              Row(
-                children: [
-                  CustomText(
-                    text: "Your loan payment is due on ",
-                    fontSize: 12,
-                    color: AppColors.laon3,
+                    ),
                   ),
-                  CustomText(
-                    text: ' 26 June',
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.mainColor,
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 5.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Repayment balance',
+                            fontSize: 10,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            text: 'N0',
+                            fontSize: 12,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 5.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CustomText(
+                            text: 'Amount repaid',
+                            fontSize: 10,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomText(
+                            text: 'N0',
+                            fontSize: 12,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, top: 3.h, bottom: 35.h),
+                    child: Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: CustomText(
+                            text: 'Your loan payment is due on ',
+                            fontSize: 10,
+                            color: AppColors.laon3,
+                          ),
+                        ),
+                        CustomText(
+                          text: '26, June',
+                          fontSize: 14,
+                          color: AppColors.mainColor,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
-              const SizedBox(height: 30),
               CustomText(
                 text: 'Repayment Method',
+                color: AppColors.laon3,
                 fontSize: 14,
-                color: AppColors.grey4,
+                fontWeight: FontWeight.w400,
               ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  CustomText(text: 'Amount', fontSize: 14),
-                  const Spacer(),
-                  CustomText(text: 'Full payment', fontSize: 8),
-                  const SizedBox(width: 5),
-                  FlutterSwitch(
-                    width: 38.0,
-                    height: 16.0,
-                    valueFontSize: 10.0,
-                    toggleSize: 16.0,
-                    toggleColor: AppColors.laon3,
-                    inactiveColor: Color(0xFFF3F3F3),
-                    activeColor: AppColors.mainColor,
-                    activeToggleColor: WHITE,
-                    value: status,
-                    borderRadius: 16.0,
-                    padding: 0.0,
-                    showOnOff: false,
-                    onToggle: (val) {
-                      setState(() {
-                        status = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              const InputFormField(
-                label: '1200',
-                hintSize: 16.0,
-                hintColor: BLACK,
-                enabled: false,
-              ),
-              const SizedBox(height: 40),
-              customButton(
-                  title: 'Pay off Loan',
-                  fontSize: 16.0,
-                  onPressed: () {
-                    showModalBottomSheet(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15.0),
-                              topRight: Radius.circular(15.0)),
-                        ),
-                        backgroundColor: Color(0xFF4B6D9B),
-                        context: context,
-                        builder: (context) {
-                          return Wrap(
+              SizedBox(height: 14.h),
+              Container(
+                decoration: BoxDecoration(
+                    color: AppColors.mainColor,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(14.w, 20.h, 5.w, 30.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: 'Repayment Account Number',
+                            fontSize: 16,
+                            color: WHITE,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
                             children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 23.h, right: 30.w),
-                                  child: InkWell(
-                                    onTap: () => Get.back(),
-                                    child: Container(
-                                      height: 25.h,
-                                      width: 25.w,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              color: WHITE, width: 1.0)),
-                                      child: Icon(
-                                        Icons.close,
-                                        size: 20.h,
-                                        color: WHITE,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                              CustomText(
+                                text: '0178273499',
+                                fontSize: 16,
+                                color: WHITE,
                               ),
-                              Center(
-                                child: CustomText(
-                                  text: 'Pay off loan with virtual account',
-                                  fontWeight: FontWeight.w700,
-                                  color: WHITE,
-                                ),
-                              ),
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 21.h),
-                                  child: SizedBox(
-                                    height: 67.h,
-                                    width: 67.w,
-                                    child: Image.asset(
-                                        'assets/images/image 13.png'),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 5.h, bottom: 90.h),
-                                  child: Column(
-                                    children: [
-                                      CustomText(
-                                        color: WHITE,
-                                        textAlign: TextAlign.center,
-                                        text:
-                                            'Pay off loan with virtual account',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CustomText(
-                                            text: '0178273499',
-                                            fontSize: 18,
-                                            color: WHITE,
-                                          ),
-                                          SizedBox(width: 14.w),
-                                          InkWell(
-                                            onTap: () {
-                                              Clipboard.setData(
-                                                      const ClipboardData(
-                                                          text: '0178273499'))
-                                                  .then((_) {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(const SnackBar(
-                                                        content: Text(
-                                                            "Account Copied!")));
-                                              });
-                                            },
-                                            child: Icon(
-                                              Icons.content_copy_outlined,
-                                              color: WHITE,
-                                              size: 20.sp,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
+                              const SizedBox(width: 14),
+                              InkWell(
+                                  onTap: () {
+                                    Clipboard.setData(const ClipboardData(
+                                        text: '3119307387'));
+                                    showModalBottomSheet(
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(15.0),
+                                              topRight: Radius.circular(15.0)),
+                                        ),
+                                        backgroundColor:
+                                            const Color(0xFF4B6D9B),
+                                        context: context,
+                                        builder: (context) {
+                                          return Wrap(
+                                            children: [
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 23.h, right: 30.w),
+                                                  child: InkWell(
+                                                    onTap: () => Get.back(),
+                                                    child: Container(
+                                                      height: 25.h,
+                                                      width: 25.w,
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                              color: WHITE,
+                                                              width: 1.0)),
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        size: 20.h,
+                                                        color: WHITE,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: CustomText(
+                                                  text:
+                                                      'Pay off loan with virtual account',
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: WHITE,
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 21.h),
+                                                  child: SizedBox(
+                                                    height: 90.h,
+                                                    width: 90.w,
+                                                    child: Image.asset(
+                                                        'assets/images/image 13.png'),
+                                                  ),
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 5.h,
+                                                      left: 35.w,
+                                                      right: 35.w,
+                                                      bottom: 75.h),
+                                                  child: CustomText(
+                                                    color: WHITE,
+                                                    textAlign: TextAlign.center,
+                                                    text: 'Account copied!',
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: const Icon(
+                                    Icons.content_copy_outlined,
+                                    color: WHITE,
+                                    size: 20,
+                                  ))
                             ],
-                          );
-                        });
-                  })
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 71.h,
+                        width: 71.w,
+                        child: Image.asset('assets/images/image 13.png'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: 15.0.h, top: 30.h, left: 3.w, right: 3.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: 'Loan History',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        CustomText(
+                          text: 'see all',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 10,
+                          color: AppColors.grey4,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 30.h),
+                    child: Container(
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5F5F5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: 33.0.w,
+                            right: 33.0.w,
+                            top: 15.0.h,
+                            bottom: 15.0.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CustomText(
+                                  text: 'Educational loan',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                ),
+                                CustomText(
+                                  text: '3000,000',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              ],
+                            ),
+                            CustomText(
+                              text: 'View details',
+                              color: AppColors.laon3,
+                              fontSize: 12,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              )
             ],
           ),
         ),
