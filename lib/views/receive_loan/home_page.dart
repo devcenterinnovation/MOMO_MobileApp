@@ -64,15 +64,31 @@ class _HomePageState extends State<HomePage> {
                                       text: 'Hi janet',
                                       fontSize: 16,
                                       color: WHITE,
-                                      fontWeight: FontWeight.w600,
                                     ),
-                                    SizedBox(height: 27.h),
-                                    CustomText(
-                                      text:
-                                          'Loan up to 500,000\nwith zero interest on\nyour first loan!!',
-                                      color: WHITE,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
+                                    SizedBox(height: 10.h),
+                                    Row(
+                                      children: [
+                                        CustomText(
+                                          text:
+                                              'Loan up to\n500,000 with\nzero interest on\nyour first loan!!',
+                                          color: WHITE,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        const Spacer(),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              right: 23.w, top: 45.h),
+                                          child: SizedBox(
+                                            height: 85.h,
+                                            width: 102.w,
+                                            child: Image.asset(
+                                              'assets/images/image 6.png',
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(height: 10.h),
                                     CustomText(
@@ -110,13 +126,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      Positioned(
-                          bottom: 100.h,
-                          right: 20.w,
-                          child: Image.asset(
-                            'assets/images/image 6.png',
-                            fit: BoxFit.contain,
-                          )),
                     ],
                   ),
                 ),
@@ -210,26 +219,26 @@ class _HomePageState extends State<HomePage> {
                                       Column(
                                         children: [
                                           DotIndicator(
-                                            color: const Color(0xFFD1D1D1),
+                                            color: AppColors.lightMainColor,
                                             size: 10.h,
                                           ),
                                           CustomText(
                                             text: 'Review',
                                             fontSize: 12,
-                                            color: const Color(0xFFF0F0F0),
+                                            color: AppColors.lightMainColor,
                                           )
                                         ],
                                       ),
                                       Column(
                                         children: [
                                           DotIndicator(
-                                            color: const Color(0xFFD1D1D1),
+                                            color: AppColors.lightMainColor,
                                             size: 10.h,
                                           ),
                                           CustomText(
                                             text: 'Approval',
                                             fontSize: 12,
-                                            color: const Color(0xFFF0F0F0),
+                                            color: AppColors.lightMainColor,
                                           )
                                         ],
                                       ),

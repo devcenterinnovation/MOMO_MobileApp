@@ -9,6 +9,7 @@ import 'package:momo/views/signup_screens/upload_photo.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 
 class EmergencyContact extends StatefulWidget {
   const EmergencyContact({Key? key}) : super(key: key);
@@ -18,6 +19,9 @@ class EmergencyContact extends StatefulWidget {
 }
 
 class _EmergencyContactState extends State<EmergencyContact> {
+  PhoneContact? _phoneContact;
+  PhoneContact? _colleagueContact;
+
   String? selectedValue;
 
   final List<String> relation = [
@@ -179,7 +183,15 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              const InputFormField(label: 'Jane Okafor'),
+                              InputFormField(
+                                label: _phoneContact != null
+                                    ? '${_phoneContact!.fullName}'
+                                    : 'Jane Okafor',
+                                hintColor: _phoneContact != null
+                                    ? BLACK
+                                    : AppColors.laon3,
+                                readOnly: true,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: CustomText(
@@ -187,11 +199,28 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              const InputFormField(
-                                label: '09064519907',
-                                suffixIcon: Icon(
-                                  Icons.phone_in_talk_outlined,
-                                  color: AppColors.laon3,
+                              InputFormField(
+                                label: _phoneContact != null
+                                    ? '${_phoneContact!.phoneNumber!.number}'
+                                    : '09064519907',
+                                hintColor: _phoneContact != null
+                                    ? BLACK
+                                    : AppColors.laon3,
+                                readOnly: true,
+                                suffixIcon: InkWell(
+                                  onTap: () async {
+                                    final PhoneContact contact =
+                                        await FlutterContactPicker
+                                            .pickPhoneContact();
+                                    print(contact);
+                                    setState(() {
+                                      _phoneContact = contact;
+                                    });
+                                  },
+                                  child: const Icon(
+                                    Icons.phone_in_talk_outlined,
+                                    color: AppColors.laon3,
+                                  ),
                                 ),
                               ),
                             ],
@@ -260,7 +289,15 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              const InputFormField(label: 'Jane Okafor'),
+                              InputFormField(
+                                label: _colleagueContact != null
+                                    ? '${_colleagueContact!.fullName}'
+                                    : 'Jane Okafor',
+                                hintColor: _colleagueContact != null
+                                    ? BLACK
+                                    : AppColors.laon3,
+                                readOnly: true,
+                              ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: CustomText(
@@ -268,11 +305,28 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              const InputFormField(
-                                label: '09064519907',
-                                suffixIcon: Icon(
-                                  Icons.phone_in_talk_outlined,
-                                  color: AppColors.laon3,
+                              InputFormField(
+                                label: _colleagueContact != null
+                                    ? '${_colleagueContact!.phoneNumber!.number}'
+                                    : '09064519907',
+                                hintColor: _colleagueContact != null
+                                    ? BLACK
+                                    : AppColors.laon3,
+                                readOnly: true,
+                                suffixIcon: InkWell(
+                                  onTap: () async {
+                                    final PhoneContact contact =
+                                        await FlutterContactPicker
+                                            .pickPhoneContact();
+                                    print(contact);
+                                    setState(() {
+                                      _colleagueContact = contact;
+                                    });
+                                  },
+                                  child: const Icon(
+                                    Icons.phone_in_talk_outlined,
+                                    color: AppColors.laon3,
+                                  ),
                                 ),
                               ),
                             ],

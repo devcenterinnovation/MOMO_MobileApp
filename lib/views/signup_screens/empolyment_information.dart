@@ -6,7 +6,7 @@ import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
-import 'package:momo/views/signup_screens/emergency_information.dart';
+import 'package:momo/views/signup_screens/emergency_contact.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/dropdown_widget.dart';

@@ -250,114 +250,44 @@ class _LoansState extends State<Loans> {
                   padding: EdgeInsets.symmetric(horizontal: 31.w),
                   child: Container(
                     width: double.maxFinite,
+                    height: 100.h,
                     decoration: BoxDecoration(
                         image: const DecorationImage(
                             image: AssetImage('assets/images/Frame 62.png'),
                             fit: BoxFit.cover),
                         borderRadius: BorderRadius.circular(10)),
                     child: Padding(
-                      padding:
-                          EdgeInsets.only(top: 18.h, bottom: 18.w, left: 21.w),
-                      child: CustomText(
-                        text: 'Gettting a Loan is made\neasy  with MOMO ',
-                        color: WHITE,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 25.h),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.w, bottom: 10.h),
-                  child: CustomText(
-                    text: 'Payment Method',
-                    color: AppColors.laon3,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w),
-                  child: Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.only(top: 10.h, bottom: 14.h, left: 21.w),
+                      padding: EdgeInsets.only(
+                          top: 11.h, bottom: 14.h, left: 21.w, right: 40.w),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                text: 'Pay with virtual card',
-                                color: AppColors.mainColor,
-                                fontSize: 10,
-                              ),
-                              CustomText(
-                                text: 'Repayment Account Number',
-                                fontSize: 16,
-                                color: AppColors.mainColor,
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: '0178273499',
-                                    fontSize: 16,
-                                    color: AppColors.mainColor,
-                                  ),
-                                  const SizedBox(width: 14),
-                                  const Icon(
-                                    Icons.content_copy_outlined,
-                                    color: AppColors.mainColor,
-                                    size: 20,
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
                           Expanded(
-                              child: Image.asset('assets/images/image 13.png')),
-                          SizedBox(width: 5.w)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w),
-                  child: Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 1,
-                            offset: const Offset(
-                                0, 4), // changes position of shadow
+                            child: CustomText(
+                              text: 'Getting a Loan\nis made easy\nwith MOMO ',
+                              color: WHITE,
+                              fontSize: 16,
+                            ),
                           ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: WHITE,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w, vertical: 10.h),
+                              child: CustomText(
+                                text: 'Apply Now',
+                                color: AppColors.mainColor,
+                                fontSize: 14,
+                              ),
+                            ),
+                          )
                         ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding:
-                          EdgeInsets.only(top: 10.h, bottom: 14.h, left: 20.w),
-                      child: CustomText(
-                        text: 'Repayment Guide',
-                        fontSize: 16,
-                        color: AppColors.mainColor,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 32.h),
+                SizedBox(height: 45.h),
                 Column(
                   children: [
                     Padding(
@@ -380,45 +310,60 @@ class _LoansState extends State<Loans> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 40.w, right: 40.w, bottom: 30.h),
-                      child: Container(
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF5F5F5),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: 33.w, right: 33.w, top: 15.h, bottom: 15.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomText(
-                                    text: 'Educational loan',
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12,
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 3,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: 30.w, right: 30.w, bottom: 10.h),
+                                child: Container(
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFF5F5F5),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  CustomText(
-                                    text: '3000,000',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 33.w,
+                                        right: 33.w,
+                                        top: 15.h,
+                                        bottom: 15.h),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              text: 'Educational loan',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                            ),
+                                            CustomText(
+                                              text: '3000,000',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                            ),
+                                          ],
+                                        ),
+                                        CustomText(
+                                          text: 'View details',
+                                          color: AppColors.laon3,
+                                          fontSize: 12,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                              CustomText(
-                                text: 'View details',
-                                color: AppColors.laon3,
-                                fontSize: 12,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                                ),
+                              );
+                            }),
+                      ],
                     )
                   ],
                 )
