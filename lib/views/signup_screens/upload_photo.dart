@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +32,7 @@ class _UploadPictureState extends State<UploadPicture> {
     }
   }
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,56 +52,89 @@ class _UploadPictureState extends State<UploadPicture> {
           fontSize: 14,
         ),
         const SizedBox(height: 30),
-        Stack(
-          children: [
-            GestureDetector(
-              onTap: () => pickImage(ImageSource.camera),
-              child: ClipOval(
-                child: Container(
-                  height: 110,
-                  width: 110,
-                  color: AppColors.captions,
-                  child: image == null
-                      ? Center(
-                          child: CustomText(
-                            text: 'Take Photo',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+        Form(
+          key: _formKey,
+          child: FormField<bool>(
+            builder: (state) {
+              return Column(
+                children: [
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () => pickImage(ImageSource.camera),
+                        child: ClipOval(
+                          child: Container(
+                            height: 110,
+                            width: 110,
+                            color: AppColors.captions,
+                            child: image == null
+                                ? Center(
+                                    child: CustomText(
+                                      text: 'Take Photo',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  )
+                                : Image.file(
+                                    image!,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
-                        )
-                      : Image.file(
-                          image!,
-                          fit: BoxFit.cover,
                         ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 1,
-              child: ClipOval(
-                child: GestureDetector(
-                  onTap: () => pickImage(ImageSource.camera),
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    color: AppColors.mainColor,
-                    child: const Icon(
-                      Icons.photo_camera_outlined,
-                      color: WHITE,
-                      size: 14,
-                    ),
+                      ),
+                      Positioned(
+                        right: 1,
+                        child: ClipOval(
+                          child: GestureDetector(
+                            onTap: () => pickImage(ImageSource.camera),
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              color: AppColors.mainColor,
+                              child: const Icon(
+                                Icons.photo_camera_outlined,
+                                color: WHITE,
+                                size: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              ),
-            )
-          ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.h),
+                    child: Text(
+                      state.errorText ?? '',
+                      style: TextStyle(
+                        color: Colors.red.shade600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+            validator: (value) {
+              if (image == null) {
+                return 'You need to take a selfie';
+              } else {
+                return null;
+              }
+            },
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 40.0, right: 40.0, top: 40.0),
           child: customButton(
               title: 'Continue',
               fontSize: 16.0,
-              onPressed: () => Get.to(() => const AddAccountDetails())),
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  Get.to(() => const AddAccountDetails());
+                  _formKey.currentState!.save();
+                }
+              }),
         )
       ],
     ));

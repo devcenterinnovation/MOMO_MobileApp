@@ -6,6 +6,7 @@ import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
+import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/emergency_contact.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
@@ -154,7 +155,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
                               ),
-                              buttonHeight: 55.h,
+                              buttonHeight: 50.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -192,8 +193,9 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(
+                            InputFormField(
                               label: 'Data.co',
+                              validator: (v) => FieldValidator.validate(v),
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 12.0),
@@ -203,7 +205,10 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(label: 'Lagos'),
+                            InputFormField(
+                              label: 'Lagos',
+                              validator: (v) => FieldValidator.validate(v),
+                            ),
                             Padding(
                               padding: EdgeInsets.only(top: 12.h),
                               child: const Text(
@@ -212,7 +217,10 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(label: 'Sales'),
+                            InputFormField(
+                              label: 'Sales',
+                              validator: (v) => FieldValidator.validate(v),
+                            ),
                             const Padding(
                               padding: EdgeInsets.only(top: 12.0),
                               child: Text(
@@ -254,7 +262,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
                               ),
-                              buttonHeight: 55.h,
+                              buttonHeight: 50.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -325,7 +333,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
                               ),
-                              buttonHeight: 55.h,
+                              buttonHeight: 50.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -344,7 +352,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                   .toList(),
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select duration.';
+                                  return 'Please select salary range.';
                                 }
                                 return null;
                               },
@@ -378,64 +386,114 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 fontSize: 10,
                               )),
                           SizedBox(height: 6.h),
-                          Container(
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              color: WHITE,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 0.3,
-                                  blurRadius: 0.3,
-                                  offset: const Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(20, 10, 30, 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                          FormField<bool>(
+                            builder: (state) {
+                              return Column(
                                 children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: file1 == null
-                                        ? const Icon(
-                                            Icons.text_snippet_rounded,
-                                            color: AppColors.grey4,
-                                            size: 40,
-                                          )
-                                        : GestureDetector(
-                                            onTap: () {
-                                              viewFile(file1!);
+                                  Container(
+                                    width: double.maxFinite,
+                                    decoration: BoxDecoration(
+                                      color: WHITE,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 0.3,
+                                          blurRadius: 0.3,
+                                          offset: const Offset(0,
+                                              3), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          15.w, 10.h, 20.w, 10.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          file1 == null
+                                              ? const Icon(
+                                                  Icons.text_snippet_rounded,
+                                                  color: AppColors.grey4,
+                                                  size: 40,
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    viewFile(file1!);
+                                                  },
+                                                  child: SizedBox(
+                                                    width: 220.w,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.visibility,
+                                                              color: AppColors
+                                                                  .grey4,
+                                                              size: 30,
+                                                            ),
+                                                            CustomText(
+                                                              text: 'View',
+                                                              fontSize: 10,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(width: 8.w),
+                                                        Expanded(
+                                                          child: CustomText(
+                                                            text:
+                                                                '${file1?.name}',
+                                                            overFlow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontSize: 14.0,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                          SizedBox(height: 2.h),
+                                          InkWell(
+                                            onTap: () async {
+                                              pickFiles();
                                             },
-                                            child: SizedBox(
-                                              width: 200.w,
-                                              child: CustomText(
-                                                text: '${file1?.name}',
-                                                overFlow: TextOverflow.ellipsis,
-                                                fontSize: 14.0,
-                                              ),
+                                            child: CustomText(
+                                              text: 'Browse',
+                                              color: AppColors.secondaryColor,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
                                             ),
-                                          ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                  InkWell(
-                                    onTap: () async {
-                                      pickFiles();
-                                    },
-                                    child: CustomText(
-                                      text: 'Browse',
-                                      color: AppColors.secondaryColor,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14,
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 5.h),
+                                    child: Text(
+                                      state.errorText ?? '',
+                                      style: TextStyle(
+                                        color: Colors.red.shade600,
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   )
                                 ],
-                              ),
-                            ),
+                              );
+                            },
+                            validator: (value) {
+                              if (file1 == null) {
+                                return 'You need to upload your work Id';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
                           const SizedBox(height: 30),
                           CustomText(
@@ -451,61 +509,110 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 fontSize: 10,
                               )),
                           const SizedBox(height: 6),
-                          Container(
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                              color: WHITE,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  spreadRadius: 0.3,
-                                  blurRadius: 0.3,
-                                  offset: const Offset(
-                                      0, 3), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.fromLTRB(20.w, 10.h, 30.w, 10.h),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                          FormField<bool>(
+                            builder: (state) {
+                              return Column(
                                 children: [
-                                  file2 == null
-                                      ? const Icon(
-                                          Icons.text_snippet_rounded,
-                                          color: AppColors.grey4,
-                                          size: 40,
-                                        )
-                                      : GestureDetector(
-                                          onTap: () {
-                                            viewFile2(file2!);
-                                          },
-                                          child: SizedBox(
-                                            width: 200.w,
-                                            child: CustomText(
-                                              text: '${file2?.name}',
-                                              overFlow: TextOverflow.ellipsis,
-                                              fontSize: 14.0,
-                                            ),
-                                          ),
+                                  Container(
+                                    width: double.maxFinite,
+                                    decoration: BoxDecoration(
+                                      color: WHITE,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 0.3,
+                                          blurRadius: 0.3,
+                                          offset: const Offset(0,
+                                              3), // changes position of shadow
                                         ),
-                                  InkWell(
-                                    onTap: () async {
-                                      pickFiles2();
-                                    },
-                                    child: CustomText(
-                                      text: 'Browse',
-                                      color: AppColors.secondaryColor,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14,
+                                      ],
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          20.w, 10.h, 20.w, 10.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          file2 == null
+                                              ? const Icon(
+                                                  Icons.text_snippet_rounded,
+                                                  color: AppColors.grey4,
+                                                  size: 40,
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    viewFile2(file2!);
+                                                  },
+                                                  child: SizedBox(
+                                                    width: 220.w,
+                                                    child: Row(
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.visibility,
+                                                              color: AppColors
+                                                                  .grey4,
+                                                              size: 30,
+                                                            ),
+                                                            CustomText(
+                                                              text: 'View',
+                                                              fontSize: 10,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(width: 5.w),
+                                                        Expanded(
+                                                          child: CustomText(
+                                                            text:
+                                                                '${file2?.name}',
+                                                            overFlow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontSize: 14.0,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                          InkWell(
+                                            onTap: () async {
+                                              pickFiles2();
+                                            },
+                                            child: CustomText(
+                                              text: 'Browse',
+                                              color: AppColors.secondaryColor,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 5.h),
+                                    child: Text(
+                                      state.errorText ?? '',
+                                      style: TextStyle(
+                                        color: Colors.red.shade600,
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   )
                                 ],
-                              ),
-                            ),
+                              );
+                            },
+                            validator: (value) {
+                              if (file1 == null) {
+                                return 'You need to upload six month of recent bank statement';
+                              } else {
+                                return null;
+                              }
+                            },
                           ),
                         ],
                       ),
