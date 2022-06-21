@@ -33,6 +33,8 @@ class _EmergencyContactState extends State<EmergencyContact> {
     'Daughter'
   ];
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,304 +51,315 @@ class _EmergencyContactState extends State<EmergencyContact> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 5),
-            const CustomAppbar(
-              text: 'Emergency Contact',
-              textColor: AppColors.grey2,
-              iconColor: BLACK,
-              spacing: 15.0,
-              backgroundColor: Colors.transparent,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: WHITE,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 0.5,
-                          blurRadius: 0.5,
-                          offset:
-                              const Offset(0, 5), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.maxFinite,
-                          decoration: const BoxDecoration(
-                              color: AppColors.mainColor,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              )),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 14.0, bottom: 10.0),
-                            child: Center(
-                                child: CustomText(
-                              text: 'Family Contact',
-                              color: WHITE,
-                              fontSize: 16,
-                            )),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const SizedBox(height: 5),
+              const CustomAppbar(
+                text: 'Emergency Contact',
+                textColor: AppColors.grey2,
+                iconColor: BLACK,
+                spacing: 15.0,
+                backgroundColor: Colors.transparent,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: WHITE,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 0.5,
+                            blurRadius: 0.5,
+                            offset: const Offset(
+                                0, 5), // changes position of shadow
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(27, 12, 27, 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 12.0),
-                                child: CustomText(
-                                  text: 'Relationship',
-                                  fontWeight: FontWeight.w400,
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: double.maxFinite,
+                            decoration: const BoxDecoration(
+                                color: AppColors.mainColor,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                )),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 14.0, bottom: 10.0),
+                              child: Center(
+                                  child: CustomText(
+                                text: 'Family Contact',
+                                color: WHITE,
+                                fontSize: 16,
+                              )),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(27, 12, 27, 24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12.0),
+                                  child: CustomText(
+                                    text: 'Relationship',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              DropdownButtonFormField2(
-                                decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.zero,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: AppColors.mainColor, width: 0.8),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: AppColors.mainColor, width: 0.8),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                        color: AppColors.mainColor, width: 0.8),
-                                  ),
+                                DropdownButtonFormField2(
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          color: AppColors.mainColor,
+                                          width: 0.8),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: AppColors.mainColor,
+                                          width: 0.8),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: const BorderSide(
+                                          color: AppColors.mainColor,
+                                          width: 0.8),
+                                    ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                                ),
-                                isExpanded: true,
-                                scrollbarAlwaysShow: true,
-                                hint: Text(
-                                  'Mother',
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: GREY.withOpacity(0.9)),
-                                ),
-                                icon: const Icon(
-                                  Icons.keyboard_arrow_down_rounded,
-                                  color: AppColors.mainColor,
-                                ),
-                                buttonHeight: 55.h,
-                                buttonPadding:
-                                    const EdgeInsets.only(left: 20, right: 10),
-                                dropdownDecoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                items: relation
-                                    .map((item) => DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: const TextStyle(
-                                              fontSize: 14,
+                                  ),
+                                  isExpanded: true,
+                                  scrollbarAlwaysShow: true,
+                                  hint: Text(
+                                    'Mother',
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: GREY.withOpacity(0.9)),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: AppColors.mainColor,
+                                  ),
+                                  buttonHeight: 55.h,
+                                  buttonPadding: const EdgeInsets.only(
+                                      left: 20, right: 10),
+                                  dropdownDecoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  items: relation
+                                      .map((item) => DropdownMenuItem<String>(
+                                            value: item,
+                                            child: Text(
+                                              item,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                              ),
                                             ),
-                                          ),
-                                        ))
-                                    .toList(),
-                                validator: (value) {
-                                  if (value == null) {
-                                    return 'Please select a relationship.';
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
+                                          ))
+                                      .toList(),
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return 'Please select a relationship.';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
 //Do something when changing the item if you want.
-                                },
-                                onSaved: (value) {
-                                  selectedValue = value.toString();
-                                },
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 12.0),
-                                child: CustomText(
-                                  text: 'Name',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              InputFormField(
-                                label: _phoneContact != null
-                                    ? '${_phoneContact!.fullName}'
-                                    : 'Jane Okafor',
-                                hintColor: _phoneContact != null
-                                    ? BLACK
-                                    : AppColors.laon3,
-                                readOnly: true,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 12.0),
-                                child: CustomText(
-                                  text: 'Phone Number',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              InputFormField(
-                                label: _phoneContact != null
-                                    ? '${_phoneContact!.phoneNumber!.number}'
-                                    : '09064519907',
-                                hintColor: _phoneContact != null
-                                    ? BLACK
-                                    : AppColors.laon3,
-                                readOnly: true,
-                                suffixIcon: InkWell(
-                                  onTap: () async {
-                                    final PhoneContact contact =
-                                        await FlutterContactPicker
-                                            .pickPhoneContact();
-                                    print(contact);
-                                    setState(() {
-                                      _phoneContact = contact;
-                                    });
                                   },
-                                  child: const Icon(
-                                    Icons.phone_in_talk_outlined,
-                                    color: AppColors.laon3,
+                                  onSaved: (value) {
+                                    selectedValue = value.toString();
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12.0),
+                                  child: CustomText(
+                                    text: 'Name',
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                              ),
-                            ],
+                                InputFormField(
+                                  label: _phoneContact != null
+                                      ? '${_phoneContact!.fullName}'
+                                      : 'Jane Okafor',
+                                  hintColor: _phoneContact != null
+                                      ? BLACK
+                                      : AppColors.laon3,
+                                  readOnly: true,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12.0),
+                                  child: CustomText(
+                                    text: 'Phone Number',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                InputFormField(
+                                  label: _phoneContact != null
+                                      ? '${_phoneContact!.phoneNumber!.number}'
+                                      : '09064519907',
+                                  hintColor: _phoneContact != null
+                                      ? BLACK
+                                      : AppColors.laon3,
+                                  readOnly: true,
+                                  suffixIcon: InkWell(
+                                    onTap: () async {
+                                      final PhoneContact contact =
+                                          await FlutterContactPicker
+                                              .pickPhoneContact();
+                                      print(contact);
+                                      setState(() {
+                                        _phoneContact = contact;
+                                      });
+                                    },
+                                    child: const Icon(
+                                      Icons.phone_in_talk_outlined,
+                                      color: AppColors.laon3,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: WHITE,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          spreadRadius: 0.5,
-                          blurRadius: 0.5,
-                          offset:
-                              const Offset(0, 5), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: double.maxFinite,
-                          decoration: const BoxDecoration(
-                              color: AppColors.mainColor,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
+                    const SizedBox(height: 30),
+                    Container(
+                      width: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: WHITE,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 0.5,
+                            blurRadius: 0.5,
+                            offset: const Offset(
+                                0, 5), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: double.maxFinite,
+                            decoration: const BoxDecoration(
+                                color: AppColors.mainColor,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10),
+                                )),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 14.0, bottom: 10.0),
+                              child: Center(
+                                  child: CustomText(
+                                text: 'Colleague Contact',
+                                color: WHITE,
+                                fontSize: 16,
                               )),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(top: 14.0, bottom: 10.0),
-                            child: Center(
-                                child: CustomText(
-                              text: 'Colleague Contact',
-                              color: WHITE,
-                              fontSize: 16,
-                            )),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 12, top: 12),
-                          child: CustomText(
-                              text:
-                                  'In order to verify work status, you’re expected to\n'
-                                  'add a co-worker number as a guaruntor.',
-                              color: AppColors.laon3,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(27, 12, 27, 60),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: CustomText(
-                                  text: 'Name',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              InputFormField(
-                                label: _colleagueContact != null
-                                    ? '${_colleagueContact!.fullName}'
-                                    : 'Jane Okafor',
-                                hintColor: _colleagueContact != null
-                                    ? BLACK
-                                    : AppColors.laon3,
-                                readOnly: true,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 12.0),
-                                child: CustomText(
-                                  text: 'Phone Number',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              InputFormField(
-                                label: _colleagueContact != null
-                                    ? '${_colleagueContact!.phoneNumber!.number}'
-                                    : '09064519907',
-                                hintColor: _colleagueContact != null
-                                    ? BLACK
-                                    : AppColors.laon3,
-                                readOnly: true,
-                                suffixIcon: InkWell(
-                                  onTap: () async {
-                                    final PhoneContact contact =
-                                        await FlutterContactPicker
-                                            .pickPhoneContact();
-                                    print(contact);
-                                    setState(() {
-                                      _colleagueContact = contact;
-                                    });
-                                  },
-                                  child: const Icon(
-                                    Icons.phone_in_talk_outlined,
-                                    color: AppColors.laon3,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12, top: 12),
+                            child: CustomText(
+                                text:
+                                    'In order to verify work status, you’re expected to\n'
+                                    'add a co-worker number as a guaruntor.',
+                                color: AppColors.laon3,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(27, 12, 27, 60),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: CustomText(
+                                    text: 'Name',
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                              ),
-                            ],
+                                InputFormField(
+                                  label: _colleagueContact != null
+                                      ? '${_colleagueContact!.fullName}'
+                                      : 'Jane Okafor',
+                                  hintColor: _colleagueContact != null
+                                      ? BLACK
+                                      : AppColors.laon3,
+                                  readOnly: true,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 12.0),
+                                  child: CustomText(
+                                    text: 'Phone Number',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                InputFormField(
+                                  label: _colleagueContact != null
+                                      ? '${_colleagueContact!.phoneNumber!.number}'
+                                      : '09064519907',
+                                  hintColor: _colleagueContact != null
+                                      ? BLACK
+                                      : AppColors.laon3,
+                                  readOnly: true,
+                                  suffixIcon: InkWell(
+                                    onTap: () async {
+                                      final PhoneContact contact =
+                                          await FlutterContactPicker
+                                              .pickPhoneContact();
+                                      print(contact);
+                                      setState(() {
+                                        _colleagueContact = contact;
+                                      });
+                                    },
+                                    child: const Icon(
+                                      Icons.phone_in_talk_outlined,
+                                      color: AppColors.laon3,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20),
-                    child: customButton(
-                        title: 'Continue',
-                        fontSize: 16.0,
-                        onPressed: () => Get.to(() => const UploadPicture())),
-                  )
-                ],
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20),
+                      child: customButton(
+                          title: 'Continue',
+                          fontSize: 16.0,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              Get.to(() => const UploadPicture());
+                              _formKey.currentState!.save();
+                            }
+                          }),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
