@@ -111,22 +111,31 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                             // Educational Dropdown
                             DropdownButtonFormField2(
                               decoration: InputDecoration(
-                                isDense: true,
                                 contentPadding: EdgeInsets.zero,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      const BorderSide(color: RED, width: 0.8),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
@@ -143,7 +152,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
                               ),
-                              buttonHeight: 55.h,
+                              buttonHeight: 50.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -162,8 +171,9 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                   .toList(),
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select highest educational level.';
+                                  return 'Please select highest level of education.';
                                 }
+                                return null;
                               },
                               onChanged: (value) {
 //Do something when changing the item if you want.
@@ -184,36 +194,48 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                             // Select marital status dropdown
                             DropdownButtonFormField2(
                               decoration: InputDecoration(
-                                isDense: true,
                                 contentPadding: EdgeInsets.zero,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                   borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                      const BorderSide(color: RED, width: 0.8),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                               ),
                               isExpanded: true,
-                              hint: const Text(
+                              scrollbarAlwaysShow: true,
+                              hint: Text(
                                 'Select your marital status',
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: GREY.withOpacity(0.9)),
                               ),
                               icon: const Icon(
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
                               ),
-                              buttonHeight: 55.h,
+                              buttonHeight: 50.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -232,8 +254,9 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                   .toList(),
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select your marital status';
+                                  return 'Please Select your marital status.';
                                 }
+                                return null;
                               },
                               onChanged: (value) {
 //Do something when changing the item if you want.
@@ -254,36 +277,48 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                             // Number of children dropdown
                             DropdownButtonFormField2(
                               decoration: InputDecoration(
-                                isDense: true,
                                 contentPadding: EdgeInsets.zero,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor),
+                                      color: AppColors.mainColor, width: 0.8),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                   borderSide:
-                                      BorderSide(color: AppColors.mainColor),
+                                      const BorderSide(color: RED, width: 0.8),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                               ),
                               isExpanded: true,
-                              hint: const Text(
+                              scrollbarAlwaysShow: true,
+                              hint: Text(
                                 'Select number of children',
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: GREY.withOpacity(0.9)),
                               ),
                               icon: const Icon(
                                 Icons.keyboard_arrow_down_rounded,
                                 color: AppColors.mainColor,
                               ),
-                              buttonHeight: 55.h,
+                              buttonHeight: 50.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -302,8 +337,9 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                   .toList(),
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select number of children';
+                                  return 'Please Select number of children.';
                                 }
+                                return null;
                               },
                               onChanged: (value) {
 //Do something when changing the item if you want.
@@ -324,37 +360,48 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                             // Current address dropdown
                             DropdownButtonFormField2(
                               decoration: InputDecoration(
-                                isDense: true,
                                 contentPadding: EdgeInsets.zero,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
-                                      color: AppColors.mainColor, width: 1.0),
+                                      color: AppColors.mainColor, width: 0.8),
                                 ),
                                 enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: AppColors.mainColor, width: 1.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(
-                                      color: AppColors.mainColor, width: 1.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      const BorderSide(color: RED, width: 0.8),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                               ),
                               isExpanded: true,
+                              scrollbarAlwaysShow: true,
                               hint: Text(
-                                'Select Your state',
+                                'Select your state',
                                 style: TextStyle(
                                     fontSize: 14.sp,
                                     color: GREY.withOpacity(0.9)),
                               ),
                               icon: const Icon(
                                 Icons.keyboard_arrow_down_rounded,
-                                color: AppColors.lightMainColor,
+                                color: AppColors.mainColor,
                               ),
+                              buttonHeight: 50.h,
                               buttonPadding:
                                   const EdgeInsets.only(left: 20, right: 10),
                               dropdownDecoration: BoxDecoration(
@@ -373,8 +420,9 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                   .toList(),
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select location.';
+                                  return 'Please Select your state.';
                                 }
+                                return null;
                               },
                               onChanged: (value) {
 //Do something when changing the item if you want.

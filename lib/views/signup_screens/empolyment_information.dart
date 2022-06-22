@@ -123,7 +123,6 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                             ),
                             DropdownButtonFormField2(
                               decoration: InputDecoration(
-                                isDense: true,
                                 contentPadding: EdgeInsets.zero,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -140,6 +139,18 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                   borderSide: const BorderSide(
                                       color: AppColors.mainColor, width: 0.8),
                                 ),
+
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      const BorderSide(color: RED, width: 0.8),
+                                ),
+
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                               ),
@@ -247,6 +258,16 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                   borderSide: const BorderSide(
                                       color: AppColors.mainColor, width: 0.8),
                                 ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      const BorderSide(color: RED, width: 0.8),
+                                ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
                               ),
@@ -317,6 +338,16 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(
                                       color: AppColors.mainColor, width: 0.8),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.mainColor, width: 0.8),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide:
+                                      const BorderSide(color: RED, width: 0.8),
                                 ),
 //Add more decoration as you want here
 //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
