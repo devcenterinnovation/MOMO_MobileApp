@@ -43,8 +43,6 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
     '14 days'
   ];
 
-  double _value = 7.0;
-
   final _formKey = GlobalKey<FormState>();
 
   String? selectedValue = '7 days';
@@ -102,35 +100,27 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                   SfSlider(
                     min: 0.0,
                     max: 50000,
-                    value: _value,
+                    value: _currentValue.toDouble(),
+                    activeColor: AppColors.mainColor,
                     showLabels: true,
                     onChanged: (value) {},
                   ),
-                  Slider(
-                      value: _currentValue.toDouble(),
-                      min: 0,
-                      max: 50000,
-                      label: "N" + _currentValue.toString(),
-                      activeColor: AppColors.mainColor,
-                      onChanged: (value) {}),
-                  Row(
-                    children: [
-                      CustomText(
-                        text: '0',
-                        color: AppColors.Tertiary,
-                        fontSize: 14,
-                      )
-                    ],
-                  )
+                  // Slider(
+                  //     value: _currentValue.toDouble(),
+                  //     min: 0,
+                  //     max: 50000,
+                  //     label: "N" + _currentValue.toString(),
+                  //     activeColor: AppColors.mainColor,
+                  //     onChanged: (value) {}),
                 ],
               ),
               SizedBox(height: 30.h),
-              Slider(
+              SfSlider(
                   value: _days.toDouble(),
                   min: 0,
                   max: 14,
-                  label: _days.toString() + " days",
-                  divisions: 14,
+                  interval: 14,
+                  showLabels: true,
                   activeColor: AppColors.mainColor,
                   onChanged: (value) {}),
               SizedBox(height: 24.h),
@@ -327,7 +317,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         Icons.keyboard_arrow_down_rounded,
                         color: AppColors.mainColor,
                       ),
-                      buttonHeight: 60.h,
+                      buttonHeight: 50.h,
                       buttonPadding: const EdgeInsets.only(left: 20, right: 10),
                       dropdownDecoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),

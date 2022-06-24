@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +7,7 @@ import 'package:momo/custom_text.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/validator.dart';
+import 'package:momo/views/signup_screens/forget_password.dart';
 import 'package:momo/views/signup_screens/personal_information.dart';
 import 'package:momo/views/signup_screens/phone_number.dart';
 import 'package:momo/widget.dart';
@@ -163,11 +162,14 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: 10.h),
                       Align(
                         alignment: Alignment.topRight,
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
+                        child: InkWell(
+                          onTap: () => Get.to(() => const ForgetPassword()),
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ),
