@@ -1,10 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timelines/timelines.dart';
-
-import '../widget.dart';
 
 const kTileHeight = 50.0;
 
@@ -163,7 +160,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(FontAwesomeIcons.chevronRight),
+        child: const Icon(Icons.chevron_right),
         onPressed: () {
           setState(() {
             _processIndex = (_processIndex + 1) % _processes.length;

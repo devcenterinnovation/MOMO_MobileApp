@@ -9,6 +9,7 @@ import 'package:momo/views/receive_loan/submit_request.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/custom_clipper.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class RequestSpecificAmount extends StatefulWidget {
   final double amount;
@@ -41,6 +42,8 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
     '13 days',
     '14 days'
   ];
+
+  double _value = 7.0;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -94,13 +97,33 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                   ],
                 ),
               ),
-              Slider(
-                  value: _currentValue.toDouble(),
-                  min: 0,
-                  max: 50000,
-                  label: "N" + _currentValue.toString(),
-                  activeColor: AppColors.mainColor,
-                  onChanged: (value) {}),
+              Column(
+                children: [
+                  SfSlider(
+                    min: 0.0,
+                    max: 50000,
+                    value: _value,
+                    showLabels: true,
+                    onChanged: (value) {},
+                  ),
+                  Slider(
+                      value: _currentValue.toDouble(),
+                      min: 0,
+                      max: 50000,
+                      label: "N" + _currentValue.toString(),
+                      activeColor: AppColors.mainColor,
+                      onChanged: (value) {}),
+                  Row(
+                    children: [
+                      CustomText(
+                        text: '0',
+                        color: AppColors.Tertiary,
+                        fontSize: 14,
+                      )
+                    ],
+                  )
+                ],
+              ),
               SizedBox(height: 30.h),
               Slider(
                   value: _days.toDouble(),
