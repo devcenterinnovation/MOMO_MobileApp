@@ -36,7 +36,7 @@ class _ProcessTimelinePageState extends State<ProcessTimelinePage> {
       body: Timeline.tileBuilder(
         theme: TimelineThemeData(
           direction: Axis.horizontal,
-          connectorTheme: ConnectorThemeData(
+          connectorTheme: const ConnectorThemeData(
             space: 30.0,
             thickness: 5.0,
           ),
