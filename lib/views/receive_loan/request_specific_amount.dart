@@ -57,10 +57,8 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
 
   @override
   Widget build(BuildContext context) {
-    double _service = (15 / 100) * _currentValue;
-    double _vat = (10 / 100) * _currentValue;
-    double _charges = (_service + _vat);
-    double _deposit = _currentValue - _charges;
+    double _service = (25 / 100) * _currentValue;
+    double _deposit = _currentValue - _service;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: WHITE,
@@ -101,7 +99,6 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                   min: 0,
                   max: 50000,
                   label: "N" + _currentValue.toString(),
-                  divisions: 5,
                   activeColor: AppColors.mainColor,
                   onChanged: (value) {}),
               SizedBox(height: 30.h),
@@ -195,7 +192,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${_service.toInt()} (15%)',
+                                        text: 'N${_service.toInt()} (25%)',
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -212,13 +209,13 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       CustomText(
-                                          text: 'Vat',
+                                          text: 'Total Due',
                                           fontSize: 10,
                                           color: const Color(0xFFA47B7D),
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${_vat.toInt()} (10%)',
+                                        text: 'N${_currentValue.toInt()}',
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -256,29 +253,6 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText(
-                                          text: 'Total Due',
-                                          fontSize: 10,
-                                          color: const Color(0xFFA47B7D),
-                                          fontWeight: FontWeight.w400),
-                                      SizedBox(height: 5.h),
-                                      CustomText(
-                                        text: 'N${_currentValue.toInt()}',
-                                        fontSize: 12,
-                                        color: BLACK,
-                                        fontWeight: FontWeight.w500,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                         ],
@@ -385,68 +359,13 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                           width: 10.w,
                         ),
                         Expanded(
-                          child: DropdownButtonFormField2(
-                            decoration: InputDecoration(
-                              isDense: true,
-                              contentPadding: EdgeInsets.zero,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                    color: AppColors.mainColor, width: 0.8),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: AppColors.mainColor, width: 0.8),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide(
-                                    color: AppColors.mainColor, width: 0.8),
-                              ),
-//Add more decoration as you want here
-//Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                            ),
-                            isExpanded: true,
-                            scrollbarAlwaysShow: true,
-                            hint: Text(
-                              '7  days',
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: GREY.withOpacity(0.9)),
-                            ),
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.mainColor,
-                            ),
-                            buttonHeight: 60.h,
-                            buttonPadding:
-                                const EdgeInsets.only(left: 20, right: 10),
-                            dropdownDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            items: days
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please select days.';
-                              }
-                            },
-                            onChanged: (value) {},
-                            onSaved: (value) {
-                              selectedValue = value.toString();
-                            },
+                          child: InputFormField(
+                            hintColor: BLACK,
+                            hintSize: 14.0,
+                            enabled: false,
+                            label: '${_days.round()} days',
                           ),
-                        )
+                        ),
                       ],
                     ),
                     CustomText(
