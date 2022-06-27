@@ -51,7 +51,7 @@ class ApiDocs {
           if (response.statusCode == 400) {
             showErrorSnackBar(
                 'Oops!', 'Something went wrong, Kindly log in again');
-            Get.offAll(() => const LoginPage());
+            Get.back();
           } else {
             return ResponseHandling.handleError(response);
           }

@@ -130,6 +130,7 @@ class _UploadPictureState extends State<UploadPicture> {
               title: 'Continue',
               fontSize: 16.0,
               onPressed: () {
+                Get.to(() => const AddAccountDetails());
                 if (_formKey.currentState!.validate()) {
                   Get.to(() => const AddAccountDetails());
                   _formKey.currentState!.save();

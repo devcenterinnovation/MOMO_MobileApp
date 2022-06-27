@@ -14,6 +14,8 @@ import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/custom_clipper.dart';
 import 'package:momo/widgets/text_with_divider.dart';
 
+import '../../widget.dart';
+
 class USerProfile extends StatefulWidget {
   const USerProfile({Key? key}) : super(key: key);
 
@@ -173,4 +175,5 @@ class _USerProfileState extends State<USerProfile> {
       ),
     );
   }
+
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
+import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/verify_code.dart';
 import 'package:momo/widget.dart';
 
@@ -17,7 +18,7 @@ class PhoneNumber extends StatefulWidget {
 
 class _PhoneNumberState extends State<PhoneNumber> {
   //String _mobile = "";
-
+  final _formKey = GlobalKey<FormState>();
 
   String forLoginVal = "";
   @override
@@ -41,31 +42,35 @@ class _PhoneNumberState extends State<PhoneNumber> {
                   child: Image.asset('assets/images/Group 294.png'),
                 ),
                 SizedBox(height: 50.h),
-                TextFormField(
-                  maxLength: 10,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                  ],
-                  autofocus: true,
-                  keyboardType: TextInputType.number,
-
-                  onChanged: (val) {
-                    setState(() => forLoginVal = val);
-                    print(val);
-                  },
-                  decoration: InputDecoration(
-                    hintText: 'Your phone number',
-                    hintStyle:
-                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400),
-                    prefix: Padding(
-                      padding: EdgeInsets.only(left: 8.0.w, right: 16.w),
-                      child: CustomText(text: '+234 |', color: BLACK),
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.secondary),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.secondary),
+                Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    maxLength: 10,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
+                    autofocus: true,
+                    keyboardType: TextInputType.number,
+                    validator: (v) =>
+                        NumberValidator.validateNumber(v!),
+                    onChanged: (val) {
+                      setState(() => forLoginVal = val);
+                      print(val);
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Your phone number',
+                      hintStyle: TextStyle(
+                          fontSize: 14.sp, fontWeight: FontWeight.w400),
+                      prefix: Padding(
+                        padding: EdgeInsets.only(left: 8.0.w, right: 16.w),
+                        child: CustomText(text: '+234 |', color: BLACK),
+                      ),
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.secondary),
+                      ),
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: AppColors.secondary),
+                      ),
                     ),
                   ),
                 ),
@@ -80,8 +85,12 @@ class _PhoneNumberState extends State<PhoneNumber> {
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
                   child: customButton(
                     title: 'Continue',
-                    onPressed: () => Get.to(
-                        () => PinCodeVerificationScreen("0" + forLoginVal)),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        Get.to(
+                            () => PinCodeVerificationScreen("0" + forLoginVal));
+                      }
+                    },
                     borderColor: AppColors.mainColor,
                     textColor: AppColors.mainColor,
                     color: WHITE,

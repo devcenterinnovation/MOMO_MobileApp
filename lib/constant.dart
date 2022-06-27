@@ -10,6 +10,7 @@ const String invalidPassword =
     'Password must meet have at least \na number, a symbol and a uppercase letter';
 const String emptyUsernameField = 'Username  cannot be empty';
 const String usernameLengthError = 'Username length must be greater than 6';
+const String numberLengthError = 'Numbers length must be up to 10';
 const String emailRegex = '[a-zA-Z0-9\+\.\_\%\-\+]{1,256}' +
     '\\@' +
     '[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}' +

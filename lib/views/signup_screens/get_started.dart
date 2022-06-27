@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/views/signup_screens/onboarding_screens.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/bottom_menu_nav.dart';
 
@@ -37,7 +38,7 @@ class GetStarted extends StatelessWidget {
               padding: EdgeInsets.only(left: 40.w, right: 40.w),
               child: customButton(
                 title: 'Get Started',
-                onPressed: () => Get.offAll(() => const HomeNavigationBar()),
+                onPressed: () => Get.offAll(() => const LoginPage()),
                 fontSize: 16.0,
               ),
             )

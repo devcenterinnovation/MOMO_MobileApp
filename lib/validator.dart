@@ -61,6 +61,20 @@ class UsernameValidator {
   }
 }
 
+class NumberValidator {
+  static String? validateNumber(String value) {
+    if (value.isEmpty) {
+      return emptyUsernameField;
+    }
+
+    if (value.length < 10) {
+      return numberLengthError;
+    }
+
+    return null;
+  }
+}
+
 class FieldValidator {
   static String? validate(String value) {
     if (value.isEmpty) {
