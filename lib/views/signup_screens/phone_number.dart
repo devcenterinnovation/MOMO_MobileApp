@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
@@ -16,6 +17,7 @@ class PhoneNumber extends StatefulWidget {
 
 class _PhoneNumberState extends State<PhoneNumber> {
   //String _mobile = "";
+
 
   String forLoginVal = "";
   @override
@@ -40,7 +42,13 @@ class _PhoneNumberState extends State<PhoneNumber> {
                 ),
                 SizedBox(height: 50.h),
                 TextFormField(
+                  maxLength: 10,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  ],
+                  autofocus: true,
                   keyboardType: TextInputType.number,
+
                   onChanged: (val) {
                     setState(() => forLoginVal = val);
                     print(val);

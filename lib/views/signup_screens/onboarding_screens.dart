@@ -4,7 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/dialogs_snackbar.dart';
 import 'package:momo/input_field.dart';
+import 'package:momo/services/auth_services.dart';
+import 'package:momo/services/internet_services.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/forget_password.dart';
@@ -177,10 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                       customButton(
                         title: 'Log In',
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Get.to(() => const HomeNavigationBar());
-                            _formKey.currentState!.save();
-                          }
+                          _submit(context);
                         },
                         fontSize: 16.0.sp,
                       ),
@@ -208,6 +208,29 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ));
+  }
+  void _submit(context) async {
+    if (await InternetUtils.checkConnectivity()) {
+      loadingDialog(context);
+
+      var response = await AuthenticationService.login(
+          numberController.text, passwordController.text);
+
+      if (response is String) {
+        Get.back();
+        if (response.contains('HttpException') || response.contains('Socket')) {
+          showErrorSnackBar('Error!', 'Failed to log in, please try again');
+        } else {
+          showErrorSnackBar('Error!', 'Invalid email/password, try again');
+        }
+      } else {
+        String userToken = response["access_token"];
+        Get.offAll(() => const HomeNavigationBar());
+      }
+    } else {
+      showErrorSnackBar(
+          'No Internet!', 'Please check your internet connection.');
+    }
   }
 }
 
