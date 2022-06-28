@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/views/signup_screens/forget_password.dart';
-import 'package:momo/views/signup_screens/onboarding_screens.dart';
+import 'package:momo/views/signup_screens/login_page.dart';
 import 'package:momo/widget.dart';
 
 class EmailSent extends StatelessWidget {

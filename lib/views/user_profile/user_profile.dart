@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
-import 'package:momo/views/signup_screens/onboarding_screens.dart';
+import 'package:momo/views/signup_screens/login_page.dart';
 import 'package:momo/views/user_profile/help.dart';
 import 'package:momo/views/user_profile/refer_a_friend.dart';
 import 'package:momo/views/user_profile/user_personal_information.dart';
@@ -14,7 +14,7 @@ import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/custom_clipper.dart';
 import 'package:momo/widgets/text_with_divider.dart';
 
-import '../../widget.dart';
+
 
 class USerProfile extends StatefulWidget {
   const USerProfile({Key? key}) : super(key: key);

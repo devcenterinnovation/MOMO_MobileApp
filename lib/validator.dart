@@ -64,7 +64,7 @@ class UsernameValidator {
 class NumberValidator {
   static String? validateNumber(String value) {
     if (value.isEmpty) {
-      return emptyUsernameField;
+      return emptyPhoneNumberField;
     }
 
     if (value.length < 10) {

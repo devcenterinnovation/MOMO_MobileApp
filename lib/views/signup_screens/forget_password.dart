@@ -7,7 +7,7 @@ import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/email_sent.dart';
-import 'package:momo/views/signup_screens/onboarding_screens.dart';
+import 'package:momo/views/signup_screens/login_page.dart';
 import 'package:momo/widget.dart';
 
 class ForgetPassword extends StatefulWidget {

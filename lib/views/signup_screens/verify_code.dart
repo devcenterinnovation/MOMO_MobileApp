@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/theme.dart';
-import 'package:momo/views/signup_screens/onboarding_screens.dart';
+import 'package:momo/views/signup_screens/create_password.dart';
 import 'package:momo/widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -66,9 +66,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: ListView(
                   children: <Widget>[
-                    SizedBox(height: 160),
+                    SizedBox(height: 160.h),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
                       child: Text(
                         'Verification Code',
                         style: TextStyle(
@@ -130,9 +130,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                               activeFillColor: AppColors.pinColor,
                             ),
                             cursorColor: Colors.black,
-                            animationDuration: Duration(milliseconds: 300),
+                            animationDuration: const Duration(milliseconds: 300),
                             enableActiveFill: true,
-                            textStyle: TextStyle(fontSize: 20, height: 1.6),
+                            textStyle: const TextStyle(fontSize: 20, height: 1.6),
                             keyboardType: TextInputType.number,
                             onCompleted: (v) {
                               print("Completed");
