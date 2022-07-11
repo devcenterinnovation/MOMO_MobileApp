@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/signup_screens/login_page.dart';
@@ -13,8 +14,7 @@ import 'package:momo/views/user_profile/userbank_details.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/custom_clipper.dart';
 import 'package:momo/widgets/text_with_divider.dart';
-
-
+import 'package:shimmer/shimmer.dart';
 
 class USerProfile extends StatefulWidget {
   const USerProfile({Key? key}) : super(key: key);
@@ -24,6 +24,21 @@ class USerProfile extends StatefulWidget {
 }
 
 class _USerProfileState extends State<USerProfile> {
+  String name = '';
+  String lastName = '';
+  String userId = '';
+  String profileImage = '';
+  UserController userController = Get.find();
+
+  @override
+  initState() {
+    name = userController.getProfile()!.firstName;
+    profileImage = userController.getProfile()!.profilePicture;
+    lastName = userController.getProfile()!.lastName;
+    userId = userController.userId;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,19 +67,30 @@ class _USerProfileState extends State<USerProfile> {
                       Center(
                         child: Column(
                           children: [
-                            Container(
-                              height: 57.h,
-                              width: 57.w,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/unsplash__cvwXhGqG-o.png'),
-                                      fit: BoxFit.fill)),
-                            ),
+                            (profileImage == "")
+                                ? Shimmer.fromColors(
+                                    baseColor: Colors.grey.shade200,
+                                    highlightColor: Colors.grey.shade300,
+                                    child: Container(
+                                      height: 70.h,
+                                      width: 70.w,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    height: 70.h,
+                                    width: 70.w,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: NetworkImage(profileImage),
+                                            fit: BoxFit.fill)),
+                                  ),
                             SizedBox(height: 8.h),
                             CustomText(
-                              text: 'Janet  Richard',
+                              text: '$name  $lastName',
                               color: WHITE,
                               fontWeight: FontWeight.w600,
                             ),
@@ -78,7 +104,7 @@ class _USerProfileState extends State<USerProfile> {
                                 ),
                                 SizedBox(width: 8.w),
                                 CustomText(
-                                  text: '3013489',
+                                  text: userId.substring(0, 8),
                                   color: WHITE,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -175,5 +201,4 @@ class _USerProfileState extends State<USerProfile> {
       ),
     );
   }
-
 }
