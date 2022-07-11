@@ -30,6 +30,7 @@ Widget customButton({
   color,
   borderColor,
   icon,
+  curve = 10.0,
   fontSize = 14.0,
 }) =>
     Container(
@@ -38,7 +39,7 @@ Widget customButton({
       child: MaterialButton(
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(curve),
             side: BorderSide(color: borderColor ?? Colors.transparent)),
         child: Text(
           title ?? '',
