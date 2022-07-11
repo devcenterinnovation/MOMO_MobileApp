@@ -4,6 +4,7 @@ import 'package:momo/input_field.dart';
 import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/onboarding_screens.dart';
 import 'package:momo/widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreatePassword extends StatefulWidget {
   const CreatePassword({Key? key}) : super(key: key);
@@ -73,7 +74,6 @@ class _CreatePasswordState extends State<CreatePassword> {
                       ),
                       InputFormField(
                         label: '*****************',
-                        controller: passwordController,
                         obscure: _obscureText,
                         onChanged: (val) {
                           setState(() => _password = val);
@@ -94,6 +94,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                       InputFormField(
                         label: '*****************',
                         obscure: _obscureText2,
+                        controller: passwordController,
                         onChanged: (val) {},
                         validator: (v) {
                           if (v != _password) {
@@ -109,8 +110,12 @@ class _CreatePasswordState extends State<CreatePassword> {
                       const SizedBox(height: 40),
                       customButton(
                           title: 'Continue',
-                          onPressed: () {
+                          onPressed: ()async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             if (_formKey.currentState!.validate()) {
+                              prefs.setString(
+                                  "password", passwordController.text);
                               Get.to(() => const WelcomeMemo());
                               _formKey.currentState!.save();
                             }
