@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
-import 'package:get/get.dart';
-import 'package:momo/views/signup_screens/personal_information2.dart';
-import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 
 class UserPersonalInformation extends StatefulWidget {
@@ -16,7 +15,27 @@ class UserPersonalInformation extends StatefulWidget {
 }
 
 class _UserPersonalInformationState extends State<UserPersonalInformation> {
-  int _selectedValue = 0;
+  String gender = "";
+  String firstName = '';
+  String lastName = '';
+  String middleName = '';
+  String dob = '';
+  String bvn = '';
+  String nationality = '';
+  UserController userController = Get.find();
+
+  @override
+  initState() {
+    firstName = userController.getProfile()!.firstName;
+    lastName = userController.getProfile()!.lastName;
+    middleName = userController.getProfile()!.middleName;
+    dob = userController.getProfile()!.dob;
+    gender = userController.getProfile()!.gender;
+    bvn = userController.getProfile()!.bvn;
+    nationality = userController.getProfile()!.nationality;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,8 +92,8 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w400),
                           ),
-                          const InputFormField(
-                            label: 'Sandra',
+                          InputFormField(
+                            label: firstName,
                             hintColor: BLACK,
                             enabled: false,
                           ),
@@ -86,8 +105,8 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
-                          const InputFormField(
-                            label: 'Cynthia',
+                          InputFormField(
+                            label: middleName,
                             hintColor: BLACK,
                             enabled: false,
                           ),
@@ -99,8 +118,8 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
-                          const InputFormField(
-                            label: 'John',
+                          InputFormField(
+                            label: lastName,
                             hintColor: BLACK,
                             enabled: false,
                           ),
@@ -112,15 +131,10 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
-                          const InputFormField(
-                            label: '05/ 22/ 1998',
+                          InputFormField(
+                            label: dob,
                             hintColor: BLACK,
                             enabled: false,
-                            suffixIcon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.mainColor,
-                              size: 20,
-                            ),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 12.0),
@@ -134,26 +148,23 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                             children: [
                               Expanded(
                                 child: RadioListTile(
-                                  value: 1,
-                                  groupValue: _selectedValue,
+                                  value: "male",
+                                  groupValue: gender,
                                   contentPadding: EdgeInsets.zero,
                                   activeColor: const Color(0xFF1E3B62),
                                   title: const Text('Male'),
-                                  onChanged: (value) => setState(() {
-                                    _selectedValue = 1;
-                                  }),
+                            onChanged: (String? value) {  },
+                                 ),
                                 ),
-                              ),
                               Expanded(
                                 child: RadioListTile(
-                                    value: 2,
-                                    title: const Text('Female'),
-                                    groupValue: _selectedValue,
-                                    contentPadding: EdgeInsets.zero,
-                                    activeColor: const Color(0xFF1E3B62),
-                                    onChanged: (value) {
-                                      setState(() => _selectedValue = 2);
-                                    }),
+                                  value: "female",
+                                  title: const Text('Female'),
+                                  groupValue: gender,
+                                  contentPadding: EdgeInsets.zero,
+                                  activeColor: const Color(0xFF1E3B62),
+                                  onChanged: (String? value) {},
+                                ),
                               ),
                             ],
                           ),
@@ -165,15 +176,10 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
-                          const InputFormField(
-                            label: 'Nigeria',
+                           InputFormField(
+                            label: userController.getProfile()!.nationality,
                             hintColor: BLACK,
                             enabled: false,
-                            suffixIcon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.mainColor,
-                              size: 20,
-                            ),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 12.0),
@@ -183,10 +189,10 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
-                          const InputFormField(
+                          InputFormField(
                             hintColor: BLACK,
                             enabled: false,
-                            label: '105556000',
+                            label: bvn,
                           ),
                           const SizedBox(height: 10),
                         ],
