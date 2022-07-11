@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +14,7 @@ import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
 import 'package:open_file/open_file.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmploymentInformation extends StatefulWidget {
   const EmploymentInformation({Key? key}) : super(key: key);
@@ -52,17 +55,23 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
 
   String? selectedValue;
 
-  final List<String> employment = ['Employed', 'Unemployed', 'Self-Employed'];
+  final List<String> employment = ['Employed', 'Self-Employed'];
 
   final List<String> duration = ['1 - 2', '2 - 3', '3 - 4', '4 - 5'];
 
   final List<String> salary = [
-    '10 - 50',
-    '50 - 100',
-    '100 - 200',
-    '300 - 400',
-    '400 - 500'
+    '10,000 - 50,000',
+    '50,000 - 100,000',
+    '100,000 - 200,000',
+    '300,000 - 400,000',
+    '400,000 - 500,000'
   ];
+  bool employmentStatus = false;
+  String workDuration = "";
+  String salaryRange = "";
+  final companyNameController = TextEditingController();
+  final companyLocationController = TextEditingController();
+  final companyRoleController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,7 +199,10 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 return null;
                               },
                               onChanged: (value) {
-//Do something when changing the item if you want.
+                                (value.toString() == "Employed") ||
+                                        (value.toString() == "Self Employed")
+                                    ? employmentStatus = true
+                                    : employmentStatus = false;
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -206,6 +218,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                             ),
                             InputFormField(
                               label: 'Data.co',
+                              controller: companyNameController,
                               validator: (v) => FieldValidator.validate(v),
                             ),
                             const Padding(
@@ -218,6 +231,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                             ),
                             InputFormField(
                               label: 'Lagos',
+                              controller: companyLocationController,
                               validator: (v) => FieldValidator.validate(v),
                             ),
                             Padding(
@@ -230,6 +244,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                             ),
                             InputFormField(
                               label: 'Sales',
+                              controller: companyRoleController,
                               validator: (v) => FieldValidator.validate(v),
                             ),
                             const Padding(
@@ -307,7 +322,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 return null;
                               },
                               onChanged: (value) {
-//Do something when changing the item if you want.
+                                workDuration = value.toString();
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -374,7 +389,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                   .map((item) => DropdownMenuItem<String>(
                                         value: item,
                                         child: Text(
-                                          item + ' Thousand',
+                                          item,
                                           style: const TextStyle(
                                             fontSize: 14,
                                           ),
@@ -388,7 +403,7 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                                 return null;
                               },
                               onChanged: (value) {
-//Do something when changing the item if you want.
+                                salaryRange = value.toString();
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -654,9 +669,20 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                       child: customButton(
                           title: 'Continue',
                           fontSize: 16.0,
-                          onPressed: () {
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             if (_formKey.currentState!.validate()) {
-                              Get.to(() => const EmergencyContact());
+                              prefs.setBool(
+                                  "employed", employmentStatus);
+                              prefs.setString("duration", workDuration);
+                              prefs.setString("salary", salaryRange);
+                              prefs.setString("companyName", companyNameController.text);
+                              prefs.setString("companyLocation", companyLocationController.text);
+                              prefs.setString("companyRole", companyRoleController.text);
+                              print(file1!.name);
+                              print(file2!.name);
+                              Get.to(() =>  EmergencyContact(workId: file1, bankStatement: file2));
                               _formKey.currentState!.save();
                             }
                           }),
