@@ -9,11 +9,12 @@ import 'package:momo/theme.dart';
 import 'package:momo/views/signup_screens/create_password.dart';
 import 'package:momo/widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PinCodeVerificationScreen extends StatefulWidget {
   final String phoneNumber;
 
-  PinCodeVerificationScreen(this.phoneNumber);
+  const PinCodeVerificationScreen(this.phoneNumber);
 
   @override
   _PinCodeVerificationScreenState createState() =>
@@ -24,6 +25,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
   TextEditingController textEditingController = TextEditingController();
+
+
+
   // ..text = "123456";
 
   late StreamController<ErrorAnimationType> errorController;
@@ -164,7 +168,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         fontSize: 16.0,
                         textColor: WHITE,
                         borderColor: WHITE,
-                        onPressed: () {
+                        onPressed: () async {
                           formKey.currentState!.validate();
                           // conditions for validating
                           if (currentText.length != 4 ||
@@ -175,7 +179,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                               hasError = true;
                             });
                           } else {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             setState(() {
+                              prefs.setString("phone", widget.phoneNumber);
                               hasError = false;
                               Get.to(() => const CreatePassword());
                             });
