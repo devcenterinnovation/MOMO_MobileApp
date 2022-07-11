@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/dialogs_snackbar.dart';
 import 'package:momo/input_field.dart';
@@ -38,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -71,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 16.sp, fontWeight: FontWeight.w400),
                       ),
                       InputFormField(
-                        label: '081 2686 7820 822',
+                        label: '0815 044 3017',
                         validator: (v) =>
                             PhoneNumberValidator.validatePhoneNumber(v),
                         controller: numberController,
@@ -161,7 +163,30 @@ class _LoginPageState extends State<LoginPage> {
         }
       } else {
         String userToken = response["access_token"];
-        Get.offAll(() => const HomeNavigationBar());
+        String userId = response["user_id"];
+        print(userToken);
+        print(userId);
+
+
+        UserController userController =
+        Get.put(UserController(), permanent: true);
+       await userController.setToken(userToken);
+       await userController.setUserId(userId);
+        var userResponse = await AuthenticationService.getUser(userId);
+        print(userResponse);
+        print(userId);
+
+        if(userResponse is String) {
+          showErrorSnackBar('Error!', 'Failed to log in, please try again');
+
+        }else{
+          await userController.setUserDetail(userResponse['profile']);
+          await userController.setUserWallet(userResponse['wallet']);
+          await userController.setReferralId(userResponse["referral_id"]);
+
+          Get.offAll(() => const HomeNavigationBar());
+        }
+
       }
     } else {
       showErrorSnackBar(
