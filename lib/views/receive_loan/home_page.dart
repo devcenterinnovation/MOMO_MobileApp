@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/receive_loan/explore_loan_offer.dart';
@@ -17,7 +18,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int loans = 0;
+  String name = '';
+  String userId ='';
+
+  UserController userController = Get.find();
+
+  @override
+  initState() {
+    name = userController.getProfile()!.firstName;
+    userId = userController.userId;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                                       CrossAxisAlignment.stretch,
                                   children: [
                                     CustomText(
-                                      text: 'Hi janet',
+                                      text: 'Hi $name',
                                       fontSize: 16,
                                       color: WHITE,
                                     ),
@@ -110,9 +121,7 @@ class _HomePageState extends State<HomePage> {
                                 child: customButton(
                                   onPressed: () {
                                     setState(
-                                      () {
-                                        loans += 1;
-                                      },
+                                      () {},
                                     );
                                     Get.to(() => const ExploreLoanOffers());
                                   },
@@ -283,96 +292,6 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                         ),
-                        loans != 0
-                            ? Padding(
-                                padding:
-                                    EdgeInsets.only(left: 40.w, right: 40.w),
-                                child: Container(
-                                  width: double.maxFinite,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: const Color(0xFFF9C7C9),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        18.w, 16.h, 14.w, 14.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                                text: '10 Mar’ 2022 : 10:12 AM',
-                                                fontSize: 10),
-                                            SizedBox(height: 5.h),
-                                            CustomText(
-                                                text: '100,000',
-                                                fontWeight: FontWeight.w600),
-                                            CustomText(
-                                              text: 'Education Loan',
-                                              fontSize: 10,
-                                            )
-                                          ],
-                                        ),
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              color: const Color(0xFFDBB994),
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 12.w,
-                                                vertical: 5.h),
-                                            child: CustomText(
-                                              text: 'READY TO DISBURSE',
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Padding(
-                                padding:
-                                    EdgeInsets.only(left: 40.w, right: 40.w),
-                                child: Container(
-                                  width: double.maxFinite,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: WHITE,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.2),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        offset: const Offset(
-                                            0, 5), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Image.asset('assets/images/image 19.png'),
-                                      CustomText(
-                                        text: 'No active loans',
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                      ),
-                                      CustomText(
-                                        text: 'You haven’t taken any loans yet',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14,
-                                      ),
-                                      SizedBox(height: 24.h),
-                                    ],
-                                  ),
-                                ),
-                              ),
                         SizedBox(height: 24.h),
                       ],
                     ))
