@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -10,9 +14,12 @@ import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EmergencyContact extends StatefulWidget {
-  const EmergencyContact({Key? key}) : super(key: key);
+   PlatformFile?workId;
+   PlatformFile? bankStatement;
+    EmergencyContact({Key? key,required this.workId, required this.bankStatement}) : super(key: key);
 
   @override
   State<EmergencyContact> createState() => _EmergencyContactState();
@@ -23,6 +30,10 @@ class _EmergencyContactState extends State<EmergencyContact> {
   PhoneContact? _colleagueContact;
 
   String? selectedValue;
+
+  String family = "";
+
+  //late final Guarantor guarantor;
 
   final List<String> relation = [
     'Mother',
@@ -177,7 +188,7 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                     return null;
                                   },
                                   onChanged: (value) {
-//Do something when changing the item if you want.
+                                    family = value.toString();
                                   },
                                   onSaved: (value) {
                                     selectedValue = value.toString();
@@ -348,9 +359,30 @@ class _EmergencyContactState extends State<EmergencyContact> {
                       child: customButton(
                           title: 'Continue',
                           fontSize: 16.0,
-                          onPressed: () {
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             if (_formKey.currentState!.validate()) {
-                              Get.to(() => const UploadPicture());
+
+                              // Family Contact
+                              prefs.setString(
+                                  "relationship", family);
+                              prefs.setString(
+                                  "familyName", '${_phoneContact!.fullName}');
+                              prefs.setString(
+                                  "familyPhone", '${_phoneContact!.phoneNumber!.number}');
+
+
+                              // Colleague Contact
+                              prefs.setString(
+                                  "colleagueName", '${_colleagueContact!.fullName}');
+                              prefs.setString(
+                                  "colleaguePhone", '${_colleagueContact!.phoneNumber!.number}');
+
+                              print(widget.workId);
+                              print(widget.bankStatement);
+
+                              Get.to(() =>  UploadPicture(workId: widget.workId, bankStatement: widget.bankStatement,));
                               _formKey.currentState!.save();
                             }
                           }),
@@ -365,3 +397,4 @@ class _EmergencyContactState extends State<EmergencyContact> {
     );
   }
 }
+
