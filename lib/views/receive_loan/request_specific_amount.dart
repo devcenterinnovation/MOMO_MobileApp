@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
@@ -9,10 +12,9 @@ import 'package:momo/views/receive_loan/submit_request.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/custom_clipper.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class RequestSpecificAmount extends StatefulWidget {
-  final double amount;
+  final int amount;
   const RequestSpecificAmount({Key? key, required this.amount})
       : super(key: key);
 
@@ -21,6 +23,24 @@ class RequestSpecificAmount extends StatefulWidget {
 }
 
 class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
+
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+
+  final amountController = TextEditingController();
+
+  String maxBalance = '';
+  UserController userController = Get.find();
+
+  final _formKey = GlobalKey<FormState>();
+
+  String? selectedValue = '7 days';
+
+  String purpose = "";
+
+  int _days = 7;
+
+  late int _currentValue;
+
   final List<String> loanPurpose = [
     'Shopping',
     'Medical Expenses',
@@ -32,29 +52,23 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
     'For Buying a House'
   ];
 
-  final List<String> days = [
-    '7 days',
-    '8 days',
-    '9 days',
-    '10 days',
-    '11 days',
-    '12 days',
-    '13 days',
-    '14 days'
-  ];
-
-  final _formKey = GlobalKey<FormState>();
-
-  String? selectedValue = '7 days';
-
-  late int _currentValue;
 
   void initState() {
     _currentValue = widget.amount.toInt();
+    maxBalance = userController.getWallet()!.maxBalance.toString();
+    getAmount();
     super.initState();
   }
 
-  int _days = 7;
+  getAmount() {
+    if (widget.amount != null) {
+      setState(() {
+        amountController.text = myFormat.format(widget.amount);
+      });
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,35 +109,44 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  SfSlider(
-                    min: 0.0,
-                    max: 50000,
-                    value: _currentValue.toDouble(),
-                    activeColor: AppColors.mainColor,
-                    showLabels: true,
-                    onChanged: (value) {},
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.h),
+                child: InputFormField(
+                  hintColor: BLACK,
+                  hintSize: 14.0,
+                  enabled: true,
+                  autoFocus: true,
+                  inputSize: 18.sp,
+                  onChanged: (text) {
+                    setState(() {
+                      _currentValue = int.parse(text);
+                    });
+                  },
+                  validator: (text) {
+                    if (int.parse(text)  >  int.parse(maxBalance)) {
+                      return 'Please enter an amount between N3,000 to N${myFormat.format(int.parse(maxBalance))}.';
+                    }
+                  },
+                  controller: amountController,
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                  ],
+                  prefixIcon: Container(
+                    width: 40.w,
+                    margin: EdgeInsets.only(left: 10.w),
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: CustomText(
+                          text: 'NGN',
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.mainColor,
+                        )),
                   ),
-                  // Slider(
-                  //     value: _currentValue.toDouble(),
-                  //     min: 0,
-                  //     max: 50000,
-                  //     label: "N" + _currentValue.toString(),
-                  //     activeColor: AppColors.mainColor,
-                  //     onChanged: (value) {}),
-                ],
+                ),
               ),
-              SizedBox(height: 30.h),
-              SfSlider(
-                  value: _days.toDouble(),
-                  min: 0,
-                  max: 14,
-                  interval: 14,
-                  showLabels: true,
-                  activeColor: AppColors.mainColor,
-                  onChanged: (value) {}),
-              SizedBox(height: 24.h),
+              SizedBox(height: 20.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30.w),
                 child: ClipPath(
@@ -153,7 +176,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${_currentValue.toInt()}',
+                                        text: 'N${myFormat.format(_currentValue)}',
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -205,7 +228,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${_service.toInt()} (25%)',
+                                        text: 'N${myFormat.format(_service)} (25%)',
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -228,7 +251,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${_currentValue.toInt()}',
+                                        text: myFormat.format(_currentValue),
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -257,7 +280,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${_deposit.toInt()}',
+                                        text: 'N${myFormat.format(_deposit)}',
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -317,7 +340,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         Icons.keyboard_arrow_down_rounded,
                         color: AppColors.mainColor,
                       ),
-                      buttonHeight: 50.h,
+                      buttonHeight: 55.h,
                       buttonPadding: const EdgeInsets.only(left: 20, right: 10),
                       dropdownDecoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
@@ -328,7 +351,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                 child: Text(
                                   item,
                                   style: const TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ))
@@ -339,19 +362,11 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         }
                       },
                       onChanged: (value) {
-//Do something when changing the item if you want.
+                        purpose = value.toString();
                       },
                       onSaved: (value) {
                         selectedValue = value.toString();
                       },
-                    ),
-                    SizedBox(height: 12.h),
-                    CustomText(
-                      text: 'Bank Account Informtion',
-                      fontSize: 14,
-                    ),
-                    const InputFormField(
-                      label: 'GT Bank  - 0127338292',
                     ),
                     SizedBox(height: 12.h),
                     CustomText(
@@ -363,9 +378,9 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         Expanded(
                           child: InputFormField(
                             hintColor: BLACK,
-                            hintSize: 14.0,
+                            hintSize: 18.0,
                             enabled: false,
-                            label: 'N${_currentValue.toInt()}',
+                            label: 'N ${myFormat.format(_currentValue)}',
                           ),
                         ),
                         SizedBox(
@@ -374,17 +389,12 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         Expanded(
                           child: InputFormField(
                             hintColor: BLACK,
-                            hintSize: 14.0,
+                            hintSize: 18.0,
                             enabled: false,
                             label: '${_days.round()} days',
                           ),
                         ),
                       ],
-                    ),
-                    CustomText(
-                      text: 'View Calculations',
-                      color: AppColors.laon3,
-                      fontSize: 10,
                     ),
                     SizedBox(height: 25.h),
                   ],
@@ -396,7 +406,10 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                     title: 'Next',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Get.to(() => const SubmitRequest());
+                        Get.to(() => SubmitRequest(
+                              loanAmount: _currentValue.toInt(),
+                              purpose: purpose,
+                            ));
                         _formKey.currentState!.save();
                       }
                     }),
