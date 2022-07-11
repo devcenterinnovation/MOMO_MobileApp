@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/views/user_profile/refer_a_friend.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/bottom_menu_nav.dart';
 
@@ -75,11 +76,11 @@ class AllDone extends StatelessWidget {
               SizedBox(height: 20.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40.0.w),
-                child: customButton(title: 'Refer and Earn'),
+                child: customButton(title: 'Refer and Earn', onPressed: () => Get.to(() => const ReferFriend())),
               ),
               SizedBox(height: 10.h),
               GestureDetector(
-                onTap: () => Get.to(() => const HomeNavigationBar()),
+                onTap: () => Get.offAll(() => const HomeNavigationBar()),
                 child: CustomText(
                   text: 'Go back home',
                   fontSize: 12,
