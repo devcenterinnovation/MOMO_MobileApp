@@ -1,7 +1,9 @@
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'theme.dart';
 import 'widget.dart';
 
@@ -15,8 +17,8 @@ showErrorSnackBar(String title, String message) {
       borderRadius: 10,
       margin: const EdgeInsets.symmetric(horizontal: 30),
       backgroundColor: LIGHTRED,
-      colorText: PRIMARY,
-      duration: const Duration(seconds: 3));
+      colorText: WHITE,
+      duration: const Duration(seconds: 5));
 }
 
 showSuccessSnackBar(String title, String message) {
