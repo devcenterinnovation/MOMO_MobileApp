@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:momo/constants.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:momo/constants.dart';
 
 import 'theme.dart';
 
@@ -11,15 +11,18 @@ class InputFormField extends StatelessWidget {
     this.validator,
     this.obscure = false,
     this.onChanged,
+    this.onEditingComplete,
     this.onSaved,
     this.enabled = true,
     this.controller,
     this.label,
     this.hint,
     this.hintSize,
+    this.inputSize = 14.0,
     this.hintColor,
     this.maxLength,
     this.textCapitalization = TextCapitalization.none,
+    this.autoFocus = false,
     this.keyboardType,
     this.maxLines = 1,
     this.readOnly = false,
@@ -30,6 +33,7 @@ class InputFormField extends StatelessWidget {
   final suffixIcon;
   final prefixIcon;
   final onChanged;
+  final onEditingComplete;
   final onSaved;
   final validator;
   final maxLength;
@@ -39,7 +43,9 @@ class InputFormField extends StatelessWidget {
   final label;
   final hint;
   final hintSize;
+  final inputSize;
   final hintColor;
+  final autoFocus;
   final textCapitalization;
   final keyboardType;
   final maxLines;
@@ -56,14 +62,17 @@ class InputFormField extends StatelessWidget {
         buildCounter: (context,
                 {required currentLength, required isFocused, maxLength}) =>
             null,
+        textAlignVertical: TextAlignVertical.center,
         maxLength: maxLength,
         maxLines: maxLines,
+        autofocus: autoFocus,
         enabled: enabled,
         controller: controller,
         keyboardType: keyboardType,
-        style: TextStyle(fontSize: 14.sp, color: BLACK.withOpacity(0.9)),
+        style: TextStyle(fontSize: inputSize, color: BLACK.withOpacity(0.9)),
         validator: validator,
         onChanged: onChanged,
+        onEditingComplete: onEditingComplete,
         onSaved: onSaved,
         onTap: onTap,
         readOnly: readOnly,
