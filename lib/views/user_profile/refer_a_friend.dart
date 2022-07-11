@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
@@ -14,6 +16,16 @@ class ReferFriend extends StatefulWidget {
 }
 
 class _ReferFriendState extends State<ReferFriend> {
+
+  String referralId = '';
+
+  UserController userController = Get.find();
+
+  @override
+  initState() {
+    referralId = userController.referralId;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +46,12 @@ class _ReferFriendState extends State<ReferFriend> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 5),
-            const Padding(
-              padding: EdgeInsets.only(left: 30.0),
-              child: Icon(Icons.arrow_back_rounded),
+            InkWell(
+              onTap: () => Get.back(),
+              child: const Padding(
+                padding: EdgeInsets.only(left: 30.0),
+                child: Icon(Icons.arrow_back_rounded),
+              ),
             ),
             Center(
               child: Column(
@@ -67,7 +82,7 @@ class _ReferFriendState extends State<ReferFriend> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        text: 'L257328',
+                        text: referralId,
                         fontWeight: FontWeight.w600,
                       ),
                       const SizedBox(width: 23),
