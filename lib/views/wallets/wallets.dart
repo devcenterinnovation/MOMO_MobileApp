@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/wallets/upcoming_payment.dart';
@@ -15,6 +16,19 @@ class Wallets extends StatefulWidget {
 }
 
 class _WalletsState extends State<Wallets> {
+  String name = '';
+  String balance = '';
+  String maxBalance = '';
+  UserController userController = Get.find();
+
+  @override
+  initState() {
+    name = userController.getProfile()!.firstName;
+    balance = userController.getWallet()!.balance.toString();
+    maxBalance = userController.getWallet()!.maxBalance.toString();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +53,7 @@ class _WalletsState extends State<Wallets> {
                         child: Container(
                             width: double.maxFinite,
                             decoration: BoxDecoration(
-                              color: AppColors.mainColor,
+                              color: const Color(0xFF304A6D),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.grey.withOpacity(0.2),
@@ -71,7 +85,7 @@ class _WalletsState extends State<Wallets> {
                                       Expanded(
                                         child: CustomText(
                                           color: WHITE,
-                                          text: 'Janet Richard',
+                                          text: name,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -111,7 +125,7 @@ class _WalletsState extends State<Wallets> {
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
-                                                        text: 'N3000',
+                                                        text: 'N $maxBalance',
                                                         fontSize: 20,
                                                         color: BLACK,
                                                         fontWeight:
@@ -200,7 +214,7 @@ class _WalletsState extends State<Wallets> {
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
-                                                        text: 'N3000',
+                                                        text: 'N $maxBalance',
                                                         fontSize: 16,
                                                         color: BLACK,
                                                         fontWeight:
@@ -343,14 +357,12 @@ class _WalletsState extends State<Wallets> {
                                     Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        gradient: const LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            Color(0xFFDADADA),
-                                            AppColors.mainColor,
-                                          ],
-                                        ),
+                                          border: Border.all(
+                                            color: AppColors.mainColor,
+                                            style: BorderStyle.solid,
+                                            width: 1.0,
+                                          ),
+                                        color: Colors.transparent
                                       ),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
@@ -359,7 +371,7 @@ class _WalletsState extends State<Wallets> {
                                           text: 'Pay with Bank App',
                                           fontSize: 10,
                                           fontWeight: FontWeight.w600,
-                                          color: WHITE,
+                                          color: AppColors.mainColor,
                                         ),
                                       ),
                                     ),
@@ -367,14 +379,7 @@ class _WalletsState extends State<Wallets> {
                                     Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        gradient: const LinearGradient(
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                          colors: [
-                                            Color(0xFFDADADA),
-                                            AppColors.mainColor,
-                                          ],
-                                        ),
+                                        color: AppColors.mainColor
                                       ),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
