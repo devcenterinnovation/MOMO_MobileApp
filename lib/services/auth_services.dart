@@ -11,17 +11,96 @@ class AuthenticationService {
         url: ApiDocs.LOGIN_URL, data: data);
   }
 
+  static signup(
+      firstName,
+      middleName,
+      lastName,
+      dob,
+      email,
+      address,
+      address_details,
+      phone,
+      gender,
+      marital_status,
+      children,
+      education,
+      bvn,
+      password,
+      employed,
+      companyName,
+      companyLocation,
+      companyRole,
+      duration,
+      salary,
+      accountNumber,
+      bankName,
+      relationship,
+      familyName,
+      familyPhone,
+      colleagueName,
+      colleaguePhone) async {
+    var data = {
+      'first_name': firstName,
+      'last_name': lastName,
+      'middle_name': middleName,
+      'dob': dob,
+      'email': email,
+      'address': address,
+      'address_details': address_details,
+      'phone': phone,
+      'nationality': "Nigeria",
+      'gender': gender,
+      'marital_status': marital_status,
+      'children': children,
+      'education': education,
+      'bvn': bvn,
+      'password': password,
+      'employed': employed,
+      'referred_by': '',
+      'company': {
+        "company_name": companyName,
+        "company_location": companyLocation,
+        "company_role": companyRole,
+        "duration": duration,
+        "salary": salary
+      },
+      'bank_details': {
+        "bank_name": bankName,
+        "account_name": "Samuel Adeniji",
+        "account_number": accountNumber
+      },
+      'guarantors': [
+        {
+          "relationship": relationship,
+          "name": familyName,
+          "phone": familyPhone
+        },
+        {
+          "relationship": " Colleague",
+          "name": colleagueName,
+          "phone": colleaguePhone
+        }
+      ]
+    };
+    return await ApiDocs.initialisePostRequest(
+        url: ApiDocs.SIGNUP_URL, data: data);
+  }
 
+  static getUser(userId) async {
+    return await ApiDocs.initialiseGetRequest(
+        url: ApiDocs.GETUSER_URL + userId);
+  }
 
-  //
-  // static loginSocial(email, userType) async {
-  //   var data = {
-  //     'email': email,
-  //     'userType': userType,
-  //   };
-  //   print(data);
-  //   return await ApiDocs.initialisePostRequest(url: ApiDocs.login, data: data);
-  // }
+  static userLoan(amount, purpose, userId) async {
+    var data = {
+      'amount': amount,
+      'term': 7,
+      'purpose': purpose,
+    };
+    return await ApiDocs.initialisePostRequest(
+        url: ApiDocs.GETUSERLOAN_URL + userId , data: data);
+  }
+
   //
   // static registerSocial({email, fullName, userType, socialId, platform}) async {
   //   var data = {
