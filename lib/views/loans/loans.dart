@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/views/loans/loan_details.dart';
+import 'package:momo/models/user_model.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/loans/repayment.dart';
 import 'package:momo/widgets/custom_clipper.dart';
+import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 
 class Loans extends StatefulWidget {
   const Loans({Key? key}) : super(key: key);
@@ -15,6 +21,41 @@ class Loans extends StatefulWidget {
 }
 
 class _LoansState extends State<Loans> {
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+
+  String loanId = '';
+  String name = '';
+  String lastName = '';
+  String maxBalance = '';
+  String userId = '';
+  UserController userController = Get.find();
+  List<Loan> loans = [];
+  Future<bool> getUserLoans() async {
+    final Uri uri =
+        Uri.parse("https://momo-app-prdo9.ondigitalocean.app/users/" + userId);
+
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final result = userFromJson(response.body);
+
+      loans = result.loans;
+      setState(() {});
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  initState() {
+    name = userController.getProfile()!.firstName;
+    lastName = userController.getProfile()!.lastName;
+    maxBalance = userController.getWallet()!.maxBalance.toString();
+    userId = userController.userId;
+    super.initState();
+    getUserLoans();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +114,7 @@ class _LoansState extends State<Loans> {
                                         SizedBox(width: 6.w),
                                         CustomText(
                                           color: WHITE,
-                                          text: 'Janet Richard',
+                                          text: '$name $lastName',
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -135,7 +176,8 @@ class _LoansState extends State<Loans> {
                                                                       .w400),
                                                           SizedBox(height: 5.h),
                                                           CustomText(
-                                                            text: 'N3200',
+                                                            text:
+                                                                'N $maxBalance',
                                                             fontSize: 20,
                                                             color: BLACK,
                                                             fontWeight:
@@ -288,85 +330,146 @@ class _LoansState extends State<Loans> {
                   ),
                 ),
                 SizedBox(height: 45.h),
-                Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 30.w, right: 30.w, bottom: 12.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'History',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          CustomText(
-                            text: 'see all',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 10,
-                            color: AppColors.laon3,
-                          )
-                        ],
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: 30.w, right: 30.w, bottom: 12.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomText(
+                        text: 'History',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 3,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                    left: 30.w, right: 30.w, bottom: 10.h),
-                                child: Container(
-                                  width: double.maxFinite,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFF5F5F5),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 33.w,
-                                        right: 33.w,
-                                        top: 15.h,
-                                        bottom: 15.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CustomText(
-                                              text: 'Educational loan',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12,
-                                            ),
-                                            CustomText(
-                                              text: '3000,000',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 16,
-                                            ),
-                                          ],
-                                        ),
-                                        CustomText(
-                                          text: 'View details',
-                                          color: AppColors.laon3,
-                                          fontSize: 12,
-                                        )
-                                      ],
-                                    ),
+                      CustomText(
+                        text: 'see all',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 10,
+                        color: AppColors.laon3,
+                      )
+                    ],
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    (loans.length == 0) ? Shimmer.fromColors(
+                      baseColor: Colors.grey.shade200,
+                      highlightColor: Colors.grey.shade300,
+                      child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 0),
+                          shrinkWrap: true,
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  left: 30.w, right: 30.w, bottom: 10.h),
+                              child: Container(
+                                width: double.maxFinite,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFF5F5F5),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 33.w,
+                                      right: 33.w,
+                                      top: 15.h,
+                                      bottom: 15.h),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            text: '',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12,
+                                          ),
+                                          CustomText(
+                                            text: '',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16,
+                                          ),
+                                        ],
+                                      ),
+                                      CustomText(
+                                        text: '',
+                                        color: AppColors.laon3,
+                                        fontSize: 12,
+                                      )
+                                    ],
                                   ),
                                 ),
-                              );
-                            }),
-                      ],
-                    )
+                              ),
+                            );
+                          }),
+                    ):
+                    ListView.builder(
+                        padding: const EdgeInsets.only(top: 0),
+                        shrinkWrap: true,
+                        itemCount: loans.length,
+                        itemBuilder: (context, index) {
+                          final loan = loans[index];
+                          return Padding(
+                            padding: EdgeInsets.only(
+                                left: 30.w, right: 30.w, bottom: 10.h),
+                            child: Container(
+                              width: double.maxFinite,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFF5F5F5),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 33.w,
+                                    right: 33.w,
+                                    top: 15.h,
+                                    bottom: 15.h),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          text: loan.purpose,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                        ),
+                                        CustomText(
+                                          text: 'NGN ${myFormat.format(loan.repaymentAmount)}',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16,
+                                        ),
+                                      ],
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        loanId = loan.id!;
+                                        Get.to(() => ViewDetails(loanId: loanId));
+                                        print(loanId);
+                                      },
+                                      child: CustomText(
+                                        text: 'View details',
+                                        color: AppColors.laon3,
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
                   ],
-                )
+                ),
+                SizedBox(height: 20.h),
               ],
             ),
           )
