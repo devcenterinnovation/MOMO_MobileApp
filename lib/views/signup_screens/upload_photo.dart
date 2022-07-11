@@ -1,8 +1,10 @@
 import 'dart:io';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/theme.dart';
@@ -10,7 +12,9 @@ import 'package:momo/views/signup_screens/account_details.dart';
 import 'package:momo/widget.dart';
 
 class UploadPicture extends StatefulWidget {
-  const UploadPicture({Key? key}) : super(key: key);
+  PlatformFile?workId;
+  PlatformFile? bankStatement;
+   UploadPicture({Key? key,required this.workId, required this.bankStatement}) : super(key: key);
 
   @override
   State<UploadPicture> createState() => _UploadPictureState();
@@ -130,9 +134,10 @@ class _UploadPictureState extends State<UploadPicture> {
               title: 'Continue',
               fontSize: 16.0,
               onPressed: () {
-                Get.to(() => const AddAccountDetails());
+                Get.to(() =>  AddAccountDetails(profilePics: image, workId: widget.workId, bankStatement: widget.workId,));
                 if (_formKey.currentState!.validate()) {
-                  Get.to(() => const AddAccountDetails());
+                  print(widget.workId);
+                  //Get.to(() => const AddAccountDetails());
                   _formKey.currentState!.save();
                 }
               }),
