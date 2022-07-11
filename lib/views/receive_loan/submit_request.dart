@@ -1,15 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/dialogs_snackbar.dart';
+import 'package:momo/services/auth_services.dart';
+import 'package:momo/services/internet_services.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/receive_loan/all_done.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/small_dot.dart';
 
-class SubmitRequest extends StatelessWidget {
-  const SubmitRequest({Key? key}) : super(key: key);
+class SubmitRequest extends StatefulWidget {
+  final String purpose;
+  final int loanAmount;
+  const SubmitRequest(
+      {Key? key, required this.purpose, required this.loanAmount})
+      : super(key: key);
+
+  @override
+  State<SubmitRequest> createState() => _SubmitRequestState();
+}
+
+class _SubmitRequestState extends State<SubmitRequest> {
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+  String userId = '';
+  UserController userController = Get.find();
+
+  @override
+  initState() {
+    userId = userController.userId;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +105,7 @@ class SubmitRequest extends StatelessWidget {
                     Row(
                       children: [
                         CustomText(
-                          text: 'Education Loan',
+                          text: '${widget.purpose} Loan',
                           fontSize: 10,
                         ),
                         const Spacer(),
@@ -89,12 +113,11 @@ class SubmitRequest extends StatelessWidget {
                           text: 'Repayment plan',
                           fontSize: 12,
                         ),
-                        const Icon(Icons.keyboard_arrow_down_rounded)
                       ],
                     ),
                     SizedBox(height: 2.h),
                     CustomText(
-                      text: '3,000',
+                      text: 'N ${myFormat.format(widget.loanAmount)}',
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                     ),
@@ -172,10 +195,28 @@ class SubmitRequest extends StatelessWidget {
             child: customButton(
                 title: 'Submit Request',
                 fontSize: 16.0,
-                onPressed: () => Get.to(() => const AllDone())),
+                onPressed: () {
+                  _submit(context);
+                }),
           )
         ],
       ),
     );
+  }
+
+  void _submit(context) async {
+    if (await InternetUtils.checkConnectivity()) {
+      loadingDialog(context);
+
+      var response = await AuthenticationService.userLoan(
+          widget.loanAmount, widget.purpose, userId);
+
+      if (response is String) {
+        showErrorSnackBar(
+            'Error!', 'Failed to apply for loan, please try again');
+      } else {
+        Get.to(() => const AllDone());
+      }
+    }
   }
 }
