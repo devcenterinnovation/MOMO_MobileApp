@@ -9,6 +9,7 @@ import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/personal_information2.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PersonalInformation1 extends StatefulWidget {
@@ -19,7 +20,14 @@ class PersonalInformation1 extends StatefulWidget {
 }
 
 class _PersonalInformation1State extends State<PersonalInformation1> {
-  int _selectedValue = 0;
+  final firstNameController = TextEditingController();
+  final middleNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final bvnController = TextEditingController();
+
+  String gender = "";
+
+  String myName = "";
 
   TextEditingController dateinput = TextEditingController();
   //text editing controller for text field
@@ -35,7 +43,24 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
   @override
   void initState() {
     dateinput.text = ""; //set the initial value of text field
+    getStorage();
     super.initState();
+  }
+
+  getStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var firstName = prefs.getString("firstName");
+    var middleName = prefs.getString("middleName");
+    var lastName = prefs.getString("lastName");
+    if (firstName != null) {
+      setState(() {
+        firstNameController.text = firstName;
+        middleNameController.text = middleName!;
+        lastNameController.text = lastName!;
+
+      });
+
+    }
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -100,6 +125,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                             ),
                             InputFormField(
                               label: 'Sandra',
+                              controller: firstNameController,
                               validator: (v) => FieldValidator.validate(v),
                             ),
                             const Padding(
@@ -110,7 +136,8 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                            const InputFormField(
+                             InputFormField(
+                              controller: middleNameController,
                               label: 'Cynthia',
                             ),
                             const Padding(
@@ -123,6 +150,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                             ),
                             InputFormField(
                               label: 'John',
+                              controller: lastNameController,
                               validator: (v) => FieldValidator.validate(v),
                             ),
                             const Padding(
@@ -182,28 +210,28 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                       children: [
                                         Expanded(
                                           child: RadioListTile(
-                                            value: 1,
-                                            groupValue: _selectedValue,
+                                            value: "male",
+                                            groupValue: gender,
                                             contentPadding: EdgeInsets.zero,
                                             activeColor:
                                                 const Color(0xFF1E3B62),
                                             title: const Text('Male'),
                                             onChanged: (value) => setState(() {
-                                              _selectedValue = 1;
+                                              gender = value.toString();
                                             }),
                                           ),
                                         ),
                                         Expanded(
                                           child: RadioListTile(
-                                              value: 2,
+                                              value: "female",
                                               title: const Text('Female'),
-                                              groupValue: _selectedValue,
+                                              groupValue: gender,
                                               contentPadding: EdgeInsets.zero,
                                               activeColor:
                                                   const Color(0xFF1E3B62),
                                               onChanged: (value) {
-                                                setState(
-                                                    () => _selectedValue = 2);
+                                                setState(() =>
+                                                    gender = value.toString());
                                               }),
                                         ),
                                       ],
@@ -219,7 +247,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                 );
                               },
                               validator: (value) {
-                                if (_selectedValue == 0) {
+                                if (gender == "") {
                                   return 'You need to select a gender';
                                 } else {
                                   return null;
@@ -236,6 +264,8 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                             ),
                             const InputFormField(
                               label: 'Nigeria',
+                              hintColor: BLACK,
+                              enabled: false,
                             ),
                             const Padding(
                               padding: EdgeInsets.only(top: 12.0),
@@ -247,6 +277,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                             ),
                             InputFormField(
                                 validator: (v) => FieldValidator.validate(v),
+                                controller: bvnController,
                                 keyboardType: TextInputType.number),
                             const SizedBox(height: 10),
                             Row(
@@ -290,9 +321,20 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                       child: customButton(
                         title: 'Continue',
                         fontSize: 16.0,
-                        onPressed: () {
+                        onPressed: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
                           if (_formKey.currentState!.validate()) {
-                            Get.to(() => const PersonalInformation2());
+                            prefs.setString(
+                                "firstName", firstNameController.text);
+                            prefs.setString(
+                                "middleName", middleNameController.text);
+                            prefs.setString(
+                                "lastName", lastNameController.text);
+                            prefs.setString("gender", gender);
+                            prefs.setString("bvn", bvnController.text);
+                            prefs.setString("dob", dateinput.text);
+                            Get.to(() =>  PersonalInformation2());
                             _formKey.currentState!.save();
                           }
                         },
