@@ -6,9 +6,8 @@ import 'package:momo/constants.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/signup_screens/onboarding_screens.dart';
 
-import 'views/receive_loan/home_page.dart';
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
