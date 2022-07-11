@@ -9,15 +9,27 @@ import 'package:momo/views/signup_screens/empolyment_information.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PersonalInformation2 extends StatefulWidget {
-  const PersonalInformation2({Key? key}) : super(key: key);
+
+  PersonalInformation2({Key? key}) : super(key: key);
 
   @override
   State<PersonalInformation2> createState() => _PersonalInformation2State();
 }
 
 class _PersonalInformation2State extends State<PersonalInformation2> {
+
+  String maritalStat = "";
+  String selEducation = "";
+  String noc = "";
+  String address = "";
+
+  final addressController = TextEditingController();
+  final emailController = TextEditingController();
+
+
   final List<String> children = [
     '0',
     '1',
@@ -46,6 +58,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
   final List<String> maritalStatus = ['Single', 'Married', 'Divorced'];
 
   final _formKey = GlobalKey<FormState>();
+
 
   String? selectedValue;
   @override
@@ -176,7 +189,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 return null;
                               },
                               onChanged: (value) {
-//Do something when changing the item if you want.
+                                selEducation = value.toString();
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -259,7 +272,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 return null;
                               },
                               onChanged: (value) {
-//Do something when changing the item if you want.
+                              maritalStat = value.toString();
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -342,7 +355,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 return null;
                               },
                               onChanged: (value) {
-//Do something when changing the item if you want.
+                                noc = value.toString();
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -425,7 +438,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 return null;
                               },
                               onChanged: (value) {
-//Do something when changing the item if you want.
+                                address = value.toString();
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -441,6 +454,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                             ),
                             InputFormField(
                               label: '2 oteri',
+                              controller: addressController,
                               validator: (v) => FieldValidator.validate(v),
                             ),
                             const Padding(
@@ -453,6 +467,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                             ),
                             InputFormField(
                               label: "inyangmatoni@gmail.com",
+                              controller: emailController,
                               validator: (v) => EmailValidator.validateEmail(v),
                             ),
                           ],
@@ -460,13 +475,31 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                       ),
                     ),
                     const SizedBox(height: 30),
+                   // CustomText(text: phone),
+                   //  ElevatedButton(
+                   //    child: Text("retrieve"),
+                   //    onPressed: () {
+                   //      retrieve();
+                   //    },
+                   //  ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: customButton(
                           title: 'Continue',
                           fontSize: 16.0,
-                          onPressed: () {
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             if (_formKey.currentState!.validate()) {
+                              prefs.setString("education", selEducation);
+                              prefs.setString("maritalStatus", maritalStat);
+                              prefs.setString("children", noc);
+                              prefs.setString(
+                                  "address", address);
+                              prefs.setString(
+                                  "addressDetails", addressController.text);
+                              prefs.setString(
+                                  "email", emailController.text);
                               Get.to(() => const EmploymentInformation());
                               _formKey.currentState!.save();
                             }
