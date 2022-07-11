@@ -21,6 +21,9 @@ class _PhoneNumberState extends State<PhoneNumber> {
   final _formKey = GlobalKey<FormState>();
 
   String forLoginVal = "";
+
+  final numberController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +48,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                 Form(
                   key: _formKey,
                   child: TextFormField(
+                    controller: numberController,
                     maxLength: 10,
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
