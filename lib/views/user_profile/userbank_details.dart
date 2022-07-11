@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
-import 'package:momo/views/signup_screens/get_started.dart';
-import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 
 class UserBankDetails extends StatefulWidget {
@@ -16,6 +15,24 @@ class UserBankDetails extends StatefulWidget {
 }
 
 class _UserBankDetailsState extends State<UserBankDetails> {
+
+  String bankAccount = '';
+
+  String bankName = '';
+
+  String accountName= '';
+
+
+  UserController userController = Get.find();
+
+  @override
+  initState() {
+    bankName = userController.getProfile()!.bankDetails.bankName;
+    bankAccount = userController.getProfile()!.bankDetails.accountNumber;
+    accountName = userController.getProfile()!.bankDetails.accountName;
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,9 +84,10 @@ class _UserBankDetailsState extends State<UserBankDetails> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const InputFormField(
-                      label: '1001 09200 0199',
+                     InputFormField(
+                      label: bankAccount,
                       hintColor: BLACK,
+                       hintSize: 16.0,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
@@ -78,21 +96,26 @@ class _UserBankDetailsState extends State<UserBankDetails> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const InputFormField(
-                      label: 'GT Bank',
+                    InputFormField(
+                      label: bankName,
+                      hintSize: 16.0,
+                      hintColor: BLACK,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: CustomText(
+                        text: 'Account Name',
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    InputFormField(
+                      label: accountName,
+                      hintSize: 16.0,
                       hintColor: BLACK,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 35),
-              Padding(
-                padding: const EdgeInsets.only(left: 40.0, right: 40.0),
-                child: customButton(
-                    title: 'Add',
-                    fontSize: 16.0,
-                    onPressed: () => Get.to(() => const GetStarted())),
-              )
             ],
           ),
         ],
