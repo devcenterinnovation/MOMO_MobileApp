@@ -18,16 +18,16 @@ class ApiDocs {
 
   static final GETUSERLOAN_URL = BASE_URL + "users/loan/";
 
-  static makePostRequest({apiUrl, data, token}) async {
+  static makePostRequest({apiUrl, data, access_token}) async {
     print(apiUrl);
 
     final uri = Uri.parse(apiUrl);
     final jsonString = json.encode(data);
     var headers;
-    if (token != null) {
+    if (access_token != null) {
       headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.authorizationHeader: 'Bearer $access_token',
       };
     } else {
       headers = {
@@ -37,16 +37,16 @@ class ApiDocs {
     return await http.post(uri, body: jsonString, headers: headers);
   }
 
-  static makePatchRequest({apiUrl, data, token}) async {
+  static makePatchRequest({apiUrl, data, access_token}) async {
     print(apiUrl);
 
     final uri = Uri.parse(apiUrl);
     final jsonString = json.encode(data);
     var headers;
-    if (token != null) {
+    if (access_token != null) {
       headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.authorizationHeader: 'Bearer $access_token',
       };
     } else {
       headers = {
@@ -56,15 +56,15 @@ class ApiDocs {
     return await http.patch(uri, body: jsonString, headers: headers);
   }
 
-  static makeGetRequest({apiUrl, token}) async {
+  static makeGetRequest({apiUrl, access_token}) async {
     print(apiUrl);
 
     final uri = Uri.parse(apiUrl);
     var headers;
-    if (token != null) {
+    if (access_token != null) {
       headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
-        HttpHeaders.authorizationHeader: 'Bearer $token',
+        HttpHeaders.authorizationHeader: 'Bearer $access_token',
       };
     } else {
       headers = {
@@ -78,7 +78,7 @@ class ApiDocs {
     if (await InternetUtils.checkConnectivity()) {
       try {
         var response = await ApiDocs.makePostRequest(
-            apiUrl: url, data: data, token: access_token);
+            apiUrl: url, data: data, access_token: access_token);
         print(access_token);
         print(data);
         print(response.statusCode);
@@ -142,7 +142,7 @@ class ApiDocs {
     if (await InternetUtils.checkConnectivity()) {
       try {
         var response = await ApiDocs.makeGetRequest(
-            apiUrl: url,  token: access_token);
+            apiUrl: url,  access_token: access_token);
         print(access_token);
         print(response.statusCode);
 
