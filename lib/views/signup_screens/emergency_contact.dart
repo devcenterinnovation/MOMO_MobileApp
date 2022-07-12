@@ -1,9 +1,7 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
@@ -13,7 +11,6 @@ import 'package:momo/views/signup_screens/upload_photo.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/appbar.dart';
 import 'package:momo/widgets/dropdown_widget.dart';
-import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmergencyContact extends StatefulWidget {
