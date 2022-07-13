@@ -30,6 +30,7 @@ Widget customButton({
   color,
   borderColor,
   icon,
+  radius = 5.0,
   curve = 10.0,
   fontSize = 14.0,
 }) =>
@@ -52,7 +53,7 @@ Widget customButton({
       ),
       decoration: BoxDecoration(
         color: color ?? AppColors.mainColor,
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(radius),
       ),
     );
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
-import 'package:get/get.dart';
 import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/personal_information2.dart';
 import 'package:momo/widget.dart';

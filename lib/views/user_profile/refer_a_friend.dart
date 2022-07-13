@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/dialogs_snackbar.dart';
 import 'package:momo/input_field.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/widget.dart';
@@ -86,7 +88,15 @@ class _ReferFriendState extends State<ReferFriend> {
                         fontWeight: FontWeight.w600,
                       ),
                       const SizedBox(width: 23),
-                      SvgPicture.asset('assets/images/Groupcopy.svg'),
+
+                      InkWell(
+                          onTap: () {
+                            Clipboard.setData( ClipboardData(
+                                text: referralId));
+                            showSuccessSnackBar('Referral Code','Your referral code has been copied.')
+                            ;
+                          },
+                          child:  SvgPicture.asset('assets/images/Groupcopy.svg'),)
                     ],
                   ),
                   const SizedBox(height: 78),

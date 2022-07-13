@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     SizedBox(height: 10.h),
                                     CustomText(
-                                      text: 'From the Momo Credit loan app',
+                                      text: 'From the Momo Credit app',
                                       fontSize: 12,
                                       color: WHITE,
                                       fontWeight: FontWeight.w400,

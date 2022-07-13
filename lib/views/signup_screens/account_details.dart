@@ -20,14 +20,19 @@ class AddAccountDetails extends StatefulWidget {
   File? profilePics;
   PlatformFile? workId;
   PlatformFile? bankStatement;
-   AddAccountDetails({Key? key, required this.profilePics, required this.workId, required this.bankStatement}) : super(key: key);
+  AddAccountDetails(
+      {Key? key,
+      required this.profilePics,
+      required this.workId,
+      required this.bankStatement})
+      : super(key: key);
 
   @override
   State<AddAccountDetails> createState() => _AddAccountDetailsState();
 }
 
 class _AddAccountDetailsState extends State<AddAccountDetails> {
- late String userId;
+  late String userId;
   final accountNumberController = TextEditingController();
   final bankNameController = TextEditingController();
   @override
@@ -235,18 +240,15 @@ class _AddAccountDetailsState extends State<AddAccountDetails> {
         }
       } else {
         String userId = response["id"];
-        print(userId);
-
 
         UserController userController =
-        Get.put(UserController(), permanent: true);
+            Get.put(UserController(), permanent: true);
         await userController.setUserId(userId);
 
-        Get.to(() =>  GetStarted(profilePics: widget.profilePics, workId: widget.workId, bankStatement: widget.bankStatement));
-
-
-        print(userId);
-
+        Get.to(() => GetStarted(
+            profilePics: widget.profilePics,
+            workId: widget.workId,
+            bankStatement: widget.bankStatement));
       }
     }
   }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
-import 'package:momo/views/loans/loan_details.dart';
 import 'package:momo/models/user_model.dart';
 import 'package:momo/theme.dart';
+import 'package:momo/views/loans/loan_details.dart';
 import 'package:momo/views/loans/repayment.dart';
+import 'package:momo/views/receive_loan/explore_loan_offer.dart';
 import 'package:momo/widgets/custom_clipper.dart';
-import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
 
 class Loans extends StatefulWidget {
@@ -28,6 +29,7 @@ class _LoansState extends State<Loans> {
   String lastName = '';
   String maxBalance = '';
   String userId = '';
+  String profileImage = '';
   UserController userController = Get.find();
   List<Loan> loans = [];
   Future<bool> getUserLoans() async {
@@ -51,6 +53,7 @@ class _LoansState extends State<Loans> {
     name = userController.getProfile()!.firstName;
     lastName = userController.getProfile()!.lastName;
     maxBalance = userController.getWallet()!.maxBalance.toString();
+    profileImage = userController.getProfile()!.profilePicture;
     userId = userController.userId;
     super.initState();
     getUserLoans();
@@ -58,6 +61,7 @@ class _LoansState extends State<Loans> {
 
   @override
   Widget build(BuildContext context) {
+    final format = DateFormat('dd - MM - yyyy');
     return Scaffold(
       backgroundColor: const Color(0xFFE5E5E5).withOpacity(0.2),
       body: Stack(
@@ -103,12 +107,13 @@ class _LoansState extends State<Loans> {
                                       children: [
                                         ClipOval(
                                           child: Container(
-                                            height: 35.h,
-                                            width: 35.w,
-                                            decoration: const BoxDecoration(
+                                            height: 40.h,
+                                            width: 40.w,
+                                            decoration: BoxDecoration(
                                                 image: DecorationImage(
-                                                    image: AssetImage(
-                                                        'assets/images/unsplash__cvwXhGqG-o.png'))),
+                                                    image: NetworkImage(
+                                                        profileImage),
+                                                    fit: BoxFit.fill)),
                                           ),
                                         ),
                                         SizedBox(width: 6.w),
@@ -140,114 +145,259 @@ class _LoansState extends State<Loans> {
                                         fontSize: 14,
                                         color: AppColors.grey4,
                                       ),
-                                      Container(
-                                        width: double.maxFinite,
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 20.h,
-                                                  left: 30.w,
-                                                  right: 30.w,
-                                                  bottom: 14.h),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                      (loans.isEmpty)
+                                          ? Container(
+                                              width: double.maxFinite,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Column(
                                                 children: [
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      width: double.infinity,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          CustomText(
-                                                              text: 'Total Due',
-                                                              fontSize: 12,
-                                                              color: AppColors
-                                                                  .laon3,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                          SizedBox(height: 5.h),
-                                                          CustomText(
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 20.h,
+                                                        left: 30.w,
+                                                        right: 30.w,
+                                                        bottom: 14.h),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Expanded(
+                                                          child: SizedBox(
+                                                            width:
+                                                                double.infinity,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                CustomText(
+                                                                    text:
+                                                                        'Total Due',
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: AppColors
+                                                                        .laon3,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                                SizedBox(
+                                                                    height:
+                                                                        5.h),
+                                                                CustomText(
+                                                                  text: "N0",
+                                                                  fontSize: 20,
+                                                                  color: BLACK,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: SizedBox(
+                                                            width:
+                                                                double.infinity,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                CustomText(
+                                                                    text:
+                                                                        'Repayment Date',
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: AppColors
+                                                                        .laon3,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                                SizedBox(
+                                                                    height:
+                                                                        5.h),
+                                                                CustomText(
+                                                                  text:
+                                                                      '01-01-2022',
+                                                                  fontSize: 16,
+                                                                  color: BLACK,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 14.w,
+                                                        right: 14.w,
+                                                        bottom: 20.h),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .report_problem_rounded,
+                                                          color:
+                                                              AppColors.caution,
+                                                          size: 25.h,
+                                                        ),
+                                                        SizedBox(width: 6.w),
+                                                        Expanded(
+                                                          child: CustomText(
                                                             text:
-                                                                'N $maxBalance',
-                                                            fontSize: 20,
-                                                            color: BLACK,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Expanded(
-                                                    child: SizedBox(
-                                                      width: double.infinity,
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          CustomText(
-                                                              text:
-                                                                  'Repayment Date',
-                                                              fontSize: 12,
-                                                              color: AppColors
-                                                                  .laon3,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                          SizedBox(height: 5.h),
-                                                          CustomText(
-                                                            text: '28,02,2022',
-                                                            fontSize: 16,
-                                                            color: BLACK,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 14.w,
-                                                  right: 14.w,
-                                                  bottom: 20.h),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Icon(
-                                                    Icons
-                                                        .report_problem_rounded,
-                                                    color: AppColors.caution,
-                                                    size: 25.h,
-                                                  ),
-                                                  SizedBox(width: 6.w),
-                                                  Expanded(
-                                                    child: CustomText(
-                                                      text:
-                                                          'Failure to pay off loan after due date would attract penalty as stated in the terms and conditions.',
-                                                      fontSize: 10,
+                                                                'Failure to pay off loan after due date would attract penalty as stated in the terms and conditions.',
+                                                            fontSize: 10,
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
                                                   )
                                                 ],
                                               ),
                                             )
-                                          ],
-                                        ),
-                                      ),
+                                          : Container(
+                                              width: double.maxFinite,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 20.h,
+                                                        left: 30.w,
+                                                        right: 30.w,
+                                                        bottom: 14.h),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Expanded(
+                                                          child: SizedBox(
+                                                            width:
+                                                                double.infinity,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                CustomText(
+                                                                    text:
+                                                                        'Total Due',
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: AppColors
+                                                                        .laon3,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                                SizedBox(
+                                                                    height:
+                                                                        5.h),
+                                                                CustomText(
+                                                                  text: "N" +
+                                                                      myFormat.format(loans[loans.length -
+                                                                              1]
+                                                                          .repaymentAmount),
+                                                                  fontSize: 20,
+                                                                  color: BLACK,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: SizedBox(
+                                                            width:
+                                                                double.infinity,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                CustomText(
+                                                                    text:
+                                                                        'Repayment Date',
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: AppColors
+                                                                        .laon3,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                                SizedBox(
+                                                                    height:
+                                                                        5.h),
+                                                                CustomText(
+                                                                  text: format.format(DateTime.parse(loans[
+                                                                          loans.length -
+                                                                              1]
+                                                                      .createdAt
+                                                                      .toString())),
+                                                                  fontSize: 16,
+                                                                  color: BLACK,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 14.w,
+                                                        right: 14.w,
+                                                        bottom: 20.h),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .report_problem_rounded,
+                                                          color:
+                                                              AppColors.caution,
+                                                          size: 25.h,
+                                                        ),
+                                                        SizedBox(width: 6.w),
+                                                        Expanded(
+                                                          child: CustomText(
+                                                            text:
+                                                                'Failure to pay off loan after due date would attract penalty as stated in the terms and conditions.',
+                                                            fontSize: 10,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                     ],
                                   ),
                                 ),
@@ -271,7 +421,9 @@ class _LoansState extends State<Loans> {
                               ],
                             )),
                         child: GestureDetector(
-                          onTap: () => Get.to(() => const Repayment()),
+                          onTap: () {
+                            Get.to(() => const Repayment());
+                          },
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.all(16.h),
@@ -317,10 +469,14 @@ class _LoansState extends State<Loans> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20.w, vertical: 10.h),
-                              child: CustomText(
-                                text: 'Apply Now',
-                                color: AppColors.mainColor,
-                                fontSize: 14,
+                              child: InkWell(
+                                onTap: () =>
+                                    Get.to(() => const ExploreLoanOffers()),
+                                child: CustomText(
+                                  text: 'Apply Now',
+                                  color: AppColors.mainColor,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           )
@@ -353,120 +509,122 @@ class _LoansState extends State<Loans> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    (loans.length == 0) ? Shimmer.fromColors(
-                      baseColor: Colors.grey.shade200,
-                      highlightColor: Colors.grey.shade300,
-                      child: ListView.builder(
-                          padding: const EdgeInsets.only(top: 0),
-                          shrinkWrap: true,
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                  left: 30.w, right: 30.w, bottom: 10.h),
-                              child: Container(
-                                width: double.maxFinite,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFF5F5F5),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 33.w,
-                                      right: 33.w,
-                                      top: 15.h,
-                                      bottom: 15.h),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          CustomText(
-                                            text: '',
-                                            fontWeight: FontWeight.w400,
+                    (loans.isEmpty)
+                        ? Shimmer.fromColors(
+                            baseColor: Colors.grey.shade200,
+                            highlightColor: Colors.grey.shade300,
+                            child: ListView.builder(
+                                padding: const EdgeInsets.only(top: 0),
+                                shrinkWrap: true,
+                                itemCount: 3,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 30.w, right: 30.w, bottom: 10.h),
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFF5F5F5),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 33.w,
+                                            right: 33.w,
+                                            top: 15.h,
+                                            bottom: 15.h),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                CustomText(
+                                                  text: '',
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 12,
+                                                ),
+                                                CustomText(
+                                                  text: '',
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16,
+                                                ),
+                                              ],
+                                            ),
+                                            CustomText(
+                                              text: '',
+                                              color: AppColors.laon3,
+                                              fontSize: 12,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                          )
+                        : ListView.builder(
+                            padding: const EdgeInsets.only(top: 0),
+                            shrinkWrap: true,
+                            itemCount: loans.length,
+                            itemBuilder: (context, index) {
+                              final loan = loans[index];
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: 30.w, right: 30.w, bottom: 10.h),
+                                child: Container(
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFF5F5F5),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 33.w,
+                                        right: 33.w,
+                                        top: 15.h,
+                                        bottom: 15.h),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              text: loan.purpose,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                            ),
+                                            CustomText(
+                                              text:
+                                                  'NGN ${myFormat.format(loan.repaymentAmount)}',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16,
+                                            ),
+                                          ],
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            loanId = loan.id!;
+                                            Get.to(() =>
+                                                ViewDetails(loanId: loanId));
+                                          },
+                                          child: CustomText(
+                                            text: 'View details',
+                                            color: AppColors.laon3,
                                             fontSize: 12,
                                           ),
-                                          CustomText(
-                                            text: '',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16,
-                                          ),
-                                        ],
-                                      ),
-                                      CustomText(
-                                        text: '',
-                                        color: AppColors.laon3,
-                                        fontSize: 12,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ):
-                    ListView.builder(
-                        padding: const EdgeInsets.only(top: 0),
-                        shrinkWrap: true,
-                        itemCount: loans.length,
-                        itemBuilder: (context, index) {
-                          final loan = loans[index];
-                          return Padding(
-                            padding: EdgeInsets.only(
-                                left: 30.w, right: 30.w, bottom: 10.h),
-                            child: Container(
-                              width: double.maxFinite,
-                              decoration: BoxDecoration(
-                                color: Color(0xFFF5F5F5),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: 33.w,
-                                    right: 33.w,
-                                    top: 15.h,
-                                    bottom: 15.h),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                          text: loan.purpose,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                        ),
-                                        CustomText(
-                                          text: 'NGN ${myFormat.format(loan.repaymentAmount)}',
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 16,
-                                        ),
+                                        )
                                       ],
                                     ),
-                                    InkWell(
-                                      onTap: (){
-                                        loanId = loan.id!;
-                                        Get.to(() => ViewDetails(loanId: loanId));
-                                        print(loanId);
-                                      },
-                                      child: CustomText(
-                                        text: 'View details',
-                                        color: AppColors.laon3,
-                                        fontSize: 12,
-                                      ),
-                                    )
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        }),
+                              );
+                            }),
                   ],
                 ),
                 SizedBox(height: 20.h),

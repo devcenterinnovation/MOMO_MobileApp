@@ -23,7 +23,6 @@ class RequestSpecificAmount extends StatefulWidget {
 }
 
 class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
-
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
 
   final amountController = TextEditingController();
@@ -52,7 +51,6 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
     'For Buying a House'
   ];
 
-
   void initState() {
     _currentValue = widget.amount.toInt();
     maxBalance = userController.getWallet()!.maxBalance.toString();
@@ -63,12 +61,11 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
   getAmount() {
     if (widget.amount != null) {
       setState(() {
-        amountController.text = myFormat.format(widget.amount);
+        amountController.text = widget.amount.toString();
+        _currentValue = widget.amount;
       });
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +120,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                     });
                   },
                   validator: (text) {
-                    if (int.parse(text)  >  int.parse(maxBalance)) {
+                    if (int.parse(text) > int.parse(maxBalance)) {
                       return 'Please enter an amount between N3,000 to N${myFormat.format(int.parse(maxBalance))}.';
                     }
                   },
@@ -176,7 +173,8 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${myFormat.format(_currentValue)}',
+                                        text:
+                                            'N${myFormat.format(_currentValue)}',
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -228,7 +226,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: 'N${myFormat.format(_service)} (25%)',
+                                        text: 'N${myFormat.format(_service)}',
                                         fontSize: 12,
                                         color: BLACK,
                                         fontWeight: FontWeight.w500,
@@ -246,15 +244,15 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                     children: [
                                       CustomText(
                                           text: 'Total Due',
-                                          fontSize: 10,
+                                          fontSize: 12,
                                           color: const Color(0xFFA47B7D),
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
                                         text: myFormat.format(_currentValue),
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         color: BLACK,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w600,
                                       )
                                     ],
                                   ),
@@ -274,16 +272,16 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       CustomText(
-                                          text: 'Amount to be paid',
-                                          fontSize: 10,
+                                          text: 'Disburse Amount',
+                                          fontSize: 12,
                                           color: const Color(0xFFA47B7D),
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
                                         text: 'N${myFormat.format(_deposit)}',
-                                        fontSize: 12,
+                                        fontSize: 14,
                                         color: BLACK,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.w600,
                                       )
                                     ],
                                   ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:momo/widgets/adaptive_text.dart';
 
 class CustomText extends StatelessWidget {
   final Color? color;
@@ -31,7 +30,7 @@ class CustomText extends StatelessWidget {
       style: TextStyle(
         color: color,
         fontWeight: fontWeight,
-        fontSize: AdaptiveTextSize().getadaptiveTextSize(context, fontSize),
+        fontSize: fontSize,
         decoration: textDecoration,
         decorationColor: underlineColor,
         decorationThickness: 2,

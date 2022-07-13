@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/models/user_model.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/wallets/upcoming_payment.dart';
 import 'package:momo/widgets/custom_clipper.dart';
@@ -16,17 +19,41 @@ class Wallets extends StatefulWidget {
 }
 
 class _WalletsState extends State<Wallets> {
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+
   String name = '';
   String balance = '';
   String maxBalance = '';
+  String userId = "";
+  String profileImage = '';
   UserController userController = Get.find();
+
+  List<Loan> loans = [];
+  Future<bool> getUserLoans() async {
+    final Uri uri =
+        Uri.parse("https://momo-app-prdo9.ondigitalocean.app/users/" + userId);
+
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      final result = userFromJson(response.body);
+
+      loans = result.loans;
+      setState(() {});
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   initState() {
     name = userController.getProfile()!.firstName;
     balance = userController.getWallet()!.balance.toString();
     maxBalance = userController.getWallet()!.maxBalance.toString();
+    profileImage = userController.getProfile()!.profilePicture;
+    userId = userController.userId;
     super.initState();
+    getUserLoans();
   }
 
   @override
@@ -73,13 +100,13 @@ class _WalletsState extends State<Wallets> {
                                   Row(
                                     children: [
                                       Container(
-                                        height: 35.h,
-                                        width: 35.h,
-                                        decoration: const BoxDecoration(
+                                        height: 40.h,
+                                        width: 40.w,
+                                        decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                image: AssetImage(
-                                                    'assets/images/unsplash__cvwXhGqG-o.png'))),
+                                                image: NetworkImage(
+                                                    profileImage), fit: BoxFit.fill)),
                                       ),
                                       SizedBox(width: 6.h),
                                       Expanded(
@@ -93,6 +120,143 @@ class _WalletsState extends State<Wallets> {
                                     ],
                                   ),
                                   SizedBox(height: 17.h),
+                                  (loans.isEmpty)? Container(
+                                    width: double.maxFinite,
+                                    decoration: BoxDecoration(
+                                        color: WHITE,
+                                        borderRadius:
+                                        BorderRadius.circular(10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 14.0.h, horizontal: 26.w),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      CustomText(
+                                                          text: 'Loan Applied',
+                                                          fontSize: 12,
+                                                          color:
+                                                          AppColors.laon3,
+                                                          fontWeight:
+                                                          FontWeight.w400),
+                                                      SizedBox(height: 5.h),
+                                                      CustomText(
+                                                        text: "N0",
+                                                        fontSize: 20,
+                                                        color: BLACK,
+                                                        fontWeight:
+                                                        FontWeight.w700,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      CustomText(
+                                                          text: 'Loan Period',
+                                                          fontSize: 12,
+                                                          color:
+                                                          AppColors.laon3,
+                                                          fontWeight:
+                                                          FontWeight.w400),
+                                                      SizedBox(height: 5.h),
+                                                      CustomText(
+                                                        text: '0 days',
+                                                        fontSize: 16,
+                                                        color: BLACK,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 30.h),
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      CustomText(
+                                                          text: 'Loan Received',
+                                                          fontSize: 12,
+                                                          color:
+                                                          AppColors.laon3,
+                                                          fontWeight:
+                                                          FontWeight.w400),
+                                                      SizedBox(height: 5.h),
+                                                      CustomText(
+                                                        text: "N0",
+                                                        fontSize: 16,
+                                                        color: BLACK,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      CustomText(
+                                                          text:
+                                                          'Repayment Amount',
+                                                          fontSize: 12,
+                                                          color:
+                                                          AppColors.laon3,
+                                                          fontWeight:
+                                                          FontWeight.w400),
+                                                      SizedBox(height: 5.h),
+                                                      CustomText(
+                                                        text: "N0",
+                                                        fontSize: 16,
+                                                        color: BLACK,
+                                                        fontWeight:
+                                                        FontWeight.w600,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ):
                                   Container(
                                     width: double.maxFinite,
                                     decoration: BoxDecoration(
@@ -125,7 +289,11 @@ class _WalletsState extends State<Wallets> {
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
-                                                        text: 'N $maxBalance',
+                                                        text: "N" +
+                                                            myFormat.format(loans[
+                                                                    loans.length -
+                                                                        1]
+                                                                .repaymentAmount),
                                                         fontSize: 20,
                                                         color: BLACK,
                                                         fontWeight:
@@ -152,7 +320,7 @@ class _WalletsState extends State<Wallets> {
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
-                                                        text: '0 - 7 days',
+                                                        text: '${loans[loans.length - 1].term} days',
                                                         fontSize: 16,
                                                         color: BLACK,
                                                         fontWeight:
@@ -186,7 +354,11 @@ class _WalletsState extends State<Wallets> {
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
-                                                        text: 'N2940',
+                                                        text: "N" +
+                                                            myFormat.format(loans[
+                                                                    loans.length -
+                                                                        1]
+                                                                .amount),
                                                         fontSize: 16,
                                                         color: BLACK,
                                                         fontWeight:
@@ -214,7 +386,11 @@ class _WalletsState extends State<Wallets> {
                                                               FontWeight.w400),
                                                       SizedBox(height: 5.h),
                                                       CustomText(
-                                                        text: 'N $maxBalance',
+                                                        text: "N" +
+                                                            myFormat.format(loans[
+                                                                    loans.length -
+                                                                        1]
+                                                                .repaymentAmount),
                                                         fontSize: 16,
                                                         color: BLACK,
                                                         fontWeight:
@@ -240,20 +416,22 @@ class _WalletsState extends State<Wallets> {
                       bottom: 10.h,
                       right: 50.w,
                       left: 50.w,
-                      child: Container(
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                AppColors.lightGrey,
-                                AppColors.mainColor
-                              ],
-                            )),
-                        child: GestureDetector(
-                          onTap: () => Get.to(() => const UpcomingPayment()),
+                      child: InkWell(
+                        onTap:  () {
+                          Get.to(() => const UpcomingPayment());
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  AppColors.lightGrey,
+                                  AppColors.mainColor
+                                ],
+                              )),
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(
@@ -323,7 +501,7 @@ class _WalletsState extends State<Wallets> {
                               ),
                               borderRadius: BorderRadius.circular(30)),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(33.w, 20.h, 0, 27.h),
+                            padding: EdgeInsets.fromLTRB(33.w, 20.h, 20.w, 27.h),
                             child: Column(
                               children: [
                                 Row(
@@ -354,44 +532,48 @@ class _WalletsState extends State<Wallets> {
                                 SizedBox(height: 20.h),
                                 Row(
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                          border: Border.all(
+                                    Expanded(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: AppColors.mainColor,
+                                              style: BorderStyle.solid,
+                                              width: 1.0,
+                                            ),
+                                            color: Colors.transparent),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 12.w, vertical: 10.h),
+                                          child: CustomText(
+                                            text: 'Pay with Bank App',
+                                            fontSize: 12,
+                                            textAlign: TextAlign.center,
+                                            fontWeight: FontWeight.w600,
                                             color: AppColors.mainColor,
-                                            style: BorderStyle.solid,
-                                            width: 1.0,
                                           ),
-                                        color: Colors.transparent
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 12.w, vertical: 10.h),
-                                        child: CustomText(
-                                          text: 'Pay with Bank App',
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppColors.mainColor,
                                         ),
                                       ),
                                     ),
                                     SizedBox(width: 20.w),
-                                    Container(
+                                    Expanded(child: Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: AppColors.mainColor
-                                      ),
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          color: AppColors.mainColor),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 21.w, vertical: 10.h),
                                         child: CustomText(
                                           text: 'Pay Via USSD',
-                                          fontSize: 10,
+                                          fontSize: 12,
+                                          textAlign: TextAlign.center,
                                           fontWeight: FontWeight.w600,
                                           color: WHITE,
                                         ),
                                       ),
-                                    )
+                                    ))
                                   ],
                                 )
                               ],

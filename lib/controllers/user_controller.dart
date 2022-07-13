@@ -11,6 +11,7 @@ class UserController extends GetxController {
   String referralId = '';
   Profile? profile;
   Wallet? wallet;
+  List<Loan> loans = [];
 
 
 
@@ -33,6 +34,7 @@ class UserController extends GetxController {
 
   setToken(token) => this.token = token;
 
+  setLoans(loans) => this.loans = loans;
 
   setUserId(userId) => this.userId = userId;
 
