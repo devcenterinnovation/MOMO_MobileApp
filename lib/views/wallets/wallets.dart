@@ -1,12 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/models/user_model.dart';
+import 'package:momo/services/loan_services.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/wallets/upcoming_payment.dart';
 import 'package:momo/widgets/custom_clipper.dart';
@@ -24,29 +26,25 @@ class _WalletsState extends State<Wallets> {
   String name = '';
   String balance = '';
   String maxBalance = '';
+  String token = '';
   String userId = "";
   String profileImage = '';
   UserController userController = Get.find();
-
   List<Loan> loans = [];
-  Future<bool> getUserLoans() async {
-    final Uri uri =
-        Uri.parse("https://momo-app-prdo9.ondigitalocean.app/users/" + userId);
-
-    final response = await http.get(uri);
-    if (response.statusCode == 200) {
-      final result = userFromJson(response.body);
-
+  Future<void> getUserLoans() async {
+    var res = await LoanServices.getLoans(token, userId);
+    final res2 = jsonEncode(res);
+    print(res2.length);
+    if (res2.isNotEmpty) {
+      final result = userFromJson(res2);
       loans = result.loans;
       setState(() {});
-      return true;
-    } else {
-      return false;
-    }
+    } else {}
   }
 
   @override
   initState() {
+    token = userController.getToken()!;
     name = userController.getProfile()!.firstName;
     balance = userController.getWallet()!.balance.toString();
     maxBalance = userController.getWallet()!.maxBalance.toString();
@@ -105,8 +103,9 @@ class _WalletsState extends State<Wallets> {
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(
-                                                image: NetworkImage(
-                                                    profileImage), fit: BoxFit.fill)),
+                                                image:
+                                                    NetworkImage(profileImage),
+                                                fit: BoxFit.fill)),
                                       ),
                                       SizedBox(width: 6.h),
                                       Expanded(
@@ -120,292 +119,332 @@ class _WalletsState extends State<Wallets> {
                                     ],
                                   ),
                                   SizedBox(height: 17.h),
-                                  (loans.isEmpty)? Container(
-                                    width: double.maxFinite,
-                                    decoration: BoxDecoration(
-                                        color: WHITE,
-                                        borderRadius:
-                                        BorderRadius.circular(10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 14.0.h, horizontal: 26.w),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text: 'Loan Applied',
-                                                          fontSize: 12,
-                                                          color:
-                                                          AppColors.laon3,
-                                                          fontWeight:
-                                                          FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: "N0",
-                                                        fontSize: 20,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                        FontWeight.w700,
-                                                      )
-                                                    ],
-                                                  ),
+                                  (loans.isEmpty)
+                                      ? Container(
+                                          width: double.maxFinite,
+                                          decoration: BoxDecoration(
+                                              color: WHITE,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 14.0.h,
+                                                horizontal: 26.w),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Loan Applied',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text: "N0",
+                                                              fontSize: 20,
+                                                              color: BLACK,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Loan Period',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text: '0 days',
+                                                              fontSize: 16,
+                                                              color: BLACK,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text: 'Loan Period',
-                                                          fontSize: 12,
-                                                          color:
-                                                          AppColors.laon3,
-                                                          fontWeight:
-                                                          FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: '0 days',
-                                                        fontSize: 16,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      )
-                                                    ],
-                                                  ),
+                                                SizedBox(height: 30.h),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Loan Status',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text: "N0",
+                                                              fontSize: 16,
+                                                              color: BLACK,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Repayment Amount',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text: "N0",
+                                                              fontSize: 16,
+                                                              color: BLACK,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              )
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                          SizedBox(height: 30.h),
-                                          Row(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text: 'Loan Received',
-                                                          fontSize: 12,
-                                                          color:
-                                                          AppColors.laon3,
-                                                          fontWeight:
-                                                          FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: "N0",
-                                                        fontSize: 16,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      )
-                                                    ],
-                                                  ),
+                                        )
+                                      : Container(
+                                          width: double.maxFinite,
+                                          decoration: BoxDecoration(
+                                              color: WHITE,
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 14.0.h,
+                                                horizontal: 26.w),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Loan Applied',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text: "N" +
+                                                                  myFormat.format(loans[
+                                                                          loans.length -
+                                                                              1]
+                                                                      .repaymentAmount),
+                                                              fontSize: 20,
+                                                              color: BLACK,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Loan Period',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text:
+                                                                  '${loans[loans.length - 1].term} days',
+                                                              fontSize: 16,
+                                                              color: BLACK,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              ),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text:
-                                                          'Repayment Amount',
-                                                          fontSize: 12,
-                                                          color:
-                                                          AppColors.laon3,
-                                                          fontWeight:
-                                                          FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: "N0",
-                                                        fontSize: 16,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                        FontWeight.w600,
-                                                      )
-                                                    ],
-                                                  ),
+                                                SizedBox(height: 30.h),
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Loan Status',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text: loans[loans
+                                                                          .length -
+                                                                      1]
+                                                                  .status
+                                                                  .toUpperCase(),
+                                                              fontSize: 16,
+                                                              color: (loans[loans.length -
+                                                                              1]
+                                                                          .status ==
+                                                                      "approved")
+                                                                  ? const Color(
+                                                                      0xFF27AE60)
+                                                                  : Colors.red,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            CustomText(
+                                                                text:
+                                                                    'Repayment Amount',
+                                                                fontSize: 12,
+                                                                color: AppColors
+                                                                    .laon3,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                            SizedBox(
+                                                                height: 5.h),
+                                                            CustomText(
+                                                              text: "N" +
+                                                                  myFormat.format(loans[
+                                                                          loans.length -
+                                                                              1]
+                                                                      .repaymentAmount),
+                                                              fontSize: 16,
+                                                              color: BLACK,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              )
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ):
-                                  Container(
-                                    width: double.maxFinite,
-                                    decoration: BoxDecoration(
-                                        color: WHITE,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: 14.0.h, horizontal: 26.w),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text: 'Loan Applied',
-                                                          fontSize: 12,
-                                                          color:
-                                                              AppColors.laon3,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: "N" +
-                                                            myFormat.format(loans[
-                                                                    loans.length -
-                                                                        1]
-                                                                .repaymentAmount),
-                                                        fontSize: 20,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text: 'Loan Period',
-                                                          fontSize: 12,
-                                                          color:
-                                                              AppColors.laon3,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: '${loans[loans.length - 1].term} days',
-                                                        fontSize: 16,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(height: 30.h),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text: 'Loan Received',
-                                                          fontSize: 12,
-                                                          color:
-                                                              AppColors.laon3,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: "N" +
-                                                            myFormat.format(loans[
-                                                                    loans.length -
-                                                                        1]
-                                                                .amount),
-                                                        fontSize: 16,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      CustomText(
-                                                          text:
-                                                              'Repayment Amount',
-                                                          fontSize: 12,
-                                                          color:
-                                                              AppColors.laon3,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                      SizedBox(height: 5.h),
-                                                      CustomText(
-                                                        text: "N" +
-                                                            myFormat.format(loans[
-                                                                    loans.length -
-                                                                        1]
-                                                                .repaymentAmount),
-                                                        fontSize: 16,
-                                                        color: BLACK,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                        ),
                                   SizedBox(height: 60.h),
                                 ],
                               ),
@@ -417,7 +456,7 @@ class _WalletsState extends State<Wallets> {
                       right: 50.w,
                       left: 50.w,
                       child: InkWell(
-                        onTap:  () {
+                        onTap: () {
                           Get.to(() => const UpcomingPayment());
                         },
                         child: Container(
@@ -501,18 +540,22 @@ class _WalletsState extends State<Wallets> {
                               ),
                               borderRadius: BorderRadius.circular(30)),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(33.w, 20.h, 20.w, 27.h),
+                            padding:
+                                EdgeInsets.fromLTRB(33.w, 20.h, 20.w, 27.h),
                             child: Column(
                               children: [
                                 Row(
                                   children: [
                                     linearDot,
                                     SizedBox(width: 10.w),
-                                    CustomText(
-                                      text:
-                                          'Copy the momo virtual account number',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
+                                    Expanded(
+                                      child: CustomText(
+                                        text:
+                                            'Copy the Momo Credit virtual account number',
+                                        fontWeight: FontWeight.w400,
+                                        overFlow: TextOverflow.clip,
+                                        fontSize: 12.sp,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -521,11 +564,13 @@ class _WalletsState extends State<Wallets> {
                                   children: [
                                     linearDot,
                                     SizedBox(width: 10.w),
-                                    CustomText(
-                                      text:
-                                          'Head on to a  designated payment portal',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
+                                    Expanded(
+                                      child: CustomText(
+                                        text:
+                                            'Head on to a  designated payment portal',
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -557,10 +602,11 @@ class _WalletsState extends State<Wallets> {
                                       ),
                                     ),
                                     SizedBox(width: 20.w),
-                                    Expanded(child: Container(
+                                    Expanded(
+                                        child: Container(
                                       decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                           color: AppColors.mainColor),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(

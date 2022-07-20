@@ -7,7 +7,8 @@ class EmailValidator {
     }
     // Regex for email validation
     final regExp = RegExp(emailRegex);
-    if (regExp.hasMatch(value)) {
+    final regExp2 = RegExp(emailRegex2);
+    if (regExp.hasMatch(value) || regExp2.hasMatch(value)) {
       return null;
     }
     return invalidEmailField;
@@ -34,7 +35,7 @@ class PasswordValidator {
     if (value.isEmpty) {
       return emptyPasswordField;
     }
-    if (value.length < 6) {
+    if (value.length < 8) {
       return passwordLengthError;
     }
     final regExp = RegExp(passwordRegex);

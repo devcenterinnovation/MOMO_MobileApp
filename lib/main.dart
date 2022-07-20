@@ -6,7 +6,7 @@ import 'package:momo/constants.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/signup_screens/onboarding_screens.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }

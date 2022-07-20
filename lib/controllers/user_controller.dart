@@ -4,30 +4,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user_model.dart';
 
-
 class UserController extends GetxController {
   String token = '';
   String userId = '';
   String referralId = '';
   Profile? profile;
   Wallet? wallet;
-  List<Loan> loans = [];
-
-
+  List<Loan>? loans = [];
 
   Profile? getProfile() => profile;
 
   Wallet? getWallet() => wallet;
-
-
+  String? getToken() => token;
 
   setUserDetail(data) {
     Profile profile = Profile.fromJson(data);
     this.profile = profile;
   }
 
-
-  setUserWallet(data){
+  setUserWallet(data) {
     Wallet wallet = Wallet.fromJson(data);
     this.wallet = wallet;
   }

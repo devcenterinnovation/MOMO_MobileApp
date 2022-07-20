@@ -3,7 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/otp_controller.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/dialogs_snackbar.dart';
+import 'package:momo/services/auth_services.dart';
+import 'package:momo/services/internet_services.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/validator.dart';
 import 'package:momo/views/signup_screens/verify_code.dart';
@@ -20,7 +24,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
   //String _mobile = "";
   final _formKey = GlobalKey<FormState>();
 
-  String forLoginVal = "";
+  String phone = "";
 
   final numberController = TextEditingController();
 
@@ -55,10 +59,9 @@ class _PhoneNumberState extends State<PhoneNumber> {
                     ],
                     autofocus: true,
                     keyboardType: TextInputType.number,
-                    validator: (v) =>
-                        NumberValidator.validateNumber(v!),
+                    validator: (v) => NumberValidator.validateNumber(v!),
                     onChanged: (val) {
-                      setState(() => forLoginVal = val);
+                      setState(() => phone = "0" + val);
                       print(val);
                     },
                     decoration: InputDecoration(
@@ -91,8 +94,7 @@ class _PhoneNumberState extends State<PhoneNumber> {
                     title: 'Continue',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Get.to(
-                            () => PinCodeVerificationScreen("0" + forLoginVal));
+                        _submit(context);
                       }
                     },
                     borderColor: AppColors.mainColor,
@@ -106,5 +108,30 @@ class _PhoneNumberState extends State<PhoneNumber> {
         ),
       ),
     );
+  }
+
+  void _submit(context) async {
+    if (await InternetUtils.checkConnectivity()) {
+      loadingDialog(context);
+
+      var response = await AuthenticationService.otp(phone);
+
+      if (response is String) {
+        Get.back();
+        if (response.contains('HttpException') || response.contains('Socket')) {
+          showErrorSnackBar('Error!', 'Could not send OTP check phone number');
+        } else {
+          showErrorSnackBar('Error!', 'ss');
+        }
+      } else {
+        print(response["data"]);
+        OTPController otpController = Get.put(OTPController(), permanent: true);
+        await otpController.setOTP(response["data"]);
+        Get.to(() => PinCodeVerificationScreen(phone));
+      }
+    } else {
+      showErrorSnackBar(
+          'No Internet!', 'Please check your internet connection.');
+    }
   }
 }

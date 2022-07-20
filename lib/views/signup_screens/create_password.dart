@@ -19,7 +19,6 @@ class _CreatePasswordState extends State<CreatePassword> {
   bool _obscureText = true;
   bool _obscureText2 = true;
 
-
   toggle() {
     setState(() {
       _obscureText = !_obscureText;
@@ -43,6 +42,7 @@ class _CreatePasswordState extends State<CreatePassword> {
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
+            autovalidateMode: AutovalidateMode.always,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -110,7 +110,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                       const SizedBox(height: 40),
                       customButton(
                           title: 'Continue',
-                          onPressed: ()async {
+                          onPressed: () async {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             if (_formKey.currentState!.validate()) {

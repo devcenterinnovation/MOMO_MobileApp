@@ -39,7 +39,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-
         body: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -58,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                     'Provide your phone number and\npassword to access your account',
                     textAlign: TextAlign.center,
                     style:
-                    TextStyle(fontWeight: FontWeight.w600, fontSize: 16.sp),
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 16.sp),
                   ),
                 ),
                 SizedBox(height: 53.h),
@@ -162,31 +161,26 @@ class _LoginPageState extends State<LoginPage> {
           showErrorSnackBar('Error!', 'Invalid email/password, try again');
         }
       } else {
-        String userToken = response["access_token"];
         String userId = response["user_id"];
-        print(userToken);
-        print(userId);
-
+        String token = response[""];
 
         UserController userController =
-        Get.put(UserController(), permanent: true);
-       await userController.setToken(userToken);
-       await userController.setUserId(userId);
-        var userResponse = await AuthenticationService.getUser(userId);
+            Get.put(UserController(), permanent: true);
+        await userController.setUserId(userId);
+        await userController.setToken(token);
+        var userResponse = await AuthenticationService.getUser(token, userId);
         print(userResponse);
         print(userId);
 
-        if(userResponse is String) {
+        if (userResponse is String) {
           showErrorSnackBar('Error!', 'Failed to log in, please try again');
-
-        }else{
+        } else {
           await userController.setUserDetail(userResponse['profile']);
           await userController.setUserWallet(userResponse['wallet']);
           await userController.setReferralId(userResponse["referral_id"]);
 
           Get.offAll(() => const HomeNavigationBar());
         }
-
       }
     } else {
       showErrorSnackBar(

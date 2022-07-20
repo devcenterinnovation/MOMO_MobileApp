@@ -1,9 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/models/user_model.dart';
+import 'package:momo/services/loan_services.dart';
 import 'package:momo/theme.dart';
 
 class UpcomingPayment extends StatefulWidget {
@@ -14,13 +20,38 @@ class UpcomingPayment extends StatefulWidget {
 }
 
 class _UpcomingPaymentState extends State<UpcomingPayment> {
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+
   bool status = false;
+  String userId = '';
+  String token = '';
+  UserController userController = Get.find();
+
+  List<Loan> loans = [];
+  Future<void> getUserLoans() async {
+    var res = await LoanServices.getLoans(token, userId);
+    final res2 = jsonEncode(res);
+    if (res2.isNotEmpty) {
+      final result = userFromJson(res2);
+      loans = result.loans;
+      setState(() {});
+    } else {}
+  }
+
+  @override
+  initState() {
+    userId = userController.userId;
+    token = userController.getToken()!;
+    super.initState();
+    getUserLoans();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
-          padding: EdgeInsets.only(left: 20.w),
+          padding: EdgeInsets.only(left: 15.w),
           child: InkWell(
             onTap: () => Get.back(),
             child: const Icon(
@@ -103,104 +134,211 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                   fontSize: 16,
                   fontWeight: FontWeight.w600),
               SizedBox(height: 30.h),
-              Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 23.w),
-                    child: Row(
+              (loans.isEmpty)
+                  ? Column(
                       children: [
-                        Expanded(
-                          child: CustomText(
-                            text: 'Repayment Amount',
-                            fontSize: 10,
+                        Padding(
+                          padding: EdgeInsets.only(left: 23.w),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Repayment Amount',
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: 'N0',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        Expanded(
-                          child: CustomText(
-                            text: 'N3,000',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
+                        const Divider(
+                          color: AppColors.Tertiary,
+                          thickness: 0.5,
+                        ),
+                        SizedBox(height: 5.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Repayment balance',
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: 'N0',
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: AppColors.Tertiary,
+                          thickness: 0.5,
+                        ),
+                        SizedBox(height: 5.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Amount repaid',
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: 'N0',
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: AppColors.Tertiary,
+                          thickness: 0.5,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 23.w, top: 3.h, bottom: 35.h),
+                          child: Row(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: CustomText(
+                                  text: 'Your loan payment is due on ',
+                                  fontSize: 10,
+                                  color: AppColors.laon3,
+                                ),
+                              ),
+                              CustomText(
+                                text: 'Jan, 1, 2022',
+                                fontSize: 14,
+                                color: AppColors.mainColor,
+                                fontWeight: FontWeight.w600,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 23.w),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Repayment Amount',
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: "N" +
+                                      myFormat.format(loans[loans.length - 1]
+                                          .repaymentAmount),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: AppColors.Tertiary,
+                          thickness: 0.5,
+                        ),
+                        SizedBox(height: 5.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Repayment balance',
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: 'N0',
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: AppColors.Tertiary,
+                          thickness: 0.5,
+                        ),
+                        SizedBox(height: 5.h),
+                        Padding(
+                          padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: CustomText(
+                                  text: 'Amount repaid',
+                                  fontSize: 10,
+                                ),
+                              ),
+                              Expanded(
+                                child: CustomText(
+                                  text: 'N0',
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: AppColors.Tertiary,
+                          thickness: 0.5,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: 23.w, top: 3.h, bottom: 35.h),
+                          child: Row(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: CustomText(
+                                  text: 'Your loan payment is due on ',
+                                  fontSize: 10,
+                                  color: AppColors.laon3,
+                                ),
+                              ),
+                              CustomText(
+                                text: (loans[loans.length - 1]
+                                        .repaymentDate
+                                        .isEmpty)
+                                    ? "No Date"
+                                    : loans[loans.length - 1]
+                                        .repaymentDate
+                                        .substring(4, 15),
+                                fontSize: 14,
+                                color: AppColors.mainColor,
+                                fontWeight: FontWeight.w600,
+                              )
+                            ],
                           ),
                         )
                       ],
                     ),
-                  ),
-                  const Divider(
-                    color: AppColors.Tertiary,
-                    thickness: 0.5,
-                  ),
-                  SizedBox(height: 5.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: CustomText(
-                            text: 'Repayment balance',
-                            fontSize: 10,
-                          ),
-                        ),
-                        Expanded(
-                          child: CustomText(
-                            text: 'N0',
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    color: AppColors.Tertiary,
-                    thickness: 0.5,
-                  ),
-                  SizedBox(height: 5.h),
-                  Padding(
-                    padding: EdgeInsets.only(left: 23.w, bottom: 3.h),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: CustomText(
-                            text: 'Amount repaid',
-                            fontSize: 10,
-                          ),
-                        ),
-                        Expanded(
-                          child: CustomText(
-                            text: 'N0',
-                            fontSize: 12,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const Divider(
-                    color: AppColors.Tertiary,
-                    thickness: 0.5,
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 23.w, top: 3.h, bottom: 35.h),
-                    child: Row(
-                      children: [
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: CustomText(
-                            text: 'Your loan payment is due on ',
-                            fontSize: 10,
-                            color: AppColors.laon3,
-                          ),
-                        ),
-                        CustomText(
-                          text: '26, June',
-                          fontSize: 14,
-                          color: AppColors.mainColor,
-                          fontWeight: FontWeight.w600,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
               CustomText(
                 text: 'Repayment Method',
                 color: AppColors.laon3,
@@ -229,7 +367,7 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                           Row(
                             children: [
                               CustomText(
-                                text: '0178273499',
+                                text: '3119307387',
                                 fontSize: 16,
                                 color: WHITE,
                               ),
@@ -381,7 +519,7 @@ class _UpcomingPaymentState extends State<UpcomingPayment> {
                                   fontSize: 12,
                                 ),
                                 CustomText(
-                                  text: '3000,000',
+                                  text: '30,000',
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                 ),

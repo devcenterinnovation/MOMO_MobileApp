@@ -1,15 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/dialogs_snackbar.dart';
 import 'package:momo/models/user_model.dart';
+import 'package:momo/services/loan_services.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/loans/Congratulations.dart';
 import 'package:momo/views/loans/loan_details.dart';
@@ -26,28 +28,24 @@ class _RepaymentState extends State<Repayment> {
   bool status = false;
 
   String userId = '';
+  String token = '';
   String loanId = '';
 
   List<Loan> loans = [];
   UserController userController = Get.find();
-  Future<bool> getUserLoans() async {
-    final Uri uri =
-        Uri.parse("https://momo-app-prdo9.ondigitalocean.app/users/" + userId);
-
-    final response = await http.get(uri);
-    if (response.statusCode == 200) {
-      final result = userFromJson(response.body);
-
+  Future<void> getUserLoans() async {
+    var res = await LoanServices.getLoans(token, userId);
+    final res2 = jsonEncode(res);
+    if (res2.isNotEmpty) {
+      final result = userFromJson(res2);
       loans = result.loans;
       setState(() {});
-      return true;
-    } else {
-      return false;
-    }
+    } else {}
   }
 
   @override
   initState() {
+    token = userController.getToken()!;
     userId = userController.userId;
     super.initState();
     getUserLoans();
@@ -143,100 +141,135 @@ class _RepaymentState extends State<Repayment> {
                   fontWeight: FontWeight.w600),
               SizedBox(height: 7.h),
               (loans.isEmpty)
-                  ? Container(
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFF8F3F3),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                          padding: EdgeInsets.fromLTRB(35.w, 22.h, 25.w, 18.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  ? Column(
+                      children: [
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFFF8F3F3),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                              padding:
+                                  EdgeInsets.fromLTRB(35.w, 22.h, 25.w, 18.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomText(
-                                    text: "N0",
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w700,
-                                    color: BLACK,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: "N0",
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w700,
+                                        color: BLACK,
+                                      ),
+                                      CustomText(
+                                        fontSize: 12,
+                                        text: 'Loading . . .',
+                                        color: AppColors.laon3,
+                                      )
+                                    ],
                                   ),
                                   CustomText(
+                                    text: 'View details',
+                                    textDecoration: TextDecoration.underline,
+                                    underlineColor: AppColors.laon3,
                                     fontSize: 12,
-                                    text: 'Loading . . .',
                                     color: AppColors.laon3,
                                   )
                                 ],
-                              ),
-                              CustomText(
-                                text: 'View details',
-                                textDecoration: TextDecoration.underline,
-                                underlineColor: AppColors.laon3,
-                                fontSize: 12,
-                                color: AppColors.laon3,
-                              )
-                            ],
-                          )),
+                              )),
+                        ),
+                        Row(
+                          children: [
+                            CustomText(
+                              text: "Your loan payment is due on ",
+                              fontSize: 12,
+                              color: AppColors.laon3,
+                            ),
+                            CustomText(
+                              text: 'Jan 01 2022',
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.mainColor,
+                            )
+                          ],
+                        ),
+                      ],
                     )
-                  : Container(
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                          color: const Color(0xFFF8F3F3),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                          padding: EdgeInsets.fromLTRB(35.w, 22.h, 25.w, 18.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  : Column(
+                      children: [
+                        Container(
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFFF8F3F3),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                              padding:
+                                  EdgeInsets.fromLTRB(35.w, 22.h, 25.w, 18.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomText(
-                                    text: "N" +
-                                        myFormat.format(loans[loans.length - 1]
-                                            .repaymentAmount),
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w700,
-                                    color: BLACK,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText(
+                                        text: "N" +
+                                            myFormat.format(
+                                                loans[loans.length - 1]
+                                                    .repaymentAmount),
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w700,
+                                        color: BLACK,
+                                      ),
+                                      CustomText(
+                                        fontSize: 12,
+                                        text: loans[loans.length - 1].purpose,
+                                        color: AppColors.laon3,
+                                      )
+                                    ],
                                   ),
-                                  CustomText(
-                                    fontSize: 12,
-                                    text: loans[loans.length - 1].purpose,
-                                    color: AppColors.laon3,
+                                  InkWell(
+                                    onTap: () {
+                                      loanId = loans[loans.length - 1].id!;
+                                      Get.to(() => ViewDetails(loanId: loanId));
+                                    },
+                                    child: CustomText(
+                                      text: 'View details',
+                                      textDecoration: TextDecoration.underline,
+                                      underlineColor: AppColors.laon3,
+                                      fontSize: 12,
+                                      color: AppColors.laon3,
+                                    ),
                                   )
                                 ],
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  loanId = loans[loans.length - 1].id!;
-                                  Get.to(() => ViewDetails(loanId: loanId));
-                                },
-                                child: CustomText(
-                                  text: 'View details',
-                                  textDecoration: TextDecoration.underline,
-                                  underlineColor: AppColors.laon3,
-                                  fontSize: 12,
-                                  color: AppColors.laon3,
-                                ),
-                              )
-                            ],
-                          )),
+                              )),
+                        ),
+                        Row(
+                          children: [
+                            CustomText(
+                              text: "Your loan payment is due on ",
+                              fontSize: 12,
+                              color: AppColors.laon3,
+                            ),
+                            CustomText(
+                              text: (loans[loans.length - 1]
+                                      .repaymentDate
+                                      .isEmpty)
+                                  ? 'No Date'
+                                  : loans[loans.length - 1]
+                                      .repaymentDate
+                                      .substring(4, 15),
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.mainColor,
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-              Row(
-                children: [
-                  CustomText(
-                    text: "Your loan payment is due on ",
-                    fontSize: 12,
-                    color: AppColors.laon3,
-                  ),
-                  CustomText(
-                    text: ' 26 June',
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.mainColor,
-                  )
-                ],
-              ),
               SizedBox(height: 25.h),
               CustomText(
                   text: 'Repayment Method',

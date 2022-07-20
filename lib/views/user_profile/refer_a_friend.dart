@@ -18,7 +18,6 @@ class ReferFriend extends StatefulWidget {
 }
 
 class _ReferFriendState extends State<ReferFriend> {
-
   String referralId = '';
 
   UserController userController = Get.find();
@@ -28,6 +27,7 @@ class _ReferFriendState extends State<ReferFriend> {
     referralId = userController.referralId;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,22 +88,21 @@ class _ReferFriendState extends State<ReferFriend> {
                         fontWeight: FontWeight.w600,
                       ),
                       const SizedBox(width: 23),
-
                       InkWell(
-                          onTap: () {
-                            Clipboard.setData( ClipboardData(
-                                text: referralId));
-                            showSuccessSnackBar('Referral Code','Your referral code has been copied.')
-                            ;
-                          },
-                          child:  SvgPicture.asset('assets/images/Groupcopy.svg'),)
+                        onTap: () {
+                          Clipboard.setData(ClipboardData(text: referralId));
+                          showSuccessSnackBar('Referral Code',
+                              'Your referral code has been copied.');
+                        },
+                        child: SvgPicture.asset('assets/images/Groupcopy.svg'),
+                      )
                     ],
                   ),
                   const SizedBox(height: 78),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 35.0),
                     child: InputFormField(
-                      label: 'Enter Momo referral code',
+                      label: 'Enter Momo Credit referral code',
                     ),
                   ),
                   const SizedBox(height: 24),

@@ -11,7 +11,7 @@ String userToJson(User data) => json.encode(data.toJson());
 class User {
   User({
     required this.id,
-    required this.password,
+    this.password,
     required this.phone,
     this.referralId,
     this.referredBy,
@@ -20,11 +20,10 @@ class User {
     required this.profile,
     required this.wallet,
     required this.loans,
-
   });
 
   String id;
-  String password;
+  String? password;
   String phone;
   dynamic referralId;
   String? referredBy;
@@ -35,30 +34,30 @@ class User {
   List<Loan> loans;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    password: json["password"],
-    phone: json["phone"],
-    referralId: json["referral_id"],
-    referredBy: json["referred_by"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    profile: Profile.fromJson(json["profile"]),
-    wallet: Wallet.fromJson(json["wallet"]),
-    loans: List<Loan>.from(json["loans"].map((x) => Loan.fromJson(x))),
-  );
+        id: json["id"],
+        password: json["password"],
+        phone: json["phone"],
+        referralId: json["referral_id"],
+        referredBy: json["referred_by"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        profile: Profile.fromJson(json["profile"]),
+        wallet: Wallet.fromJson(json["wallet"]),
+        loans: List<Loan>.from(json["loans"].map((x) => Loan.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "password": password,
-    "phone": phone,
-    "referralID": referralId,
-    "referredBy": referredBy,
-    "createdAt": createdAt!.toIso8601String(),
-    "updatedAt": updatedAt!.toIso8601String(),
-    "profile": profile.toJson(),
-    "wallet": wallet.toJson(),
-    "loans": List<dynamic>.from(loans.map((x) => x.toJson())),
-  };
+        "id": id,
+        "password": password,
+        "phone": phone,
+        "referralID": referralId,
+        "referredBy": referredBy,
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "profile": profile.toJson(),
+        "wallet": wallet.toJson(),
+        "loans": List<dynamic>.from(loans.map((x) => x.toJson())),
+      };
 }
 
 class Loan {
@@ -97,40 +96,40 @@ class Loan {
   bool repaid;
 
   factory Loan.fromJson(Map<String, dynamic> json) => Loan(
-    id: json["id"],
-    amount: json["amount"],
-    amountDisbursed: json["amount_disbursed"],
-    serviceCharge: json["service_charge"],
-    repaymentAmount: json["repayment_amount"],
-    interest: json["interest"],
-    term: json["term"],
-    status: json["status"],
-    remark: json["remark"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    disbursementDate: json["disbursement_date"],
-    repaymentDate: json["repayment_date"],
-    purpose: json["purpose"],
-    repaid: json["repaid"],
-  );
+        id: json["id"],
+        amount: json["amount"],
+        amountDisbursed: json["amount_disbursed"],
+        serviceCharge: json["service_charge"],
+        repaymentAmount: json["repayment_amount"],
+        interest: json["interest"],
+        term: json["term"],
+        status: json["status"],
+        remark: json["remark"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        disbursementDate: json["disbursement_date"],
+        repaymentDate: json["repayment_date"],
+        purpose: json["purpose"],
+        repaid: json["repaid"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "amount": amount,
-    "amount_disbursed": amountDisbursed,
-    "service_charge": serviceCharge,
-    "repayment_amount": repaymentAmount,
-    "interest": interest,
-    "term": term,
-    "status": status,
-    "remark": remark,
-    "createdAt": createdAt!.toIso8601String(),
-    "updatedAt": updatedAt!.toIso8601String(),
-    "disbursement_date": disbursementDate,
-    "repayment_date": repaymentDate,
-    "purpose": purpose,
-    "repaid": repaid,
-  };
+        "id": id,
+        "amount": amount,
+        "amount_disbursed": amountDisbursed,
+        "service_charge": serviceCharge,
+        "repayment_amount": repaymentAmount,
+        "interest": interest,
+        "term": term,
+        "status": status,
+        "remark": remark,
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "disbursement_date": disbursementDate,
+        "repayment_date": repaymentDate,
+        "purpose": purpose,
+        "repaid": repaid,
+      };
 }
 
 class Profile {
@@ -185,56 +184,57 @@ class Profile {
   List<dynamic>? referrals;
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
-    id: json["id"],
-    firstName: json["first_name"],
-    lastName: json["last_name"],
-    middleName: json["middle_name"],
-    email: json["email"],
-    address: json["address"],
-    addressDetails: json["address_details"],
-    phone: json["phone"],
-    dob: json["dob"],
-    nationality: json["nationality"],
-    bvn: json["bvn"],
-    gender: json["gender"],
-    maritalStatus: json["marital_status"],
-    children: json["children"],
-    education: json["education"],
-    employed: json["employed"],
-    company: Company.fromJson(json["company"]),
-    bankDetails: BankDetails.fromJson(json["bank_details"]),
-    profilePicture: json["profile_picture"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    guarantors: List<Guarantor>.from(json["guarantors"].map((x) => Guarantor.fromJson(x))),
-    referrals: List<dynamic>.from(json["referrals"].map((x) => x)),
-  );
+        id: json["id"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        middleName: json["middle_name"],
+        email: json["email"],
+        address: json["address"],
+        addressDetails: json["address_details"],
+        phone: json["phone"],
+        dob: json["dob"],
+        nationality: json["nationality"],
+        bvn: json["bvn"],
+        gender: json["gender"],
+        maritalStatus: json["marital_status"],
+        children: json["children"],
+        education: json["education"],
+        employed: json["employed"],
+        company: Company.fromJson(json["company"]),
+        bankDetails: BankDetails.fromJson(json["bank_details"]),
+        profilePicture: json["profile_picture"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        guarantors: List<Guarantor>.from(
+            json["guarantors"].map((x) => Guarantor.fromJson(x))),
+        referrals: List<dynamic>.from(json["referrals"].map((x) => x)),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "first_name": firstName,
-    "last_name": lastName,
-    "middle_name": middleName,
-    "email": email,
-    "address": address,
-    "address_details": addressDetails,
-    "phone": phone,
-    "dob": dob,
-    "nationality": nationality,
-    "bvn": bvn,
-    "gender": gender,
-    "marital_status": maritalStatus,
-    "children": children,
-    "education": education,
-    "employed": employed,
-    "company": company!.toJson(),
-    "bank_details": bankDetails.toJson(),
-    "profile_picture": profilePicture,
-    "createdAt": createdAt!.toIso8601String(),
-    "updatedAt": updatedAt!.toIso8601String(),
-    "guarantors": List<dynamic>.from(guarantors!.map((x) => x.toJson())),
-    "referrals": List<dynamic>.from(referrals!.map((x) => x)),
-  };
+        "id": id,
+        "first_name": firstName,
+        "last_name": lastName,
+        "middle_name": middleName,
+        "email": email,
+        "address": address,
+        "address_details": addressDetails,
+        "phone": phone,
+        "dob": dob,
+        "nationality": nationality,
+        "bvn": bvn,
+        "gender": gender,
+        "marital_status": maritalStatus,
+        "children": children,
+        "education": education,
+        "employed": employed,
+        "company": company!.toJson(),
+        "bank_details": bankDetails.toJson(),
+        "profile_picture": profilePicture,
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
+        "guarantors": List<dynamic>.from(guarantors!.map((x) => x.toJson())),
+        "referrals": List<dynamic>.from(referrals!.map((x) => x)),
+      };
 }
 
 class BankDetails {
@@ -249,16 +249,16 @@ class BankDetails {
   String accountNumber;
 
   factory BankDetails.fromJson(Map<String, dynamic> json) => BankDetails(
-    bankName: json["bank_name"],
-    accountName: json["account_name"],
-    accountNumber: json["account_number"],
-  );
+        bankName: json["bank_name"],
+        accountName: json["account_name"],
+        accountNumber: json["account_number"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "bank_name": bankName,
-    "account_name": accountName,
-    "account_number": accountNumber,
-  };
+        "bank_name": bankName,
+        "account_name": accountName,
+        "account_number": accountNumber,
+      };
 }
 
 class Company {
@@ -277,20 +277,20 @@ class Company {
   String? salary;
 
   factory Company.fromJson(Map<String, dynamic> json) => Company(
-    companyName: json["company_name"],
-    companyLocation: json["company_location"],
-    companyRole: json["company_role"],
-    duration: json["duration"],
-    salary: json["salary"],
-  );
+        companyName: json["company_name"],
+        companyLocation: json["company_location"],
+        companyRole: json["company_role"],
+        duration: json["duration"],
+        salary: json["salary"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "company_name": companyName,
-    "company_location": companyLocation,
-    "company_role": companyRole,
-    "duration": duration,
-    "salary": salary,
-  };
+        "company_name": companyName,
+        "company_location": companyLocation,
+        "company_role": companyRole,
+        "duration": duration,
+        "salary": salary,
+      };
 }
 
 class Guarantor {
@@ -307,18 +307,18 @@ class Guarantor {
   String? phone;
 
   factory Guarantor.fromJson(Map<String, dynamic> json) => Guarantor(
-    id: json["id"],
-    relationship: json["relationship"],
-    name: json["name"],
-    phone: json["phone"],
-  );
+        id: json["id"],
+        relationship: json["relationship"],
+        name: json["name"],
+        phone: json["phone"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "relationship": relationship,
-    "name": name,
-    "phone": phone,
-  };
+        "id": id,
+        "relationship": relationship,
+        "name": name,
+        "phone": phone,
+      };
 }
 
 class Wallet {
@@ -335,16 +335,16 @@ class Wallet {
   int? maxBalance;
 
   factory Wallet.fromJson(Map<String, dynamic> json) => Wallet(
-    id: json["id"],
-    status: json["status"],
-    balance: json["balance"],
-    maxBalance: json["maxBalance"],
-  );
+        id: json["id"],
+        status: json["status"],
+        balance: json["balance"],
+        maxBalance: json["maxBalance"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "status": status,
-    "balance": balance,
-    "maxBalance": maxBalance,
-  };
+        "id": id,
+        "status": status,
+        "balance": balance,
+        "maxBalance": maxBalance,
+      };
 }

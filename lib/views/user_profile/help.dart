@@ -107,47 +107,7 @@ class Help extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomText(text: 'Report a Challenge'),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 20,
-                            )
-                          ],
-                        ),
-                        CustomText(
-                          text: 'Send a message to fix account challenge',
-                          color: AppColors.laon3,
-                          fontSize: 14,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 30.h),
-                Container(
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(0xFFF5F5F5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 1,
-                        blurRadius: 1,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(21.w, 16.h, 17.w, 10.h),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(text: 'Report a Challenge'),
+                            CustomText(text: 'Send Feedback'),
                             const Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 20,

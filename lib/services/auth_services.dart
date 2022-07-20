@@ -6,9 +6,15 @@ class AuthenticationService {
       'username': username,
       'password': password,
     };
-
     return await ApiDocs.initialisePostRequest(
-        url: ApiDocs.LOGIN_URL, data: data);
+        isLogin: true, url: ApiDocs.LOGIN_URL, data: data);
+  }
+
+  static otp(phone) async {
+    var data = {
+      'phone': phone,
+    };
+    return await ApiDocs.initialisePostRequest(url: ApiDocs.OTP, data: data);
   }
 
   static signup(
@@ -86,19 +92,11 @@ class AuthenticationService {
         url: ApiDocs.SIGNUP_URL, data: data);
   }
 
-  static getUser(userId) async {
+  static getUser(token, userId) async {
     return await ApiDocs.initialiseGetRequest(
-        url: ApiDocs.GETUSER_URL + userId);
-  }
-
-  static userLoan(amount, purpose, userId) async {
-    var data = {
-      'amount': amount,
-      'term': 7,
-      'purpose': purpose,
-    };
-    return await ApiDocs.initialisePostRequest(
-        url: ApiDocs.GETUSERLOAN_URL + userId , data: data);
+      token,
+      url: ApiDocs.GETUSER_URL + userId,
+    );
   }
 
   //

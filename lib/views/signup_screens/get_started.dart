@@ -1,35 +1,22 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/views/signup_screens/login_page.dart';
 import 'package:momo/widget.dart';
 
 class GetStarted extends StatefulWidget {
-  File? profilePics;
-  PlatformFile? workId;
-  PlatformFile? bankStatement;
-
-  GetStarted(
-      {Key? key,
-      required this.profilePics,
-      required this.workId,
-      required this.bankStatement})
-      : super(key: key);
+  GetStarted({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<GetStarted> createState() => _GetStartedState();
 }
 
 class _GetStartedState extends State<GetStarted> {
-
-  String userId= '';
-
+  String userId = '';
 
   UserController userController = Get.find();
 
@@ -38,53 +25,6 @@ class _GetStartedState extends State<GetStarted> {
     userId = userController.userId;
     super.initState();
   }
-
-
-  onUploadImage() async {
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse(
-          "https://momo-app-prdo9.ondigitalocean.app/users/upload_profile_picture/$userId"),
-    );
-    Map<String, String> headers = {"Content-type": "multipart/form-data"};
-    request.files.add(
-      http.MultipartFile(
-        'user_id',
-        widget.profilePics!.readAsBytes().asStream(),
-        widget.profilePics!.lengthSync(),
-        filename: widget.profilePics!.path.split('/').last,
-      ),
-    );
-    print("request: " + request.toString());
-    var res = await request.send();
-    http.Response response = await http.Response.fromStream(res);
-  }
-
-  onUploadDocument() async {
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse(
-          "https://momo-app-prdo9.ondigitalocean.app/users/upload_documents/$userId"),
-    );
-    Map<String, String> headers = {"Content-type": "multipart/form-data"};
-    request.files.add(
-        await http.MultipartFile.fromPath(
-            'user_id',
-            widget.workId!.path.toString()
-        )
-
-    );
-    request.files.add(
-        await http.MultipartFile.fromPath(
-            'statement',
-            widget.bankStatement!.path.toString()
-        )
-
-    );
-    var res = await request.send();
-    http.Response response = await http.Response.fromStream(res);
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -115,12 +55,10 @@ class _GetStartedState extends State<GetStarted> {
               padding: EdgeInsets.only(left: 40.w, right: 40.w),
               child: customButton(
                 title: 'Get Started',
-                onPressed:() {
-                  onUploadImage();
-                  onUploadDocument();
+                onPressed: () {
                   Get.offAll(() => const LoginPage());
                   print(userId);
-                } ,
+                },
                 fontSize: 16.0,
               ),
             )

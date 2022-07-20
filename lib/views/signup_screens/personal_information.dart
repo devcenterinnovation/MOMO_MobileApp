@@ -57,9 +57,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
         firstNameController.text = firstName;
         middleNameController.text = middleName!;
         lastNameController.text = lastName!;
-
       });
-
     }
   }
 
@@ -83,6 +81,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.always,
           child: Column(
             children: [
               SizedBox(height: 5.h),
@@ -119,9 +118,21 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              'First Name',
+                              'Bvn',
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                            InputFormField(
+                                validator: (v) => FieldValidator.validate(v),
+                                controller: bvnController,
+                                keyboardType: TextInputType.number),
+                            Padding(
+                              padding: EdgeInsets.only(top: 12.h),
+                              child: const Text(
+                                'First Name',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w400),
+                              ),
                             ),
                             InputFormField(
                               label: 'Sandra',
@@ -136,7 +147,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                             ),
-                             InputFormField(
+                            InputFormField(
                               controller: middleNameController,
                               label: 'Cynthia',
                             ),
@@ -267,19 +278,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                               hintColor: BLACK,
                               enabled: false,
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 12.0),
-                              child: Text(
-                                'Bvn',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                            InputFormField(
-                                validator: (v) => FieldValidator.validate(v),
-                                controller: bvnController,
-                                keyboardType: TextInputType.number),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 10.h),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -334,7 +333,7 @@ class _PersonalInformation1State extends State<PersonalInformation1> {
                             prefs.setString("gender", gender);
                             prefs.setString("bvn", bvnController.text);
                             prefs.setString("dob", dateinput.text);
-                            Get.to(() =>  PersonalInformation2());
+                            Get.to(() => PersonalInformation2());
                             _formKey.currentState!.save();
                           }
                         },

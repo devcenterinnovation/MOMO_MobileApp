@@ -12,7 +12,6 @@ import 'package:momo/widgets/dropdown_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PersonalInformation2 extends StatefulWidget {
-
   PersonalInformation2({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +19,6 @@ class PersonalInformation2 extends StatefulWidget {
 }
 
 class _PersonalInformation2State extends State<PersonalInformation2> {
-
   String maritalStat = "";
   String selEducation = "";
   String noc = "";
@@ -28,7 +26,6 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
 
   final addressController = TextEditingController();
   final emailController = TextEditingController();
-
 
   final List<String> children = [
     '0',
@@ -58,7 +55,6 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
   final List<String> maritalStatus = ['Single', 'Married', 'Divorced'];
 
   final _formKey = GlobalKey<FormState>();
-
 
   String? selectedValue;
   @override
@@ -272,7 +268,7 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                                 return null;
                               },
                               onChanged: (value) {
-                              maritalStat = value.toString();
+                                maritalStat = value.toString();
                               },
                               onSaved: (value) {
                                 selectedValue = value.toString();
@@ -475,13 +471,13 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                   // CustomText(text: phone),
-                   //  ElevatedButton(
-                   //    child: Text("retrieve"),
-                   //    onPressed: () {
-                   //      retrieve();
-                   //    },
-                   //  ),
+                    // CustomText(text: phone),
+                    //  ElevatedButton(
+                    //    child: Text("retrieve"),
+                    //    onPressed: () {
+                    //      retrieve();
+                    //    },
+                    //  ),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: customButton(
@@ -494,12 +490,10 @@ class _PersonalInformation2State extends State<PersonalInformation2> {
                               prefs.setString("education", selEducation);
                               prefs.setString("maritalStatus", maritalStat);
                               prefs.setString("children", noc);
-                              prefs.setString(
-                                  "address", address);
+                              prefs.setString("address", address);
                               prefs.setString(
                                   "addressDetails", addressController.text);
-                              prefs.setString(
-                                  "email", emailController.text);
+                              prefs.setString("email", emailController.text);
                               Get.to(() => const EmploymentInformation());
                               _formKey.currentState!.save();
                             }

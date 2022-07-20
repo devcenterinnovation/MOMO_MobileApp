@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:momo/constants.dart';
+import 'package:momo/theme.dart';
 
-import 'theme.dart';
-
-class InputFormField extends StatelessWidget {
-  const InputFormField({
+class PassFormField extends StatelessWidget {
+  const PassFormField({
     this.suffixIcon,
     this.prefixIcon,
     this.validator,
@@ -71,7 +69,7 @@ class InputFormField extends StatelessWidget {
         enabled: enabled,
         controller: controller,
         keyboardType: keyboardType,
-        style: TextStyle(fontSize: inputSize, color: BLACK.withOpacity(0.9)),
+        style: TextStyle(fontSize: inputSize, color: WHITE),
         validator: validator,
         onChanged: onChanged,
         onEditingComplete: onEditingComplete,
@@ -91,24 +89,19 @@ class InputFormField extends StatelessWidget {
 }
 
 InputDecoration buildInputDecoration(
-    {hint,
-    label,
-    prefixIcon,
-    suffixIcon,
-    hintSize = 14,
-    hintColor = AppColors.laon3}) {
+    {hint, label, prefixIcon, suffixIcon, hintSize = 14, hintColor = WHITE}) {
   return InputDecoration(
     // filled: filled,
     // fillColor: PRIMARY.withOpacity(0.8),
     border: InputBorder.none,
     enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.mainColor, width: 0.7),
+        borderSide: BorderSide(color: WHITE, width: 0.7),
         borderRadius: BorderRadius.all(Radius.circular(8))),
     disabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.mainColor, width: 0.7),
+        borderSide: BorderSide(color: WHITE, width: 0.7),
         borderRadius: BorderRadius.all(Radius.circular(8))),
     focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.mainColor, width: 0.7),
+        borderSide: BorderSide(color: WHITE, width: 0.7),
         borderRadius: BorderRadius.all(Radius.circular(8))),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
@@ -116,7 +109,7 @@ InputDecoration buildInputDecoration(
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8.0),
-      borderSide: const BorderSide(color: AppColors.mainColor, width: 0.7),
+      borderSide: const BorderSide(color: WHITE, width: 0.7),
     ),
     suffixIcon: suffixIcon,
     prefixIcon: prefixIcon,

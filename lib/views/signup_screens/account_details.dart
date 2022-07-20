@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
@@ -32,7 +33,7 @@ class AddAccountDetails extends StatefulWidget {
 }
 
 class _AddAccountDetailsState extends State<AddAccountDetails> {
-  late String userId;
+  String userIds = "";
   final accountNumberController = TextEditingController();
   final bankNameController = TextEditingController();
   @override
@@ -41,6 +42,41 @@ class _AddAccountDetailsState extends State<AddAccountDetails> {
       retrieve();
     });
     super.initState();
+  }
+
+  onUploadImage() async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse(
+          "https://momo-app-prdo9.ondigitalocean.app/users/upload_profile_picture/$userIds"),
+    );
+    Map<String, String> headers = {"Content-type": "multipart/form-data"};
+    request.files.add(
+      http.MultipartFile(
+        'user_id',
+        widget.profilePics!.readAsBytes().asStream(),
+        widget.profilePics!.lengthSync(),
+        filename: widget.profilePics!.path.split('/').last,
+      ),
+    );
+    print("request: " + request.toString());
+    var res = await request.send();
+    http.Response response = await http.Response.fromStream(res);
+  }
+
+  onUploadDocument() async {
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse(
+          "https://momo-app-prdo9.ondigitalocean.app/users/upload_documents/$userIds"),
+    );
+    Map<String, String> headers = {"Content-type": "multipart/form-data"};
+    request.files.add(await http.MultipartFile.fromPath(
+        'user_id', widget.workId!.path.toString()));
+    request.files.add(await http.MultipartFile.fromPath(
+        'statement', widget.bankStatement!.path.toString()));
+    var res = await request.send();
+    http.Response response = await http.Response.fromStream(res);
   }
 
   late SharedPreferences prefs;
@@ -240,15 +276,16 @@ class _AddAccountDetailsState extends State<AddAccountDetails> {
         }
       } else {
         String userId = response["id"];
+        userIds = response["id"];
+        onUploadDocument();
+        onUploadImage();
 
         UserController userController =
             Get.put(UserController(), permanent: true);
         await userController.setUserId(userId);
 
-        Get.to(() => GetStarted(
-            profilePics: widget.profilePics,
-            workId: widget.workId,
-            bankStatement: widget.bankStatement));
+        print(userIds);
+        Get.to(() => GetStarted());
       }
     }
   }

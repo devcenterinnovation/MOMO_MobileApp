@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String name = '';
-  String userId ='';
+  String userId = '';
 
   UserController userController = Get.find();
 
@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
                   child: Stack(
                     children: [
                       Container(
+                        margin: EdgeInsets.only(top: 77.h),
                         width: double.maxFinite,
                         decoration: BoxDecoration(
                           color: AppColors.secondaryColor,
@@ -60,79 +61,78 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ],
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 77.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 30.w),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    CustomText(
-                                      text: 'Hi $name',
-                                      fontSize: 16,
-                                      color: WHITE,
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    Row(
-                                      children: [
-                                        CustomText(
-                                          text:
-                                              'Loan up to\n500,000 with\nzero interest on\nyour first loan!!',
-                                          color: WHITE,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        const Spacer(),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              right: 23.w, top: 45.h),
-                                          child: SizedBox(
-                                            height: 85.h,
-                                            width: 102.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 30.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  CustomText(
+                                    text: 'Hi $name',
+                                    fontSize: 16,
+                                    color: WHITE,
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  Row(
+                                    children: [
+                                      CustomText(
+                                        text:
+                                            'Loan up to\n500,000 with\nzero interest on\nyour first loan!!',
+                                        color: WHITE,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                right: 15.w, top: 45.h),
+                                            height: 100.h,
+                                            width: 140.w,
                                             child: Image.asset(
                                               'assets/images/image 6.png',
                                               fit: BoxFit.contain,
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 10.h),
-                                    CustomText(
-                                      text: 'From the Momo Credit app',
-                                      fontSize: 12,
-                                      color: WHITE,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ],
-                                ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.h),
+                                  CustomText(
+                                    text: 'From the Momo Credit app',
+                                    fontSize: 12,
+                                    color: WHITE,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: 108.w,
-                                  right: 108.w,
-                                  top: 43.h,
-                                  bottom: 27.h,
-                                ),
-                                child: customButton(
-                                  onPressed: () {
-                                    setState(
-                                      () {},
-                                    );
-                                    Get.to(() => const ExploreLoanOffers());
-                                  },
-                                  title: 'Apply Now',
-                                  color: Colors.transparent,
-                                  textColor: WHITE,
-                                  borderColor: WHITE,
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: 108.w,
+                                right: 108.w,
+                                top: 43.h,
+                                bottom: 27.h,
+                              ),
+                              child: customButton(
+                                onPressed: () {
+                                  setState(
+                                    () {},
+                                  );
+                                  Get.to(() => const ExploreLoanOffers());
+                                },
+                                title: 'Apply Now',
+                                color: Colors.transparent,
+                                textColor: WHITE,
+                                borderColor: WHITE,
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ],
@@ -143,34 +143,32 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         SizedBox(height: 22.h),
-                        Padding(
-                          padding: EdgeInsets.only(left: 45.w, right: 45.w),
-                          child: Container(
-                            width: double.maxFinite,
-                            decoration: BoxDecoration(
-                                color: AppColors.lightGreen,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 30.w, top: 5.h, bottom: 5.h),
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                      height: 25.h,
-                                      width: 25.w,
-                                      child: Image.asset(
-                                          'assets/images/noto-v1_wrapped-gift.png')),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 9.0.h),
-                                    child: CustomText(
-                                      text:
-                                          'Earn bonus for paying ahead of due date',
-                                      fontSize: 10,
-                                      color: AppColors.laon3,
-                                    ),
-                                  )
-                                ],
-                              ),
+                        Container(
+                          margin: EdgeInsets.only(left: 45.w, right: 45.w),
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: AppColors.lightGreen,
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.w, top: 5.h, bottom: 5.h),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                    height: 25.h,
+                                    width: 25.w,
+                                    child: Image.asset(
+                                        'assets/images/noto-v1_wrapped-gift.png')),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: CustomText(
+                                    text:
+                                        'Earn bonus for paying ahead of due date',
+                                    fontSize: 10,
+                                    color: AppColors.laon3,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ),
@@ -202,9 +200,10 @@ class _HomePageState extends State<HomePage> {
                                   SizedBox(height: 5.h),
                                   CustomText(
                                     text:
-                                        'Getting a loan has never been easier,\n'
-                                        'complete verification to receive loan',
-                                    fontSize: 12,
+                                        'Getting a loan has never been easier,'
+                                        ' complete verification to receive loan',
+                                    fontSize: 14,
+                                    color: Colors.black.withOpacity(0.8),
                                     fontWeight: FontWeight.w400,
                                   ),
                                   SizedBox(height: 36.h),
@@ -221,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                                           CustomText(
                                             text: 'Apply',
                                             fontSize: 12,
-                                            color: Color(0xFF1E3B62),
+                                            color: const Color(0xFF1E3B62),
                                           )
                                         ],
                                       ),
@@ -270,26 +269,6 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 30.w, right: 30.w, bottom: 12.h),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomText(
-                                text: 'Requests',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              CustomText(
-                                text: 'see all',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 10,
-                                color: AppColors.laon3,
-                              )
-                            ],
                           ),
                         ),
                         SizedBox(height: 24.h),

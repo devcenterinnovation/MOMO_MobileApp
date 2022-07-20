@@ -6,18 +6,30 @@ import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
 import 'package:momo/dialogs_snackbar.dart';
-import 'package:momo/services/auth_services.dart';
 import 'package:momo/services/internet_services.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/receive_loan/all_done.dart';
 import 'package:momo/widget.dart';
 import 'package:momo/widgets/small_dot.dart';
 
+import '../../services/loan_services.dart';
+
 class SubmitRequest extends StatefulWidget {
   final String purpose;
   final int loanAmount;
+  final int days;
+  final double serviceCharge;
+  final int totalDue;
+  final double disburseAmount;
+
   const SubmitRequest(
-      {Key? key, required this.purpose, required this.loanAmount})
+      {Key? key,
+      required this.purpose,
+      required this.loanAmount,
+      required this.days,
+      required this.serviceCharge,
+      required this.totalDue,
+      required this.disburseAmount})
       : super(key: key);
 
   @override
@@ -27,16 +39,20 @@ class SubmitRequest extends StatefulWidget {
 class _SubmitRequestState extends State<SubmitRequest> {
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   String userId = '';
+  String token = '';
   UserController userController = Get.find();
 
   @override
   initState() {
     userId = userController.userId;
+    token = userController.getToken()!;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    String formatter = DateFormat.yMMMMd('en_US').add_jm().format(now);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: WHITE,
@@ -109,9 +125,236 @@ class _SubmitRequestState extends State<SubmitRequest> {
                           fontSize: 10,
                         ),
                         const Spacer(),
-                        CustomText(
-                          text: 'Repayment plan',
-                          fontSize: 12,
+                        InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(15.0),
+                                      topRight: Radius.circular(15.0)),
+                                ),
+                                backgroundColor: const Color(0xFF4B6D9B),
+                                context: context,
+                                builder: (context) {
+                                  return Wrap(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 23.h, right: 30.w),
+                                          child: InkWell(
+                                            onTap: () => Get.back(),
+                                            child: Container(
+                                              height: 25.h,
+                                              width: 25.w,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                      color: WHITE,
+                                                      width: 1.0)),
+                                              child: Icon(
+                                                Icons.close,
+                                                size: 20.h,
+                                                color: WHITE,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Center(
+                                          child: CustomText(
+                                        text: 'Loan Details',
+                                        fontWeight: FontWeight.w500,
+                                        color: WHITE,
+                                      )),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 40.h,
+                                            bottom: 80.h,
+                                            left: 41.w),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText(
+                                                            text: 'Loan Amount',
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xFFF7F1F2),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                        SizedBox(height: 5.h),
+                                                        CustomText(
+                                                          text:
+                                                              'N${myFormat.format(widget.loanAmount)}',
+                                                          fontSize: 16,
+                                                          color: WHITE,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 80.w),
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText(
+                                                            text: 'Duration',
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xFFF7F1F2),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                        SizedBox(height: 5.h),
+                                                        CustomText(
+                                                          text:
+                                                              '${widget.days} days',
+                                                          fontSize: 16,
+                                                          color: WHITE,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(height: 12.h),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText(
+                                                            text:
+                                                                'Service charge',
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xFFF7F1F2),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                        SizedBox(height: 5.h),
+                                                        CustomText(
+                                                          text:
+                                                              'N${myFormat.format(widget.serviceCharge)}',
+                                                          fontSize: 16,
+                                                          color: WHITE,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(width: 80.w),
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText(
+                                                            text: 'Total Due',
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xFFF7F1F2),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                        SizedBox(height: 5.h),
+                                                        CustomText(
+                                                          text:
+                                                              'N${myFormat.format(widget.totalDue)}',
+                                                          fontSize: 16,
+                                                          color: WHITE,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(height: 12.h),
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    width: double.infinity,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CustomText(
+                                                            text:
+                                                                'Disburse Amount',
+                                                            fontSize: 12,
+                                                            color: const Color(
+                                                                0xFFF7F1F2),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                        SizedBox(height: 5.h),
+                                                        CustomText(
+                                                          text:
+                                                              'N${myFormat.format(widget.disburseAmount)}',
+                                                          fontSize: 16,
+                                                          color: WHITE,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                          child: CustomText(
+                            text: 'Repayment plan',
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),
@@ -123,7 +366,7 @@ class _SubmitRequestState extends State<SubmitRequest> {
                     ),
                     SizedBox(height: 4.h),
                     CustomText(
-                      text: '10 Mar’ 2022 : 10:12 AM',
+                      text: formatter,
                       fontSize: 10,
                     )
                   ],
@@ -135,7 +378,7 @@ class _SubmitRequestState extends State<SubmitRequest> {
           Padding(
             padding: EdgeInsets.only(left: 30.w),
             child: CustomText(
-              text: 'Momo’s guarantees',
+              text: 'Momo Credit guarantees',
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -208,14 +451,14 @@ class _SubmitRequestState extends State<SubmitRequest> {
     if (await InternetUtils.checkConnectivity()) {
       loadingDialog(context);
 
-      var response = await AuthenticationService.userLoan(
-          widget.loanAmount, widget.purpose, userId);
+      var response = await LoanServices.userLoan(userController.getToken()!,
+          amount: widget.loanAmount, purpose: widget.purpose, userId: userId);
 
       if (response is String) {
         showErrorSnackBar(
             'Error!', 'Failed to apply for loan, please try again');
       } else {
-        Get.to(() => const AllDone());
+        Get.offAll(() => const AllDone());
       }
     }
   }

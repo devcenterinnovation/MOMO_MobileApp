@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/controllers/user_controller.dart';
 import 'package:momo/custom_text.dart';
+import 'package:momo/dialogs_snackbar.dart';
+import 'package:momo/models/user_model.dart';
+import 'package:momo/services/loan_services.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/receive_loan/request_specific_amount.dart';
 import 'package:momo/widget.dart';
@@ -20,17 +25,36 @@ class _ExploreLoanOffersState extends State<ExploreLoanOffers> {
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
 
   String maxBalance = '';
+  String token = '';
+  String userId = '';
   UserController userController = Get.find();
+
+  List<Loan> loans = [];
+
+  Future<void> getUserLoans() async {
+    var res = await LoanServices.getLoans(token, userId);
+    final res2 = jsonEncode(res);
+    if (res2.isNotEmpty) {
+      final result = userFromJson(res2);
+      loans = result.loans;
+      setState(() {});
+    } else {}
+  }
 
   @override
   initState() {
+    userId = userController.userId;
+    token = userController.getToken()!;
     maxBalance = userController.getWallet()!.maxBalance.toString();
     super.initState();
+    getUserLoans();
   }
 
   @override
   Widget build(BuildContext context) {
     int loan = 0;
+    bool repaid = (loans.isEmpty) ? true : loans[loans.length - 1].repaid;
+    String status = (loans.isEmpty) ? " " : loans[loans.length - 1].status;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.mainColor,
@@ -55,20 +79,6 @@ class _ExploreLoanOffersState extends State<ExploreLoanOffers> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(right: 27.w),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: CustomText(
-                  text: 'View past transaction',
-                  color: AppColors.buyyyon,
-                  fontSize: 10,
-                  textDecoration: TextDecoration.underline,
-                  underlineColor: AppColors.buyyyon,
-                ),
-              ),
-            ),
-            SizedBox(height: 30.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 28.w),
               child: Container(
@@ -123,7 +133,12 @@ class _ExploreLoanOffersState extends State<ExploreLoanOffers> {
                     textColor: AppColors.mainColor,
                     onPressed: () {
                       loan = int.parse(maxBalance);
-                      Get.to(() => RequestSpecificAmount(amount: loan));
+                      if (repaid == false) {
+                        showErrorSnackBar('Error!',
+                            'You have not repaid your previous loan.');
+                      } else {
+                        Get.to(() => RequestSpecificAmount(amount: loan));
+                      }
                     },
                   )
                 ],
@@ -142,13 +157,18 @@ class _ExploreLoanOffersState extends State<ExploreLoanOffers> {
             GestureDetector(
               onTap: () {
                 loan = 7000;
-                Get.to(() => RequestSpecificAmount(amount: loan));
+                if (repaid == false) {
+                  showErrorSnackBar(
+                      'Error!', 'You have not repaid your previous loan.');
+                } else {
+                  Get.to(() => RequestSpecificAmount(amount: loan));
+                }
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 34.w),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF9C7C9),
+                    color: const Color(0xFFFAFCFD),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -184,13 +204,18 @@ class _ExploreLoanOffersState extends State<ExploreLoanOffers> {
             GestureDetector(
               onTap: () {
                 loan = 4500;
-                Get.to(() => RequestSpecificAmount(amount: loan));
+                if (repaid == false) {
+                  showErrorSnackBar(
+                      'Error!', 'You have not repaid your previous loan.');
+                } else {
+                  Get.to(() => RequestSpecificAmount(amount: loan));
+                }
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 34.w),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF8F5F5),
+                    color: const Color(0xFFFAFCFD),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -226,13 +251,18 @@ class _ExploreLoanOffersState extends State<ExploreLoanOffers> {
             GestureDetector(
               onTap: () {
                 loan = 3000;
-                Get.to(() => RequestSpecificAmount(amount: loan));
+                if (repaid == false) {
+                  showErrorSnackBar(
+                      'Error!', 'You have not repaid your previous loan.');
+                } else {
+                  Get.to(() => RequestSpecificAmount(amount: loan));
+                }
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 34.w),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF8F5F5),
+                    color: const Color(0xFFFAFCFD),
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -289,7 +319,7 @@ class _ExploreLoanOffersState extends State<ExploreLoanOffers> {
                           ),
                           CustomText(
                             text:
-                                'Everything you need to\nknow about Momo’s\ninterest policy',
+                                'Everything you need to\nknow about Momo Credit\ninterest policy',
                             fontSize: 12,
                           )
                         ],

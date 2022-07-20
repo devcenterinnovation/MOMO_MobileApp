@@ -71,549 +71,579 @@ class _ViewDetailsState extends State<ViewDetails> {
         backgroundColor: WHITE,
       ),
       body: SingleChildScrollView(
-        child: (loan == null)?Shimmer.fromColors(
-          baseColor: Colors.grey.shade200,
-          highlightColor: Colors.grey.shade300,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    left: 23.w, right: 23.w, top: 20.h, bottom: 10.h),
-                child: Row(
+        child: (loan == null)
+            ? Shimmer.fromColors(
+                baseColor: Colors.grey.shade200,
+                highlightColor: Colors.grey.shade300,
+                child: Column(
                   children: [
-                    CustomText(
-                      text: 'User Id ',
-                      fontSize: 16,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, top: 20.h, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'User Id ',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: loan?.id.toString().substring(0, 8) ??
+                                'Loading . . . .',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
                     ),
-                    Spacer(),
-                    CustomText(
-                      text:
-                          loan?.id.toString().substring(0, 8) ?? 'Loading . . . .',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    )
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Loan Amount',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text:
+                                "NGN ${loan?.amount.toString() ?? 'Loading . . . .'}",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Amount Disbursed',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text:
+                                "NGN ${loan?.amountDisbursed.toString() ?? 'Loading . . . .'}",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Term',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: "${loan?.term.toString() ?? '0'} Days",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Service Charge',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text:
+                                'NGN ${loan?.serviceCharge.toString() ?? '0'}',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Interest',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: 'NGN ${loan?.interest.toString() ?? '0'}',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Purpose',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: loan?.purpose ?? '-',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Application Date',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: '-',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Disbursement Date',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: loan?.disbursementDate ?? '-',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Repayment Date',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: '-',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Remake',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: loan?.remark ?? '-',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
+                    SizedBox(height: 10.h),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 23.w, right: 23.w, bottom: 10.h),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            text: 'Status',
+                            fontSize: 16,
+                          ),
+                          Spacer(),
+                          CustomText(
+                            text: loan?.status ?? '-',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Divider(
+                      color: AppColors.Tertiary,
+                      thickness: 0.5,
+                    ),
                   ],
                 ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Loan Amount',
-                      fontSize: 16,
+              )
+            : Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 23.w, right: 23.w, top: 20.h, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'User Id ',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: loan?.id.toString().substring(0, 8) ??
+                              'Loading . . . .',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: "NGN ${loan?.amount.toString() ?? 'Loading . . . .'}",
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Amount Disbursed',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Loan Amount',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: "NGN ${myFormat.format(loan?.amount)}",
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text:
-                          "NGN ${loan?.amountDisbursed.toString() ?? 'Loading . . . .'}",
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Term',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Amount Disbursed',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text:
+                              "NGN ${loan?.amountDisbursed.toString() ?? 'Loading . . . .'}",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: "${loan?.term.toString() ?? '0'} Days",
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Service Charge',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Term',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: "${loan?.term.toString() ?? '0'} Days",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: 'NGN ${loan?.serviceCharge.toString() ?? '0'}',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Interest',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Service Charge',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: 'NGN ${loan?.serviceCharge.toString() ?? '0'}',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: 'NGN ${loan?.interest.toString() ?? '0'}',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Purpose',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Interest',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: 'NGN ${loan?.interest.toString() ?? '0'}',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: loan?.purpose??'-',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Application Date',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Purpose',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: loan?.purpose ?? '-',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: '-',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Disbursement Date',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Application Date',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: '-',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: loan?.disbursementDate??'-',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Repayment Date',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Disbursement Date',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: (loan!.disbursementDate == null)
+                              ? 'No Date'
+                              : loan?.disbursementDate.substring(0, 15) ?? '-',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: '-',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Remake',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Repayment Date',
+                          fontSize: 16,
+                        ),
+                        const Spacer(),
+                        CustomText(
+                          text: (loan!.repaymentDate.isEmpty)
+                              ? 'No Date'
+                              : loan?.repaymentDate.substring(0, 15) ?? '-',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: loan?.remark??'-',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-              SizedBox(height: 10.h),
-              Padding(
-                padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-                child: Row(
-                  children: [
-                    CustomText(
-                      text: 'Status',
-                      fontSize: 16,
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Remake',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: loan?.remark ?? '-',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
                     ),
-                    Spacer(),
-                    CustomText(
-                      text: loan?.status??'-',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    )
-                  ],
-                ),
-              ),
-              const Divider(
-                color: AppColors.Tertiary,
-                thickness: 0.5,
-              ),
-            ],
-          ),
-        ):Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                  left: 23.w, right: 23.w, top: 20.h, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'User Id ',
-                    fontSize: 16,
                   ),
-                  Spacer(),
-                  CustomText(
-                    text:
-                    loan?.id.toString().substring(0, 8) ?? 'Loading . . . .',
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  )
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
+                  SizedBox(height: 10.h),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Status',
+                          fontSize: 16,
+                        ),
+                        Spacer(),
+                        CustomText(
+                          text: loan?.status ?? '-',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: AppColors.Tertiary,
+                    thickness: 0.5,
+                  ),
                 ],
               ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Loan Amount',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: "NGN ${myFormat.format(loan?.amount)}",
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Amount Disbursed',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text:
-                    "NGN ${loan?.amountDisbursed.toString() ?? 'Loading . . . .'}",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Term',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: "${loan?.term.toString() ?? '0'} Days",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Service Charge',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: 'NGN ${loan?.serviceCharge.toString() ?? '0'}',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Interest',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: 'NGN ${loan?.interest.toString() ?? '0'}',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Purpose',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: loan?.purpose??'-',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Application Date',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: '-',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Disbursement Date',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: loan?.disbursementDate??'-',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Repayment Date',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: '-',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Remake',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: loan?.remark??'-',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 23.w, bottom: 10.h),
-              child: Row(
-                children: [
-                  CustomText(
-                    text: 'Status',
-                    fontSize: 16,
-                  ),
-                  Spacer(),
-                  CustomText(
-                    text: loan?.status??'-',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
-            ),
-            const Divider(
-              color: AppColors.Tertiary,
-              thickness: 0.5,
-            ),
-          ],
-        ),
       ),
     );
   }

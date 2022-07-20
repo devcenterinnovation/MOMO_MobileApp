@@ -49,13 +49,18 @@ dependencies:
   syncfusion_flutter_sliders: ^20.1.61
   shimmer: ^2.0.0
   flutter_launcher_icons: any
+  flutter_app_name: any
+  device_preview: ^1.1.0
 
 flutter_icons:
   image_path: "assets/images/Momo logo 1.png"
   android: true
   ios: true
-  # optionally, as transparency is not allowed on app store
-  remove_alpha_ios: true
+  # optionalrly, as transparency is not allowed on app store
+  # remove_alpha_ios: true
+
+flutter_app_name:
+  name: "Momo Credit"
 
 dev_dependencies:
   flutter_test:
@@ -84,4 +89,8 @@ flutter:
     - family: Poppins
       fonts:
         - asset: fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: fonts/Poppins-Medium.ttf
+          weight: 500
         - asset: fonts/Poppins-Bold.ttf
+          weight: 700

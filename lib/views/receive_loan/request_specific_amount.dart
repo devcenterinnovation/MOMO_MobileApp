@@ -249,7 +249,8 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                           fontWeight: FontWeight.w400),
                                       SizedBox(height: 5.h),
                                       CustomText(
-                                        text: myFormat.format(_currentValue),
+                                        text:
+                                            'N${myFormat.format(_currentValue)}',
                                         fontSize: 14,
                                         color: BLACK,
                                         fontWeight: FontWeight.w600,
@@ -349,7 +350,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                                 child: Text(
                                   item,
                                   style: const TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 15,
                                   ),
                                 ),
                               ))
@@ -376,7 +377,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         Expanded(
                           child: InputFormField(
                             hintColor: BLACK,
-                            hintSize: 18.0,
+                            hintSize: 15.0,
                             enabled: false,
                             label: 'N ${myFormat.format(_currentValue)}',
                           ),
@@ -387,7 +388,7 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         Expanded(
                           child: InputFormField(
                             hintColor: BLACK,
-                            hintSize: 18.0,
+                            hintSize: 15.0,
                             enabled: false,
                             label: '${_days.round()} days',
                           ),
@@ -407,6 +408,10 @@ class _RequestSpecificAmountState extends State<RequestSpecificAmount> {
                         Get.to(() => SubmitRequest(
                               loanAmount: _currentValue.toInt(),
                               purpose: purpose,
+                              days: _days,
+                              serviceCharge: _service,
+                              totalDue: _currentValue,
+                              disburseAmount: _deposit,
                             ));
                         _formKey.currentState!.save();
                       }

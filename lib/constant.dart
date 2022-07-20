@@ -14,7 +14,14 @@ const String usernameLengthError = 'Username length must be greater than 6';
 const String numberLengthError = 'Numbers length must be up to 10';
 const String emailRegex = '[a-zA-Z0-9\+\.\_\%\-\+]{1,256}' +
     '\\@' +
-    '[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}' +
+    'gmail' +
+    '(' +
+    '\\.' +
+    '[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}' +
+    ')+';
+const String emailRegex2 = '[a-zA-Z0-9\+\.\_\%\-\+]{1,256}' +
+    '\\@' +
+    'yahoo' +
     '(' +
     '\\.' +
     '[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}' +

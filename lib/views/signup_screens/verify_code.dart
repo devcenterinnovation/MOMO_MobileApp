@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:momo/constants.dart';
+import 'package:momo/controllers/otp_controller.dart';
 import 'package:momo/theme.dart';
 import 'package:momo/views/signup_screens/create_password.dart';
 import 'package:momo/widget.dart';
@@ -24,9 +25,11 @@ class PinCodeVerificationScreen extends StatefulWidget {
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   var onTapRecognizer;
 
+  String otp = "";
+
   TextEditingController textEditingController = TextEditingController();
 
-
+  OTPController otpController = Get.find();
 
   // ..text = "123456";
 
@@ -39,6 +42,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   @override
   void initState() {
+    otp = otpController.getData()!.otp;
     onTapRecognizer = TapGestureRecognizer()
       ..onTap = () {
         Navigator.pop(context);
@@ -105,18 +109,19 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                     ),
                     Form(
                       key: formKey,
+                      autovalidateMode: AutovalidateMode.always,
                       child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 72),
+                          padding: const EdgeInsets.only(
+                              top: 8.0, left: 30, right: 30, bottom: 0),
                           child: PinCodeTextField(
                             appContext: context,
-                            length: 4,
+                            errorTextSpace: 10,
+                            length: 6,
                             obscureText: true,
                             obscuringCharacter: '*',
                             animationType: AnimationType.fade,
                             validator: (v) {
-                              if (v!.length < 3) {
-                                return "I'm from validator";
+                              if (v != otp) {
                               } else {
                                 return null;
                               }
@@ -134,9 +139,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                               activeFillColor: AppColors.pinColor,
                             ),
                             cursorColor: Colors.black,
-                            animationDuration: const Duration(milliseconds: 300),
+                            animationDuration:
+                                const Duration(milliseconds: 300),
                             enableActiveFill: true,
-                            textStyle: const TextStyle(fontSize: 20, height: 1.6),
+                            textStyle:
+                                const TextStyle(fontSize: 20, height: 1.6),
                             keyboardType: TextInputType.number,
                             onCompleted: (v) {
                               print("Completed");
@@ -158,6 +165,18 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                             },
                           )),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Text(
+                        hasError
+                            ? "The one time password(OTP) is incorrect"
+                            : "",
+                        style: TextStyle(
+                            color: Colors.red.shade300,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
                     SizedBox(
                       height: 20.h,
                     ),
@@ -171,8 +190,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         onPressed: () async {
                           formKey.currentState!.validate();
                           // conditions for validating
-                          if (currentText.length != 4 ||
-                              currentText != "1234") {
+                          if (currentText.length != 6 || currentText != otp) {
                             errorController.add(ErrorAnimationType
                                 .shake); // Triggering error shake animation
                             setState(() {

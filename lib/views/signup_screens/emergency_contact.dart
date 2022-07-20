@@ -14,9 +14,11 @@ import 'package:momo/widgets/dropdown_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmergencyContact extends StatefulWidget {
-   PlatformFile?workId;
-   PlatformFile? bankStatement;
-    EmergencyContact({Key? key,required this.workId, required this.bankStatement}) : super(key: key);
+  PlatformFile? workId;
+  PlatformFile? bankStatement;
+  EmergencyContact(
+      {Key? key, required this.workId, required this.bankStatement})
+      : super(key: key);
 
   @override
   State<EmergencyContact> createState() => _EmergencyContactState();
@@ -320,29 +322,56 @@ class _EmergencyContactState extends State<EmergencyContact> {
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                                InputFormField(
-                                  label: _colleagueContact != null
-                                      ? '${_colleagueContact!.phoneNumber!.number}'
-                                      : '09064519907',
-                                  hintColor: _colleagueContact != null
-                                      ? BLACK
-                                      : AppColors.laon3,
-                                  readOnly: true,
-                                  suffixIcon: InkWell(
-                                    onTap: () async {
-                                      final PhoneContact contact =
-                                          await FlutterContactPicker
-                                              .pickPhoneContact();
-                                      print(contact);
-                                      setState(() {
-                                        _colleagueContact = contact;
-                                      });
-                                    },
-                                    child: const Icon(
-                                      Icons.phone_in_talk_outlined,
-                                      color: AppColors.laon3,
-                                    ),
-                                  ),
+                                FormField<bool>(
+                                  builder: (state) {
+                                    return Column(
+                                      children: [
+                                        InputFormField(
+                                          label: _colleagueContact != null
+                                              ? '${_colleagueContact!.phoneNumber!.number}'
+                                              : '09064519907',
+                                          hintColor: _colleagueContact != null
+                                              ? BLACK
+                                              : AppColors.laon3,
+                                          readOnly: true,
+                                          suffixIcon: InkWell(
+                                            onTap: () async {
+                                              final PhoneContact contact =
+                                                  await FlutterContactPicker
+                                                      .pickPhoneContact();
+                                              print(contact);
+                                              setState(() {
+                                                _colleagueContact = contact;
+                                              });
+                                            },
+                                            child: const Icon(
+                                              Icons.phone_in_talk_outlined,
+                                              color: AppColors.laon3,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 5.h),
+                                          child: Text(
+                                            state.errorText ?? '',
+                                            style: TextStyle(
+                                              color: Colors.red.shade600,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                  validator: (value) {
+                                    if (_phoneContact!.phoneNumber!.number ==
+                                        _colleagueContact!
+                                            .phoneNumber!.number) {
+                                      return 'Phone numbers cannot be the same';
+                                    } else {
+                                      return null;
+                                    }
+                                  },
                                 ),
                               ],
                             ),
@@ -360,26 +389,26 @@ class _EmergencyContactState extends State<EmergencyContact> {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             if (_formKey.currentState!.validate()) {
-
                               // Family Contact
-                              prefs.setString(
-                                  "relationship", family);
+                              prefs.setString("relationship", family);
                               prefs.setString(
                                   "familyName", '${_phoneContact!.fullName}');
-                              prefs.setString(
-                                  "familyPhone", '${_phoneContact!.phoneNumber!.number}');
-
+                              prefs.setString("familyPhone",
+                                  '${_phoneContact!.phoneNumber!.number}');
 
                               // Colleague Contact
-                              prefs.setString(
-                                  "colleagueName", '${_colleagueContact!.fullName}');
-                              prefs.setString(
-                                  "colleaguePhone", '${_colleagueContact!.phoneNumber!.number}');
+                              prefs.setString("colleagueName",
+                                  '${_colleagueContact!.fullName}');
+                              prefs.setString("colleaguePhone",
+                                  '${_colleagueContact!.phoneNumber!.number}');
 
                               print(widget.workId);
                               print(widget.bankStatement);
 
-                              Get.to(() =>  UploadPicture(workId: widget.workId, bankStatement: widget.bankStatement,));
+                              Get.to(() => UploadPicture(
+                                    workId: widget.workId,
+                                    bankStatement: widget.bankStatement,
+                                  ));
                               _formKey.currentState!.save();
                             }
                           }),
@@ -394,4 +423,3 @@ class _EmergencyContactState extends State<EmergencyContact> {
     );
   }
 }
-

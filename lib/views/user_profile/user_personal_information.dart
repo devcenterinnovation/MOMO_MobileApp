@@ -87,6 +87,20 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const Padding(
+                            padding: EdgeInsets.only(bottom: 12.0),
+                            child: Text(
+                              'Bvn',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          InputFormField(
+                            hintColor: BLACK,
+                            enabled: false,
+                            label: bvn,
+                          ),
+                          const SizedBox(height: 10),
                           const Text(
                             'First Name',
                             style: TextStyle(
@@ -153,9 +167,9 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                                   contentPadding: EdgeInsets.zero,
                                   activeColor: const Color(0xFF1E3B62),
                                   title: const Text('Male'),
-                            onChanged: (String? value) {  },
-                                 ),
+                                  onChanged: (String? value) {},
                                 ),
+                              ),
                               Expanded(
                                 child: RadioListTile(
                                   value: "female",
@@ -176,25 +190,11 @@ class _UserPersonalInformationState extends State<UserPersonalInformation> {
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                           ),
-                           InputFormField(
+                          InputFormField(
                             label: userController.getProfile()!.nationality,
                             hintColor: BLACK,
                             enabled: false,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 12.0),
-                            child: Text(
-                              'Bvn',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                          InputFormField(
-                            hintColor: BLACK,
-                            enabled: false,
-                            label: bvn,
-                          ),
-                          const SizedBox(height: 10),
                         ],
                       ),
                     ),

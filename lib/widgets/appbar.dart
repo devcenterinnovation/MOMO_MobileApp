@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:momo/constants.dart';
 import 'package:momo/custom_text.dart';
 
@@ -27,13 +28,13 @@ class CustomAppbar extends StatelessWidget {
           padding: const EdgeInsets.only(left: 30.0),
           child: Row(
             children: [
-              // GestureDetector(
-              //   onTap: () => Get.back(),
-              //   child: Icon(
-              //     Icons.arrow_back_rounded,
-              //     color: iconColor,
-              //   ),
-              // ),
+              GestureDetector(
+                onTap: () => Get.back(),
+                child: Icon(
+                  Icons.arrow_back_rounded,
+                  color: iconColor,
+                ),
+              ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

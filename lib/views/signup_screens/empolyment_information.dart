@@ -671,16 +671,19 @@ class _EmploymentInformationState extends State<EmploymentInformation> {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             if (_formKey.currentState!.validate()) {
-                              prefs.setBool(
-                                  "employed", employmentStatus);
+                              prefs.setBool("employed", employmentStatus);
                               prefs.setString("duration", workDuration);
                               prefs.setString("salary", salaryRange);
-                              prefs.setString("companyName", companyNameController.text);
-                              prefs.setString("companyLocation", companyLocationController.text);
-                              prefs.setString("companyRole", companyRoleController.text);
+                              prefs.setString(
+                                  "companyName", companyNameController.text);
+                              prefs.setString("companyLocation",
+                                  companyLocationController.text);
+                              prefs.setString(
+                                  "companyRole", companyRoleController.text);
                               print(file1!.name);
                               print(file2!.name);
-                              Get.to(() =>  EmergencyContact(workId: file1, bankStatement: file2));
+                              Get.to(() => EmergencyContact(
+                                  workId: file1, bankStatement: file2));
                               _formKey.currentState!.save();
                             }
                           }),

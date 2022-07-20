@@ -8,25 +8,28 @@ import 'package:momo/services/internet_services.dart';
 import 'package:momo/services/response_handling.dart';
 
 class ApiDocs {
-  static final BASE_URL = "https://momo-app-prdo9.ondigitalocean.app/";
+  static String BASE_URL = "https://momo-app-prdo9.ondigitalocean.app/";
 
-  static final LOGIN_URL = BASE_URL + "auth/login";
+  static String LOGIN_URL = BASE_URL + "auth/login";
 
-  static final SIGNUP_URL = BASE_URL + "users";
+  static String SIGNUP_URL = BASE_URL + "users";
 
-  static final GETUSER_URL = BASE_URL + "users/";
+  static String GETUSER_URL = BASE_URL + "users/";
 
-  static final GETUSERLOAN_URL = BASE_URL + "users/loan/";
+  static String LOAN_URL = BASE_URL + "users/loan";
+
+  static String GET_LOAN_URL = BASE_URL + "users";
+
+  static String OTP = BASE_URL + "users/otp";
 
   static makePostRequest({apiUrl, data, access_token}) async {
-    print(apiUrl);
-
     final uri = Uri.parse(apiUrl);
     final jsonString = json.encode(data);
     var headers;
     if (access_token != null) {
       headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.cookieHeader: 'jwt=$access_token',
         HttpHeaders.authorizationHeader: 'Bearer $access_token',
       };
     } else {
@@ -47,6 +50,7 @@ class ApiDocs {
       headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $access_token',
+        HttpHeaders.cookieHeader: 'jwt=$access_token',
       };
     } else {
       headers = {
@@ -58,6 +62,7 @@ class ApiDocs {
 
   static makeGetRequest({apiUrl, access_token}) async {
     print(apiUrl);
+    print(access_token);
 
     final uri = Uri.parse(apiUrl);
     var headers;
@@ -65,27 +70,33 @@ class ApiDocs {
       headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $access_token',
+        HttpHeaders.cookieHeader: 'jwt=$access_token'
       };
     } else {
       headers = {
         HttpHeaders.contentTypeHeader: 'application/json',
       };
     }
-    return await http.get(uri,  headers: headers);
+    return await http.get(uri, headers: headers);
   }
 
-  static initialisePostRequest({data, required String url, access_token}) async {
+  static initialisePostRequest(
+      {data, required String url, token, isLogin}) async {
     if (await InternetUtils.checkConnectivity()) {
       try {
         var response = await ApiDocs.makePostRequest(
-            apiUrl: url, data: data, access_token: access_token);
-        print(access_token);
-        print(data);
-        print(response.statusCode);
-        print(response.body);
+            apiUrl: url, access_token: token, data: data);
 
         if (ResponseHandling.isRequestSuccessful(response.statusCode)) {
           var body = jsonDecode(response.body);
+
+          if (isLogin == true) {
+            body['token'] = response.headers['set-cookie']
+                .toString()
+                .split('jwt=')[1]
+                .split(';')[0]
+                .replaceAll(' ', '');
+          }
 
           return body;
         } else {
@@ -138,13 +149,14 @@ class ApiDocs {
   //   }
   // }
 
-  static initialiseGetRequest({required String url, access_token}) async {
+  static initialiseGetRequest(token, {required String url}) async {
     if (await InternetUtils.checkConnectivity()) {
       try {
-        var response = await ApiDocs.makeGetRequest(
-            apiUrl: url,  access_token: access_token);
-        print(access_token);
+        var response =
+            await ApiDocs.makeGetRequest(apiUrl: url, access_token: token);
+
         print(response.statusCode);
+        print(response.body);
 
         if (ResponseHandling.isRequestSuccessful(response.statusCode)) {
           var body = jsonDecode(response.body);
